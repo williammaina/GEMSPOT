@@ -1,9 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Hexagon, User } from 'lucide-react';
 import { NavbarStyles as styles } from '@styles';
+// 1. Import the global state hook
+import { useApp } from '@components'; 
 
 export function Navbar() {
   const location = useLocation();
+  // 2. Consume the user state
+  const { user } = useApp(); 
 
   const navItems = [
     { name: 'Nature', path: '/explore?category=nature' },
@@ -34,7 +38,8 @@ export function Navbar() {
 
       <button className={styles.ProfileButton}>
         <User size={16} />
-        Profile
+        {/* 3. Render the dynamic username ('Guest' by default) */}
+        {user.name}
       </button>
     </nav>
   );
