@@ -2,7 +2,6 @@ import { useMapbox } from '@library';
 import { MapboxCanvasStyles as styles } from '@styles';
 
 export function MapboxCanvas() {
-  // Using the custom hook to initialize Mapbox cleanly
   const { mapContainerRef } = useMapbox();
 
   return (

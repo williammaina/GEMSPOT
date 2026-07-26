@@ -1,9 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/jsconfig",
   "compilerOptions": {
     "target": "ES6",
     "module": "ESNext",
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "ignoreDeprecations": "5.0",
     "paths": {
       "@components": ["src/exports/components.js"],
       "@styles": ["src/exports/styles.js"],

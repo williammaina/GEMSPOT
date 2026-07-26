@@ -7,3 +7,6 @@ export { calculateDistance } from '../library/helpers/calculateDistance.js';
 
 export { placesData } from '../library/json/placesData.js';
 export { eventsData } from '../library/json/eventsData.js';
+// Append these to src/exports/library.js
+export { UserContext } from '../library/contexts/UserContext.js';
+export { fetchPlacesHandler, submitReviewHandler } from '../library/handlers/apiHandler.js';

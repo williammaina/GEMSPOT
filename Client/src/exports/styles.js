@@ -14,3 +14,4 @@ export { default as VibeReelStyles } from '../styles/components/view/VibeReel.mo
 export { default as ReviewSectionStyles } from '../styles/components/view/ReviewSection.module.css';
 export { default as CategoryThemeCardStyles } from '../styles/components/shared/CategoryThemeCard.module.css';
 export { default as HomePageStyles } from '../styles/components/page/HomePage.module.css';
+export { default as AppProviderStyles } from '../styles/components/provider/AppProvider.module.css';
