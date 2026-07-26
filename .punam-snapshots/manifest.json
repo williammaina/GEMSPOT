@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "snapshots": [
+    {
+      "id": "2026-07-26-21-01-56-23312s",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-07-26T21:01:56.691Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 14,
+      "totalSize": 52096,
+      "workspaceName": "GMSPT",
+      "workspacePath": "/home/user/Desktop/GMSPT"
+    }
+  ]
+}
