@@ -1,0 +1,80 @@
+.ThemeCard {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--spacing-md);
+  text-decoration: none;
+  border: 1px solid var(--glass-border);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.ThemeCard:hover {
+  transform: translateY(-4px);
+}
+
+/* Theme Variations */
+.ThemeEmerald { border-bottom: 3px solid var(--color-emerald); }
+.ThemeAmber { border-bottom: 3px solid var(--color-amber); }
+.ThemeSapphire { border-bottom: 3px solid var(--color-sapphire); }
+.ThemeRuby { border-bottom: 3px solid var(--color-ruby); }
+
+.ThemeCard:hover.ThemeEmerald { border-color: var(--color-emerald); box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15); }
+.ThemeCard:hover.ThemeAmber { border-color: var(--color-amber); box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15); }
+.ThemeCard:hover.ThemeSapphire { border-color: var(--color-sapphire); box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15); }
+.ThemeCard:hover.ThemeRuby { border-color: var(--color-ruby); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15); }
+
+.BackgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.6;
+  transition: opacity var(--transition-fast);
+}
+
+.ThemeCard:hover .BackgroundImage {
+  opacity: 0.8;
+}
+
+.GradientOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, var(--color-bg-dark) 10%, transparent 80%);
+  z-index: 2;
+}
+
+.Badge {
+  position: absolute;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 3;
+  backdrop-filter: var(--glass-blur);
+}
+
+.BadgeEmerald { background: rgba(16, 185, 129, 0.2); color: var(--color-emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
+.BadgeAmber { background: rgba(245, 158, 11, 0.2); color: var(--color-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+.BadgeSapphire { background: rgba(59, 130, 246, 0.2); color: var(--color-sapphire); border: 1px solid rgba(59, 130, 246, 0.3); }
+.BadgeRuby { background: rgba(239, 68, 68, 0.2); color: var(--color-ruby); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+.Title {
+  position: relative;
+  z-index: 3;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.2;
+}

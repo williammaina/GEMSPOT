@@ -1,0 +1,25 @@
+.HomeLayout {
+  min-height: 100vh;
+  padding-bottom: var(--spacing-xl);
+}
+
+.CategoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+@media (max-width: 1024px) {
+  .CategoriesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .CategoriesGrid {
+    grid-template-columns: 1fr;
+  }
+}

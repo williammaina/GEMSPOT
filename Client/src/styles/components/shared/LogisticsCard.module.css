@@ -1,0 +1,42 @@
+.CardWrapper {
+  background-color: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.CardHeader {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: var(--spacing-xs);
+}
+
+.LogisticsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.ListItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-main);
+  font-size: 0.9rem;
+}
+
+.IconWrapper {
+  color: var(--color-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.RubyIcon {
+  color: var(--color-ruby);
+}
