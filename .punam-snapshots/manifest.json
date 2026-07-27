@@ -2,6 +2,56 @@
   "version": 1,
   "snapshots": [
     {
+      "id": "2026-07-27-06-29-14-l6pbef",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-07-27T06:29:14.750Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 65,
+      "totalSize": 189788,
+      "workspaceName": "GMSPT",
+      "workspacePath": "/home/user/Desktop/GMSPT"
+    },
+    {
+      "id": "2026-07-26-22-35-57-xq3nrj",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-07-26T22:35:57.943Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 65,
+      "totalSize": 189407,
+      "workspaceName": "GMSPT",
+      "workspacePath": "/home/user/Desktop/GMSPT"
+    },
+    {
+      "id": "2026-07-26-22-21-53-ylc0th",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-07-26T22:21:53.355Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 59,
+      "totalSize": 185598,
+      "workspaceName": "GMSPT",
+      "workspacePath": "/home/user/Desktop/GMSPT"
+    },
+    {
+      "id": "2026-07-26-22-11-35-kbhakh",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-07-26T22:11:35.811Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 59,
+      "totalSize": 184972,
+      "workspaceName": "GMSPT",
+      "workspacePath": "/home/user/Desktop/GMSPT"
+    },
+    {
+      "id": "2026-07-26-21-13-33-a25w95",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-07-26T21:13:33.161Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 37,
+      "totalSize": 144767,
+      "workspaceName": "GMSPT",
+      "workspacePath": "/home/user/Desktop/GMSPT"
+    },
+    {
       "id": "2026-07-26-21-01-56-23312s",
       "name": "Auto recovery point after bulk changes",
       "createdAt": "2026-07-26T21:01:56.691Z",

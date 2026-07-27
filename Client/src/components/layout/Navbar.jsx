@@ -1,12 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Hexagon, User } from 'lucide-react';
 import { NavbarStyles as styles } from '@styles';
-// 1. Import the global state hook
-import { useApp } from '@components'; 
+import { useApp } from '../../library/contexts/AppContext.js';
 
 export function Navbar() {
   const location = useLocation();
-  // 2. Consume the user state
   const { user } = useApp(); 
 
   const navItems = [
@@ -16,6 +14,11 @@ export function Navbar() {
     { name: 'Action & Play', path: '/explore?category=action' },
     { name: 'Events', path: '/events' },
   ];
+
+  // Helper to check exact active routes including query params
+  const isActive = (path) => {
+    return location.pathname + location.search === path;
+  };
 
   return (
     <nav className={styles.NavbarContainer}>
@@ -29,7 +32,7 @@ export function Navbar() {
           <Link 
             key={item.name} 
             to={item.path} 
-            className={location.pathname === item.path ? styles.NavLinkActive : styles.NavLink}
+            className={isActive(item.path) ? styles.NavLinkActive : styles.NavLink}
           >
             {item.name}
           </Link>
@@ -38,8 +41,7 @@ export function Navbar() {
 
       <button className={styles.ProfileButton}>
         <User size={16} />
-        {/* 3. Render the dynamic username ('Guest' by default) */}
-        {user.name}
+        {user?.name || 'Guest'}
       </button>
     </nav>
   );

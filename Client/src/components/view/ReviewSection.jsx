@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { Star } from 'lucide-react';
+import { clsx } from 'clsx';
 import { ReviewSectionStyles as styles } from '@styles';
 
-export function ReviewSection() {
-  const reviews = [
+export function ReviewSection({ reviewsData = [] }) {
+  const [filter, setFilter] = useState('newest');
+
+  const defaultReviews = [
     {
       id: 1,
       author: 'Aisha K.',
@@ -19,11 +23,24 @@ export function ReviewSection() {
     }
   ];
 
+  const reviews = reviewsData.length > 0 ? reviewsData : defaultReviews;
+
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
   return (
-    <div className={styles.ReviewContainer}>
+    <section className={styles.ReviewContainer} aria-labelledby="reviews-heading">
       <div className={styles.HeaderRow}>
-        <h3 className={styles.Title}>User Reviews</h3>
-        <select className={styles.FilterDropdown}>
+        <h3 id="reviews-heading" className={styles.Title}>
+          User Reviews ({reviews.length})
+        </h3>
+        <select 
+          value={filter}
+          onChange={handleFilterChange}
+          className={styles.FilterDropdown}
+          aria-label="Filter reviews"
+        >
           <option value="newest">Newest First</option>
           <option value="highest">Highest Rated</option>
           <option value="lowest">Lowest Rated</option>
@@ -32,22 +49,35 @@ export function ReviewSection() {
 
       <div className={styles.ReviewList}>
         {reviews.map((review) => (
-          <div key={review.id} className={styles.ReviewItem}>
-            <img src={review.avatar} alt={review.author} className={styles.Avatar} />
+          <article key={review.id} className={styles.ReviewItem}>
+            <img 
+              src={review.avatar} 
+              alt={review.author} 
+              className={styles.Avatar} 
+              loading="lazy"
+            />
             <div className={styles.ReviewContent}>
               <div className={styles.ReviewHeader}>
                 <span className={styles.AuthorName}>{review.author}</span>
-                <div className={styles.RatingRow}>
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
+                <div 
+                  className={styles.RatingRow} 
+                  aria-label={`Rating: ${review.rating} out of 5 stars`}
+                >
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      size={14} 
+                      className={clsx(i >= review.rating && styles.StarUnfilled)}
+                      fill={i < review.rating ? 'currentColor' : 'none'} 
+                    />
                   ))}
                 </div>
               </div>
               <p className={styles.ReviewText}>{review.text}</p>
             </div>
-          </div>
+          </article>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

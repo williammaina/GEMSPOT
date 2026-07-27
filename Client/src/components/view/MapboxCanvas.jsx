@@ -6,7 +6,7 @@ export function MapboxCanvas() {
 
   return (
     <div className={styles.MapContainer}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+      <div ref={mapContainerRef} className={styles.CanvasViewport} />
     </div>
   );
 }

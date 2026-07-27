@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { CategoryPill } from '@components';
 import { MasterSearchStyles as styles } from '@styles';
 
-export function MasterSearch() {
+export function MasterSearch({ onSearch }) {
+  const [query, setQuery] = useState('');
+
   const pills = [
     { label: 'Chinese Food', emoji: '🍜', active: true },
     { label: 'Lavington', emoji: '📍', active: false },
@@ -10,22 +13,33 @@ export function MasterSearch() {
     { label: 'Live Music', emoji: '🎤', active: false },
   ];
 
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+    if (onSearch) {
+      onSearch(e.target.value);
+    }
+  };
+
   return (
-    <div className={styles.HeroContainer}>
+    <section className={styles.HeroContainer} aria-label="Master Search Hero">
       <h1 className={styles.MainHeadline}>
-        Unearth Kenya's<br />Best-Kept Secrets.
+        Unearth Kenya's<br />
+        <span className={styles.HeadlineAccent}>Best-Kept Secrets.</span>
       </h1>
       
       <div className={styles.SearchWrapper}>
         <input 
           type="text" 
-          placeholder="Multi-Select Search Bar: Type venue, event, or cuisine..." 
+          value={query}
+          onChange={handleInputChange}
+          placeholder="Type venue, event, area, or cuisine..." 
           className={styles.SearchInput}
+          aria-label="Search venues, events, or cuisines"
         />
-        <Search className={styles.SearchIcon} size={20} />
+        <Search className={styles.SearchIcon} size={20} aria-hidden="true" />
       </div>
 
-      <div className={styles.PillRow}>
+      <div className={styles.PillRow} role="group" aria-label="Popular Search Filters">
         {pills.map((pill, idx) => (
           <CategoryPill 
             key={idx} 
@@ -35,6 +49,6 @@ export function MasterSearch() {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,14 +1,23 @@
+import clsx from 'clsx';
 import { CategoryPillStyles as styles } from '@styles';
-import { clsx } from 'clsx'; // Utility for conditionally joining classNames
 
-export function CategoryPill({ label, emoji, isActive, onClick }) {
+export function CategoryPill({
+  label,
+  emoji,
+  isActive = false,
+  onClick,
+  disabled = false,
+}) {
   return (
-    <button 
+    <button
+      type="button"
       onClick={onClick}
+      disabled={disabled}
+      aria-pressed={isActive}
       className={clsx(styles.Pill, isActive && styles.PillActive)}
     >
       <span>{label}</span>
-      {emoji && <span>{emoji}</span>}
+      {emoji ? <span aria-hidden="true">{emoji}</span> : null}
     </button>
   );
 }

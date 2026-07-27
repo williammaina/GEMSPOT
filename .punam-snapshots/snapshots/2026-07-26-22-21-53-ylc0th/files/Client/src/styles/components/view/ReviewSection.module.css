@@ -1,0 +1,90 @@
+.ReviewContainer {
+  margin-top: var(--spacing-xl);
+  background-color: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+}
+
+.HeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.Title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.FilterDropdown {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--color-text-main);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  outline: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.FilterDropdown option {
+  background-color: var(--color-surface-dark);
+  color: var(--color-text-main);
+}
+
+.ReviewList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.ReviewItem {
+  display: flex;
+  gap: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.ReviewItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.Avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+}
+
+.ReviewContent {
+  flex: 1;
+}
+
+.ReviewHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: 4px;
+}
+
+.AuthorName {
+  font-weight: 600;
+  color: var(--color-text-main);
+  font-size: 0.95rem;
+}
+
+.RatingRow {
+  display: flex;
+  color: var(--color-warning-yellow);
+  gap: 2px;
+}
+
+.ReviewText {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

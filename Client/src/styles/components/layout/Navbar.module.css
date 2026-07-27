@@ -1,66 +1,94 @@
 .NavbarContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md) var(--spacing-xl);
-  background-color: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid var(--glass-border);
-  z-index: 50;
+  padding: 1.25rem 3rem;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .Logo {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--color-text-main);
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #fff;
   text-decoration: none;
   letter-spacing: 0.5px;
 }
 
 .LogoIcon {
   color: var(--color-emerald);
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
 }
 
 .NavLinks {
   display: flex;
-  gap: var(--spacing-lg);
+  gap: 2.5rem;
   align-items: center;
 }
 
 .NavLink {
-  color: var(--color-text-muted);
+  color: #888; /* Underplayed menu items */
   text-decoration: none;
-  font-size: 0.9rem;
   font-weight: 500;
-  transition: color 0.2s ease;
+  font-size: 0.95rem;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  position: relative;
+  padding: 0.5rem 0;
 }
 
-.NavLink:hover, .NavLinkActive {
-  color: var(--color-text-main);
+.NavLink:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Premium Active State with Glow */
+.NavLinkActive {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+  padding: 0.5rem 0;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.NavLinkActive::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-emerald);
+  box-shadow: 0 0 10px var(--color-emerald);
+  border-radius: 2px;
 }
 
 .ProfileButton {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 0.5rem;
   background: transparent;
-  border: 1px solid var(--glass-border);
-  color: var(--color-text-main);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .ProfileButton:hover {
-  background: var(--glass-bg-hover);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }

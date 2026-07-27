@@ -1,0 +1,57 @@
+.HeroContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 120px var(--spacing-xl) 60px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.MainHeadline {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: 1.1;
+  margin-bottom: var(--spacing-xl);
+}
+
+.SearchWrapper {
+  width: 100%;
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.SearchInput {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-xl);
+  padding-right: 50px;
+  border-radius: var(--radius-pill);
+  background-color: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--color-text-main);
+  font-size: 1rem;
+  outline: none;
+  backdrop-filter: var(--glass-blur);
+  transition: border-color var(--transition-fast);
+}
+
+.SearchInput:focus {
+  border-color: var(--color-emerald);
+}
+
+.SearchIcon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+}
+
+.PillRow {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--spacing-xl);
+}

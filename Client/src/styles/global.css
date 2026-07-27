@@ -1,47 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap');
+
 :root {
-  --color-bg-dark: #0a0c0b;
-  --color-surface-dark: #121614;
-  
-  --color-emerald: #10b981; 
-  --color-amber: #f59e0b;    
-  --color-sapphire: #3b82f6; 
-  --color-ruby: #ef4444;     
-  
-  --color-warning-yellow: #eab308; 
-  --color-map-pin: #2dd4bf;        
+  /* ==========================================================================
+     1. Color System (Dark-First Palette)
+     ========================================================================== */
+  /* Canvas & Elevation Layers */
+  --color-bg: #070b0a;
+  --color-bg-elevated: #0d1311;
+  --color-surface: rgba(15, 21, 19, 0.82);
+  --color-surface-strong: rgba(19, 27, 24, 0.94);
+  --color-surface-soft: rgba(255, 255, 255, 0.03);
 
-  --color-text-main: #f8fafc;
-  --color-text-muted: #9ca3af;
-  --color-text-dark: #0f172a; 
+  /* Borders & Glass Outlines */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+  --color-border-accent: rgba(45, 212, 191, 0.38);
 
-  --glass-bg: rgba(255, 255, 255, 0.06);
-  --glass-bg-hover: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-blur: blur(16px);
+  /* Brand Accents & Status Indicators */
+  --color-primary: #2dd4bf;              /* Electric Cyan / Primary Brand Accent */
+  --color-primary-soft: rgba(45, 212, 191, 0.12);
+  --color-warning: #fbbf24;              /* Amber / Featured Highlight */
+  --color-warning-soft: rgba(251, 191, 36, 0.12);
+  --color-danger: #fb7185;               /* Ruby / Alert Accent */
+  --color-danger-soft: rgba(251, 113, 133, 0.12);
 
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2.5rem;
+  /* Typography Colors */
+  --color-text: #f3f7f5;
+  --color-text-muted: #a1aba7;
+  --color-text-soft: #7a8480;
+  --color-text-inverse: #070b0a;
 
-  --radius-sm: 0.5rem;
-  --radius-md: 1rem;
-  --radius-lg: 1.5rem;
-  --radius-pill: 9999px; 
+  /* ==========================================================================
+     2. Typography Scales
+     ========================================================================== */
+  --font-display: "Sora", "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 32px;
+
+  /* ==========================================================================
+     3. Spatial Rhythm & Layout Grid
+     ========================================================================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ==========================================================================
+     4. Border Radii & Geometry
+     ========================================================================== */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* ==========================================================================
+     5. Ambient Shadows & Neon Glows
+     ========================================================================== */
+  --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 14px 40px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 26px 80px rgba(0, 0, 0, 0.38);
+  --shadow-glow: 0 0 0 1px rgba(45, 212, 191, 0.16), 0 0 28px rgba(45, 212, 191, 0.12);
+
+  /* ==========================================================================
+     6. Motion Physics & Easing
+     ========================================================================== */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-base: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-* {
+/* ==========================================================================
+   Global Reset & Accessibility Base
+   ========================================================================== */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-main);
-  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.5;
   min-height: 100vh;
-  background-image: radial-gradient(circle at top right, rgba(16, 185, 129, 0.05), transparent 40%),
-                    radial-gradient(circle at bottom left, rgba(245, 158, 11, 0.05), transparent 40%);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Ambient radial gradient background depth */
+  background-image: 
+    radial-gradient(circle at 85% 10%, rgba(45, 212, 191, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 15% 85%, rgba(251, 191, 36, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(7, 11, 10, 0.5) 0%, var(--color-bg) 100%);
+  background-attachment: fixed;
+}
+
+/* Custom Selection Highlight */
+::selection {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+/* Global Focus Ring Standards */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Base Image Guardrail */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* System Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-soft);
 }

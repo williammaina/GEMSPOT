@@ -1,51 +1,76 @@
 .ReviewContainer {
-  margin-top: var(--spacing-xl);
-  background-color: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
+  position: relative;
+  margin-top: var(--space-8, 32px);
+  background: var(--color-surface, rgba(15, 21, 19, 0.82));
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  border-radius: var(--radius-lg, 18px);
+  padding: var(--space-6, 24px);
+  box-shadow: var(--shadow-md, 0 14px 40px rgba(0, 0, 0, 0.28));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  isolation: isolate;
 }
 
 .HeaderRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--space-5, 20px);
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
 }
 
 .Title {
-  font-size: 1.25rem;
+  font-family: var(--font-display, "Sora", "Inter", system-ui, sans-serif);
+  font-size: var(--text-lg, 18px);
   font-weight: 700;
-  color: var(--color-text-main);
+  color: var(--color-text, #f3f7f5);
+  letter-spacing: -0.01em;
+  margin: 0;
 }
 
 .FilterDropdown {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  color: var(--color-text-main);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated, #0d1311);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  color: var(--color-text, #f3f7f5);
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  border-radius: var(--radius-md, 14px);
   outline: none;
-  font-size: 0.9rem;
+  font-family: var(--font-body, "Inter", system-ui, sans-serif);
+  font-size: var(--text-sm, 14px);
+  font-weight: 500;
   cursor: pointer;
+  transition: 
+    border-color var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1)),
+    box-shadow var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.FilterDropdown:hover {
+  border-color: var(--color-border-strong, rgba(255, 255, 255, 0.14));
+}
+
+.FilterDropdown:focus-visible {
+  outline: 2px solid var(--color-primary, #2dd4bf);
+  outline-offset: 2px;
 }
 
 .FilterDropdown option {
-  background-color: var(--color-surface-dark);
-  color: var(--color-text-main);
+  background-color: var(--color-bg-elevated, #0d1311);
+  color: var(--color-text, #f3f7f5);
 }
 
 .ReviewList {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--space-5, 20px);
 }
 
 .ReviewItem {
   display: flex;
-  gap: var(--spacing-md);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--glass-border);
+  gap: var(--space-4, 16px);
+  padding-bottom: var(--space-5, 20px);
+  border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  transition: opacity var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .ReviewItem:last-child {
@@ -54,37 +79,67 @@
 }
 
 .Avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-pill);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-pill, 999px);
   object-fit: cover;
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  background-color: var(--color-bg-elevated, #0d1311);
+  flex-shrink: 0;
 }
 
 .ReviewContent {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
 }
 
 .ReviewHeader {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  margin-bottom: 4px;
+  justify-content: space-between;
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
 }
 
 .AuthorName {
+  font-family: var(--font-body, "Inter", system-ui, sans-serif);
   font-weight: 600;
-  color: var(--color-text-main);
-  font-size: 0.95rem;
+  color: var(--color-text, #f3f7f5);
+  font-size: var(--text-sm, 14px);
 }
 
 .RatingRow {
   display: flex;
-  color: var(--color-warning-yellow);
+  align-items: center;
   gap: 2px;
+  color: var(--color-warning, #fbbf24);
+}
+
+.StarUnfilled {
+  color: var(--color-border, rgba(255, 255, 255, 0.12));
 }
 
 .ReviewText {
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
+  color: var(--color-text-muted, #a1aba7);
+  font-family: var(--font-body, "Inter", system-ui, sans-serif);
+  font-size: var(--text-sm, 14px);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .ReviewContainer {
+    padding: var(--space-4, 16px);
+  }
+
+  .HeaderRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .FilterDropdown {
+    width: 100%;
+  }
 }

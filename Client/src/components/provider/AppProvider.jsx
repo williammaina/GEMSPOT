@@ -1,22 +1,24 @@
-import { createContext, useState, useContext } from 'react';
+import { useState } from 'react';
+import { AppContext } from '../../library/contexts/AppContext.js';
 import { AppProviderStyles as styles } from '@styles';
-
-const AppContext = createContext();
 
 export function AppProvider({ children }) {
   const [user, setUser] = useState({
     name: 'Guest',
     isAuthenticated: false,
-    preferences: []
+    preferences: [],
   });
 
+  const value = {
+    user,
+    setUser,
+  };
+
   return (
-    <AppContext.Provider value={{ user, setUser }}>
+    <AppContext.Provider value={value}>
       <div className={styles.ProviderContainer}>
         {children}
       </div>
     </AppContext.Provider>
   );
 }
-
-export const useApp = () => useContext(AppContext);

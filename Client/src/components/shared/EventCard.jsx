@@ -2,41 +2,70 @@ import { Calendar, Clock, MapPin } from 'lucide-react';
 import { CalendarButton } from '@components';
 import { clsx } from 'clsx';
 import { EventCardStyles as styles } from '@styles';
-// 1. Import the calendar logic
 import { useCalendar } from '@library';
 
 export function EventCard({ event }) {
-  // 2. Initialize the hook
   const { syncEvent } = useCalendar();
 
   return (
-    <div className={clsx(styles.Card, event.featured && styles.FeaturedCard)}>
+    <article 
+      className={clsx(styles.Card, event.featured && styles.FeaturedCard)}
+      tabIndex={0}
+    >
+      {/* Media Viewport with Overlay Badges */}
       <div className={clsx(styles.ImageContainer, event.featured && styles.FeaturedImage)}>
-        <img src={event.image} alt={event.title} className={styles.Image} />
+        <img 
+          src={event.image} 
+          alt={event.title} 
+          className={styles.Image} 
+          loading="lazy" 
+        />
+
+        {/* Prominent Date Badge */}
+        {event.date && (
+          <div className={styles.DateBadge}>
+            <Calendar size={13} />
+            <span>{event.date}</span>
+          </div>
+        )}
+
+        {/* Category Chip */}
+        {event.category && (
+          <span className={styles.CategoryChip}>
+            {event.category}
+          </span>
+        )}
       </div>
       
+      {/* Card Content & Metadata */}
       <div className={styles.Content}>
         <h3 className={styles.Title}>{event.title}</h3>
         
-        <div className={styles.InfoRow}>
-          <Calendar size={14} />
-          <span>{event.date}</span>
-          <Clock size={14} style={{ marginLeft: '8px' }} />
-          <span>{event.time}</span>
-        </div>
-        
-        <div className={styles.InfoRow}>
-          <MapPin size={14} />
-          <span>{event.location}</span>
+        <div className={styles.InfoGroup}>
+          <div className={styles.TimeLocationMeta}>
+            {event.time && (
+              <div className={styles.InfoRow}>
+                <Clock size={14} style={{ color: 'var(--color-primary, #2dd4bf)' }} />
+                <span>{event.time}</span>
+              </div>
+            )}
+
+            {event.location && (
+              <div className={styles.InfoRow}>
+                <MapPin size={14} style={{ color: 'var(--color-primary, #2dd4bf)' }} />
+                <span>{event.location}</span>
+              </div>
+            )}
+          </div>
         </div>
 
+        {/* Featured Sync CTA */}
         {event.featured && (
-          <CalendarButton 
-            /* 3. Pass the event data to the sync function on click */
-            onClick={() => syncEvent(event)} 
-          />
+          <div className={styles.CtaWrapper}>
+            <CalendarButton onClick={() => syncEvent(event)} />
+          </div>
         )}
       </div>
-    </div>
+    </article>
   );
 }

@@ -22,4 +22,4 @@ export { CategoryThemeCard } from '../components/shared/CategoryThemeCard.jsx';
 // HomePage is already exported from the previous step, so no need to duplicate it here.
 
 // ... append to existing exports
-export { AppProvider, useApp } from '../components/provider/AppProvider.jsx';
+export { AppProvider } from '../components/provider/AppProvider.jsx';

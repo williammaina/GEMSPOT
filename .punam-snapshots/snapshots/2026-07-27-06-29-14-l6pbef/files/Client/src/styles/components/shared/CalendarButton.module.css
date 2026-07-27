@@ -1,0 +1,22 @@
+.SyncButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--color-amber);
+  color: var(--color-text-dark);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  margin-top: var(--spacing-md);
+}
+
+.SyncButton:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
