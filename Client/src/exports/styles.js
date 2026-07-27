@@ -15,3 +15,5 @@ export { default as ReviewSectionStyles } from '../styles/components/view/Review
 export { default as CategoryThemeCardStyles } from '../styles/components/shared/CategoryThemeCard.module.css';
 export { default as HomePageStyles } from '../styles/components/page/HomePage.module.css';
 export { default as AppProviderStyles } from '../styles/components/provider/AppProvider.module.css';
+export { default as ExplorePageStyles } from '../styles/components/page/ExplorePage.module.css';
+export { default as PlaceDetailPageStyles } from '../styles/components/page/PlaceDetailPage.module.css';
