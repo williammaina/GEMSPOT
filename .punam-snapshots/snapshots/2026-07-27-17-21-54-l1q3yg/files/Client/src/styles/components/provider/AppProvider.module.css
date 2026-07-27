@@ -1,0 +1,62 @@
+/* AppProvider.module.css */
+
+.ProviderContainer {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 16% 8%, rgba(45, 212, 191, 0.10), transparent 26%),
+    radial-gradient(circle at 84% 2%, rgba(139, 92, 246, 0.08), transparent 22%),
+    linear-gradient(180deg, #070b0a 0%, #060907 100%);
+  color: var(--color-text, #f3f7f5);
+  font-family: var(--font-body, "Inter", system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ProviderContainer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 18%),
+    radial-gradient(circle at top center, rgba(255, 255, 255, 0.03), transparent 46%);
+}
+
+.ProviderContainer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(7, 11, 10, 0.38), rgba(7, 11, 10, 0.82) 35%, rgba(7, 11, 10, 1) 100%);
+}
+
+/* Optional global shell behavior for overlays/toasts/sheets */
+.ProviderContainer :where([data-overlay-root]) {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.ProviderContainer :where([data-toast-root]) {
+  position: fixed;
+  inset: auto 16px 16px auto;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.ProviderContainer :where([data-toast-root] > *) {
+  pointer-events: auto;
+}
+
+.ProviderContainer :focus-visible {
+  outline: 2px solid var(--color-primary, #2dd4bf);
+  outline-offset: 3px;
+}
