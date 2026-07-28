@@ -1,14 +1,13 @@
 .LayoutSplit {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
+  gap: 18px;
+  width: min(1440px, calc(100% - 1.5rem));
   min-height: 100vh;
-  padding-top: 70px; /* fixed navbar offset */
+  margin: 0 auto;
+  padding: 76px 0 28px;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 18% 12%, rgba(45, 212, 191, 0.08), transparent 28%),
-    radial-gradient(circle at 84% 8%, rgba(139, 92, 246, 0.06), transparent 22%),
-    linear-gradient(180deg, #070b0a 0%, #060907 100%);
-  isolation: isolate;
 }
 
 .LayoutSplit::before {
@@ -16,225 +15,165 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 22%),
-    radial-gradient(circle at top center, rgba(255, 255, 255, 0.03), transparent 46%);
   z-index: -1;
-}
-
-.MapSection {
-  flex: 1.2;
-  position: relative;
-  overflow: hidden;
   background:
-    radial-gradient(circle at 50% 40%, rgba(17, 26, 23, 0.95) 0%, #0d1312 42%, #070b0a 100%);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.MapSection::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(7, 11, 10, 0.10), rgba(7, 11, 10, 0.28)),
-    radial-gradient(circle at 50% 50%, rgba(45, 212, 191, 0.08), transparent 58%);
-}
-
-.MapCanvas {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
+    radial-gradient(circle at 16% 10%, rgba(54, 230, 195, 0.08), transparent 28%),
+    radial-gradient(circle at 82% 8%, rgba(255, 177, 77, 0.08), transparent 24%);
 }
 
 .ListSection {
-  flex: 1;
-  min-width: 360px;
-  padding: 24px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  background: rgba(13, 19, 18, 0.74);
+  position: sticky;
+  top: 86px;
+  align-self: start;
+  max-height: calc(100vh - 104px);
+  overflow: auto;
+  padding: 20px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(18, 24, 35, 0.84), rgba(11, 16, 26, 0.80)),
+    rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.03);
-  overscroll-behavior: contain;
+  box-shadow: var(--shadow-lg, 0 28px 84px rgba(0, 0, 0, 0.42));
 }
 
-/* Premium scrollbar */
 .ListSection::-webkit-scrollbar {
   width: 8px;
 }
 
-.ListSection::-webkit-scrollbar-track {
-  background: rgba(7, 11, 10, 0.45);
-}
-
 .ListSection::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
-  border: 2px solid rgba(7, 11, 10, 0.45);
-}
-
-.ListSection::-webkit-scrollbar-thumb:hover {
-  background: rgba(45, 212, 191, 0.78);
+  border-color: rgba(11, 16, 26, 0.95);
 }
 
 .SectionTitle {
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--color-text, #f3f7f5);
-  font-family: var(--font-display, "Inter", system-ui, sans-serif);
-  font-size: clamp(1.35rem, 1rem + 1vw, 1.9rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  color: var(--color-text, #f5f7fb);
+  font-family: var(--font-display, "Sora", "Inter", system-ui, sans-serif);
+  font-size: clamp(1.8rem, 1.4rem + 1vw, 2.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
 }
 
 .SectionSubtitle {
-  margin: 8px 0 0;
-  color: var(--color-text-muted, #a1aba7);
-  font-size: 0.95rem;
+  margin-top: 10px;
+  color: var(--color-text-muted, #a5afbb);
+  font-size: 0.96rem;
   line-height: 1.6;
-  max-width: 56ch;
 }
 
 .ResultsMeta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  width: fit-content;
+  margin-top: 18px;
+  margin-bottom: 16px;
   padding: 8px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(45, 212, 191, 0.22);
-  background: rgba(45, 212, 191, 0.08);
-  color: var(--color-text, #f3f7f5);
-  font-size: 0.82rem;
-  font-weight: 600;
+  border: 1px solid rgba(54, 230, 195, 0.16);
+  background: rgba(54, 230, 195, 0.08);
+  color: var(--color-text, #f5f7fb);
+  font-size: 0.84rem;
+  font-weight: 700;
   letter-spacing: 0.01em;
-  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.04);
 }
 
 .PlaceStack {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
+}
+
+.MapSection {
+  position: sticky;
+  top: 86px;
+  align-self: start;
+  height: calc(100vh - 104px);
+  min-height: calc(100vh - 104px);
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at 20% 18%, rgba(54, 230, 195, 0.08), transparent 24%),
+    radial-gradient(circle at 82% 12%, rgba(255, 177, 77, 0.06), transparent 20%),
+    rgba(11, 16, 26, 0.92);
+  box-shadow: var(--shadow-lg, 0 28px 84px rgba(0, 0, 0, 0.42));
+}
+
+.MapCanvas {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
 }
 
 .EmptyState {
+  margin-top: 8px;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
-    rgba(15, 21, 19, 0.82);
-  color: var(--color-text-muted, #a1aba7);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .EmptyStateTitle {
-  margin: 0 0 6px;
-  color: var(--color-text, #f3f7f5);
-  font-size: 1rem;
+  margin: 0 0 8px;
+  color: var(--color-text, #f5f7fb);
+  font-size: 1.05rem;
   font-weight: 700;
-  line-height: 1.3;
 }
 
 .EmptyStateText {
-  margin: 0;
-  font-size: 0.95rem;
+  margin: 0 0 16px;
+  color: var(--color-text-muted, #a5afbb);
+  font-size: 0.94rem;
   line-height: 1.65;
 }
 
 .EmptyStateAction {
-  margin-top: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 14px;
+  min-height: 44px;
+  padding: 0 16px;
   border-radius: 999px;
-  border: 1px solid rgba(45, 212, 191, 0.24);
-  background: rgba(45, 212, 191, 0.10);
-  color: var(--color-text, #f3f7f5);
-  font-size: 0.9rem;
-  font-weight: 600;
+  border: 1px solid rgba(54, 230, 195, 0.18);
+  background: linear-gradient(135deg, rgba(54, 230, 195, 0.18), rgba(54, 230, 195, 0.08));
+  color: var(--color-text, #f5f7fb);
   text-decoration: none;
-  transition:
-    transform var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1)),
-    background var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1)),
-    border-color var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1));
+  font-weight: 700;
 }
 
-.EmptyStateAction:hover {
-  transform: translateY(-1px);
-  background: rgba(45, 212, 191, 0.14);
-  border-color: rgba(45, 212, 191, 0.34);
-}
-
-.EmptyStateAction:focus-visible,
-.ListSection :focus-visible,
-.MapSection :focus-visible {
-  outline: 2px solid var(--color-primary, #2dd4bf);
-  outline-offset: 3px;
-}
-
-/* Strong hover polish for cards */
-@media (hover: hover) and (pointer: fine) {
-  .PlaceStack > * {
-    transition:
-      transform var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-      box-shadow var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-      border-color var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1));
-  }
-
-  .PlaceStack > *:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg, 0 26px 80px rgba(0, 0, 0, 0.38));
-    border-color: rgba(45, 212, 191, 0.18);
-  }
-}
-
-@media (max-width: 1100px) {
+@media (max-width: 1120px) {
   .LayoutSplit {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+  }
+
+  .ListSection,
+  .MapSection {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    max-height: none;
   }
 
   .MapSection {
-    min-height: 380px;
-    order: -1;
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .ListSection {
-    min-width: 0;
-    border-left: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    min-height: 520px;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 720px) {
   .LayoutSplit {
-    padding-top: 64px;
-  }
-
-  .MapSection {
-    min-height: 320px;
+    width: min(100%, calc(100% - 1rem));
+    padding-top: 70px;
   }
 
   .ListSection {
-    padding: 16px;
-    gap: 20px;
+    padding: 18px;
+    border-radius: 22px;
   }
 
-  .PlaceStack {
-    gap: 14px;
+  .MapSection {
+    min-height: 420px;
+    border-radius: 22px;
   }
 }

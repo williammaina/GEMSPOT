@@ -2,6 +2,16 @@
   "version": 1,
   "snapshots": [
     {
+      "id": "2026-07-27-18-58-26-0649z5",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-07-27T18:58:26.169Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 66,
+      "totalSize": 283856,
+      "workspaceName": "GEMSPOT",
+      "workspacePath": "/home/user/Desktop/GEMSPOT"
+    },
+    {
       "id": "2026-07-27-17-21-54-l1q3yg",
       "name": "Auto recovery point after bulk changes",
       "createdAt": "2026-07-27T17:21:54.171Z",

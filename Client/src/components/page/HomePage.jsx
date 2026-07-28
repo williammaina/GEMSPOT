@@ -17,7 +17,7 @@ const cityPills = ['Nairobi', 'Mombasa', 'Kisumu', 'Nakuru'];
 
 const metrics = [
   { value: '250+', label: 'curated places & moments' },
-  { value: '8', label: 'discovery filters that matter' },
+  { value: '8', label: 'signals that matter' },
   { value: '1 tap', label: 'from search to plan' },
 ];
 
@@ -79,6 +79,24 @@ const categories = [
   },
 ];
 
+const valueCards = [
+  {
+    icon: ShieldCheck,
+    title: 'No surprises before you leave',
+    text: 'See the numbers, logistics, and vibe signals that actually affect the outing.',
+  },
+  {
+    icon: CalendarDays,
+    title: 'Events with immediate action',
+    text: 'Move from discovery to calendar planning in one clean flow.',
+  },
+  {
+    icon: Compass,
+    title: 'A clear way to explore',
+    text: 'Browse by mood, budget, and occasion instead of endless generic listings.',
+  },
+];
+
 export function HomePage() {
   return (
     <main className={styles.HomeLayout}>
@@ -99,13 +117,15 @@ export function HomePage() {
             </div>
 
             <h1 id="home-hero-title" className={styles.HeroTitle}>
-              Find the right place before you leave home.
+              Curated Kenya.
+              <br />
+              No surprises.
             </h1>
 
             <p className={styles.HeroSubtitle}>
-              GemSpot KE turns everyday plans into a clean, premium discovery experience. Search
-              places, experiences, and events with the practical details that help you move fast
-              and choose well.
+              Search places, experiences, and events with budgets, parking, M-Pesa, and vibe
+              context built in. GemSpot KE is designed to help people decide faster and step out
+              with confidence.
             </p>
 
             <div className={styles.ActionRow}>
@@ -139,10 +159,10 @@ export function HomePage() {
                 <Sparkles size={14} aria-hidden="true" />
                 Live discovery dashboard
               </span>
-              <h2 className={styles.PanelTitle}>Every choice should feel informed, not rushed.</h2>
+              <h2 className={styles.PanelTitle}>Every signal that matters, up front.</h2>
               <p className={styles.PanelText}>
-                A homepage designed like a professional lifestyle product: clean hierarchy,
-                sharper intent, and content that guides the next step.
+                A homepage built like a premium product landing page: sharper hierarchy, cleaner
+                choices, and practical details that make planning feel effortless.
               </p>
             </div>
 
@@ -202,7 +222,33 @@ export function HomePage() {
         </div>
       </section>
 
-     
+      <section className={styles.ValueSection} aria-labelledby="why-gemspot">
+        <div className={styles.SectionHeader}>
+          <div>
+            <h2 id="why-gemspot" className={styles.SectionTitle}>
+              Designed for the way people actually plan their day
+            </h2>
+            <p className={styles.SectionDescription}>
+              The interface combines the clarity of a polished website with the speed of a high-signal dashboard.
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.ValueGrid}>
+          {valueCards.map((card) => {
+            const Icon = card.icon;
+            return (
+              <article key={card.title} className={styles.ValueCard}>
+                <div className={styles.ValueIcon}>
+                  <Icon size={18} aria-hidden="true" />
+                </div>
+                <h3 className={styles.ValueTitle}>{card.title}</h3>
+                <p className={styles.ValueText}>{card.text}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
     </main>
   );
 }

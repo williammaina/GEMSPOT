@@ -10,7 +10,7 @@
 
 .NavbarContainer {
   pointer-events: auto;
-  width: min(1280px, calc(100% - 1.25rem));
+  width: min(1320px, calc(100% - 1.25rem));
   margin: 0 auto;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -18,15 +18,15 @@
   gap: 16px;
   padding: 14px 16px;
   border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   background:
-    linear-gradient(135deg, rgba(18, 24, 30, 0.92), rgba(12, 18, 24, 0.78)),
-    radial-gradient(circle at top left, rgba(45, 212, 191, 0.16), transparent 30%),
-    radial-gradient(circle at top right, rgba(246, 199, 106, 0.08), transparent 24%);
+    linear-gradient(135deg, rgba(15, 20, 29, 0.90), rgba(10, 14, 22, 0.78)),
+    radial-gradient(circle at top left, rgba(54, 230, 195, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(255, 177, 77, 0.10), transparent 24%);
   backdrop-filter: blur(20px) saturate(1.15);
   -webkit-backdrop-filter: blur(20px) saturate(1.15);
   box-shadow:
-    0 18px 60px rgba(0, 0, 0, 0.34),
+    0 18px 60px rgba(0, 0, 0, 0.36),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
@@ -36,7 +36,7 @@
   gap: 12px;
   min-width: 0;
   text-decoration: none;
-  color: var(--color-text, #f3f7f5);
+  color: var(--color-text, #f5f7fb);
 }
 
 .BrandMark:hover {
@@ -50,15 +50,17 @@
   width: 42px;
   height: 42px;
   border-radius: 15px;
-  background: linear-gradient(135deg, rgba(45, 212, 191, 0.18), rgba(45, 212, 191, 0.06));
-  border: 1px solid rgba(45, 212, 191, 0.22);
-  box-shadow: 0 12px 30px rgba(45, 212, 191, 0.12);
+  background:
+    linear-gradient(135deg, rgba(54, 230, 195, 0.18), rgba(54, 230, 195, 0.06)),
+    rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(54, 230, 195, 0.18);
+  box-shadow: 0 12px 30px rgba(54, 230, 195, 0.12);
   flex: 0 0 auto;
 }
 
 .LogoIcon {
-  color: var(--color-primary, #2dd4bf);
-  filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.45));
+  color: var(--color-primary, #36e6c3);
+  filter: drop-shadow(0 0 10px rgba(54, 230, 195, 0.45));
 }
 
 .BrandCopy {
@@ -69,21 +71,22 @@
 }
 
 .BrandName {
-  color: var(--color-text, #f3f7f5);
-  font-family: var(--font-display, "Sora", "Inter", system-ui, sans-serif);
+  color: var(--color-text, #f5f7fb);
+  font-family: var(--font-display, 'Sora', 'Inter', system-ui, sans-serif);
   font-size: 0.98rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   line-height: 1;
+  text-transform: uppercase;
 }
 
 .BrandTagline {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--color-text-muted, #a1aba7);
+  color: var(--color-text-muted, #a5afbb);
   font-size: 0.74rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -128,19 +131,19 @@
 }
 
 .NavLink {
-  color: var(--color-text-muted, #a1aba7);
+  color: var(--color-text-muted, #a5afbb);
 }
 
 .NavLink:hover {
-  color: var(--color-text, #f3f7f5);
-  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text, #f5f7fb);
+  background: rgba(255, 255, 255, 0.05);
   transform: translateY(-1px);
 }
 
 .NavLinkActive {
-  color: #07100f;
-  background: linear-gradient(135deg, #8ef2e7 0%, #2dd4bf 100%);
-  box-shadow: 0 10px 22px rgba(45, 212, 191, 0.18);
+  color: #071111;
+  background: linear-gradient(135deg, #98f6e9 0%, #36e6c3 100%);
+  box-shadow: 0 10px 22px rgba(54, 230, 195, 0.20);
 }
 
 .ProfileButton {
@@ -151,8 +154,10 @@
   padding: 0 12px 0 10px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-  color: var(--color-text, #f3f7f5);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+    rgba(255, 255, 255, 0.01);
+  color: var(--color-text, #f5f7fb);
   cursor: pointer;
   transition:
     transform var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
@@ -163,8 +168,8 @@
 
 .ProfileButton:hover {
   transform: translateY(-1px);
-  border-color: rgba(45, 212, 191, 0.22);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+  border-color: rgba(54, 230, 195, 0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.20);
 }
 
 .ProfileAvatar {
@@ -174,9 +179,9 @@
   width: 34px;
   height: 34px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(45, 212, 191, 0.18), rgba(45, 212, 191, 0.08));
-  border: 1px solid rgba(45, 212, 191, 0.16);
-  color: var(--color-primary, #2dd4bf);
+  background: linear-gradient(135deg, rgba(54, 230, 195, 0.18), rgba(255, 177, 77, 0.10));
+  border: 1px solid rgba(54, 230, 195, 0.16);
+  color: var(--color-primary, #36e6c3);
   flex: 0 0 auto;
 }
 
@@ -189,7 +194,7 @@
 }
 
 .ProfileLabel {
-  color: var(--color-text-soft, #7a8480);
+  color: var(--color-text-soft, #7f8a96);
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -197,7 +202,7 @@
 }
 
 .ProfileName {
-  color: var(--color-text, #f3f7f5);
+  color: var(--color-text, #f5f7fb);
   font-size: 0.9rem;
   font-weight: 600;
   white-space: nowrap;
@@ -207,15 +212,17 @@
 }
 
 .AppContent {
-  padding-top: 92px;
+  min-height: 100vh;
+  padding-top: 0;
 }
 
 @media (max-width: 1120px) {
   .NavbarContainer {
     grid-template-columns: auto minmax(0, 1fr);
     grid-template-areas:
-      "brand profile"
-      "links links";
+      'brand profile'
+      'links links';
+    gap: 12px;
   }
 
   .BrandMark {
@@ -273,10 +280,6 @@
 
   .ProfileText {
     display: none;
-  }
-
-  .AppContent {
-    padding-top: 84px;
   }
 }
 

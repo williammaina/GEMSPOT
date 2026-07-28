@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-2, 8px);
-  color: var(--color-text, #f3f7f5);
+  color: var(--color-text, #f5f7fb);
 }
 
 .Avatar {
@@ -18,8 +18,8 @@
   height: 28px;
   border-radius: var(--radius-pill, 999px);
   object-fit: cover;
-  border: 1px solid var(--color-border-accent, rgba(45, 212, 191, 0.38));
-  background-color: var(--color-bg-elevated, #0d1311);
+  border: 1px solid rgba(54, 230, 195, 0.36);
+  background-color: var(--color-bg-elevated, #111827);
   flex-shrink: 0;
 }
 
@@ -27,7 +27,7 @@
   font-family: var(--font-display, "Sora", "Inter", system-ui, sans-serif);
   font-size: var(--text-sm, 14px);
   font-weight: 700;
-  color: var(--color-text, #f3f7f5);
+  color: var(--color-text, #f5f7fb);
   letter-spacing: -0.01em;
   margin: 0;
 }
@@ -39,7 +39,7 @@
   scroll-behavior: smooth;
   padding: 4px 4px var(--space-3, 12px) 4px;
   scrollbar-width: thin;
-  scrollbar-color: var(--color-border, rgba(255, 255, 255, 0.14)) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
 }
 
 .VideoGrid::-webkit-scrollbar {
@@ -51,11 +51,10 @@
 }
 
 .VideoGrid::-webkit-scrollbar-thumb {
-  background: var(--color-border, rgba(255, 255, 255, 0.14));
+  background: rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-pill, 999px);
 }
 
-/* Portrait Reel Card Ratio (9:16 style) */
 .VideoThumb {
   position: relative;
   width: 130px;
@@ -64,13 +63,13 @@
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
-  background: var(--color-bg-elevated, #0d1311);
-  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
-  box-shadow: var(--shadow-sm, 0 6px 18px rgba(0, 0, 0, 0.18));
+  background: var(--color-bg-elevated, #111827);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-sm, 0 8px 22px rgba(0, 0, 0, 0.18));
   padding: 0;
   appearance: none;
   isolation: isolate;
-  transition: 
+  transition:
     transform var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
     border-color var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
     box-shadow var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1));
@@ -78,12 +77,12 @@
 
 .VideoThumb:hover {
   transform: translateY(-3px);
-  border-color: var(--color-border-accent, rgba(45, 212, 191, 0.38));
-  box-shadow: var(--shadow-md, 0 14px 40px rgba(0, 0, 0, 0.28));
+  border-color: rgba(54, 230, 195, 0.20);
+  box-shadow: var(--shadow-md, 0 18px 48px rgba(0, 0, 0, 0.30));
 }
 
 .VideoThumb:focus-visible {
-  outline: 2px solid var(--color-primary, #2dd4bf);
+  outline: 2px solid var(--color-primary, #36e6c3);
   outline-offset: 3px;
 }
 
@@ -101,18 +100,13 @@
 .PlayOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.62) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1));
 }
 
-/* Glassmorphic Play Button Badge */
 .PlayIconWrapper {
   display: flex;
   align-items: center;
@@ -120,12 +114,12 @@
   width: 36px;
   height: 36px;
   border-radius: var(--radius-pill, 999px);
-  background: rgba(15, 21, 19, 0.75);
-  border: 1px solid var(--color-border-accent, rgba(45, 212, 191, 0.38));
-  color: var(--color-primary, #2dd4bf);
+  background: rgba(11, 16, 26, 0.78);
+  border: 1px solid rgba(54, 230, 195, 0.38);
+  color: var(--color-primary, #36e6c3);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition: 
+  transition:
     transform var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1)),
     background-color var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1)),
     color var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1)),
@@ -134,7 +128,7 @@
 
 .VideoThumb:hover .PlayIconWrapper {
   transform: scale(1.12);
-  background: var(--color-primary, #2dd4bf);
-  color: var(--color-bg, #070b0a);
-  box-shadow: 0 0 20px rgba(45, 212, 191, 0.5);
+  background: var(--color-primary, #36e6c3);
+  color: #071111;
+  box-shadow: 0 0 20px rgba(54, 230, 195, 0.50);
 }
