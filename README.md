@@ -1,140 +1,679 @@
-🇰🇪 GemSpot KE API — Flask, SQLAlchemy ORM, Migrations, Serialization & AuthWelcome to the backend repository for GemSpot KE! This project is a production-ready, discovery-first REST API powering urban lifestyle, real-time crowd tracking ("Vibe Checks"), localized logistics search, and event planning across major Kenyan cities (Nairobi, Mombasa, Kisumu, Nakuru).Read this document top to bottom before contributing — it explains not just how to set up the API, but why each layer of our Model-View-Controller (MVC) architecture exists.🏛️ New to how this project is organized? Read the companion guide MVC.md — it details the separation of concerns and pattern rules governing every folder in this repository.🗂 Table of ContentsWhat This Project IsTech StackProject StructureCore Concepts & Architecture ExplainedWhat is an ORM?Flask-SQLAlchemy & LocalizationWhy extensions.py Exists (Avoiding Circular Imports)Models — Your Schema as Python ClassesMigrations — Version Control for Your DatabaseThe Controller Layer — Separation of ConcernsSerialization — Objects to JSON with MarshmallowAuthentication & Security — Passwords & JWTGetting Started (Setup)The Migration WorkflowCore REST API EndpointsFrontend Integration Guidelines (React 19 + Vite)Command Cheat SheetTroubleshooting🎯 What This Project IsGeneric navigation apps tell you where a venue is located, but fail to answer localized, practical questions before you leave home:Does this venue accept M-Pesa?Is secure parking available on-site?What is the average "damage for two" (realistic spending for a pair)?Is the venue packed, quiet, or rainy right now?GemSpot KE solves this by providing structured metadata, real-time crowdsourced "Vibe Checks," budget filters, and calendar-linked event tracking tailored to Kenyan urbanites and travelers.🧰 Tech StackLayerTechnologyPurposeBackend FrameworkFlask 3Lightweight REST API framework — routes, requests, responsesORMFlask-SQLAlchemyDatabase interactions using Python object modelsDatabase MigrationsFlask-Migrate (Alembic)Version-control system for database schema changesSerializationFlask-MarshmallowConverts SQLAlchemy models into validated JSON representationsAuthenticationFlask-JWT-ExtendedIssues and validates JWT access tokensPassword HashingWerkzeug SecuritySecure one-way password hashing (scrypt / pbkdf2)DatabaseSQLite (Dev) / PostgreSQL (Prod)File-based local storage or scalable production relational databaseCORSFlask-CORSCross-Origin Resource Sharing for React client communication📁 Project StructurePlaintext.
-├── controllers/                  # CONTROLLER LAYER: Business logic & DB queries
-│   ├── __init__.py
-│   ├── admin_controller.py       # Content moderation & listing verification
-│   ├── auth_controller.py        # Registration, login, identity endpoints
-│   ├── category_controller.py    # Place categories & tags handling
-│   ├── event_controller.py       # Event discovery & bookmark operations
-│   ├── favorite_controller.py     # Bookmark / saved place management
-│   ├── place_controller.py        # Search, budget/vibe filters & geolocation
-│   ├── review_controller.py       # Ratings, text reviews & media updates
-│   ├── user_controller.py        # Profile updates & avatar management
-│   └── vibe_check_controller.py   # Real-time crowd & weather updates
-├── migrations/                   # Auto-generated Alembic database migration scripts
-│   ├── env.py
-│   ├── alembic.ini
-│   └── versions/                 # Revision history files
-├── models/                       # MODEL LAYER: SQLAlchemy tables & entity logic
-│   ├── __init__.py
-│   ├── category.py               # Categories & Tags models
-│   ├── event.py                  # Events & EventBookmarks models
-│   ├── favorite.py               # User Favorites junction model
-│   ├── place.py                  # Places & PlaceImages models
-│   ├── place_tag.py              # Many-to-Many association table (Place <-> Tag)
-│   ├── review.py                 # Place Reviews model
-│   ├── user.py                   # User account & password hash logic
-│   └── vibe_check.py             # Live crowd level & weather reports model
-├── schemas/                      # SERIALIZATION LAYER: Marshmallow Schemas
-│   ├── __init__.py
-│   ├── category_schema.py
-│   ├── event_schema.py
-│   ├── place_schema.py
-│   ├── review_schema.py
-│   ├── user_schema.py
-│   └── vibe_schema.py
-├── .gitignore                    # Excludes venv, secrets, instance DBs
-├── extensions.py                 # Singleton extension declarations (db, ma, jwt, cors)
-├── main.py                       # Application factory, Blueprint registration & entry point
-├── MVC.md                        # Architecture & code organization guide
-├── README.md                     # System documentation
-└── requirements.txt              # Dependency management
-🏗️ Architectural Flow: A request enters through main.py (Route Blueprint) → passes to controllers/ (Business Logic) → reads/writes via models/ (Database Entity) → formats output through schemas/ (Serialization) → sends back JSON response to the client.🧠 Core Concepts & Architecture Explained1. What is an ORM?An ORM (Object-Relational Mapper) translates database rows into native Python objects:Python Class / ObjectRelational DatabaseClass (Place)Table (places)Attribute (name)Column (name)Instance (Place(name="Alchemist"))Row in tableWithout an ORM, hand-written SQL queries introduce risks of SQL injection and typos. With SQLAlchemy:Python# Create a new venue entry
-new_place = Place(name="Bao Box", price_level="KES 1,500-3,000", mpesa_available=True)
-db.session.add(new_place)
-db.session.commit()
-2. Flask-SQLAlchemy & LocalizationSQLAlchemy abstracts database configuration. In main.py:Pythonapp.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///instance/gemspot.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-Localization metadata attributes are stored natively in the places schema:damage_for_two: Integer estimate of spending for two guests (e.g., 3500).mpesa_available: Boolean indicator (True/False).parking: Enum/String indicator ("Secure On-Site", "Street Parking", "Valet").3. Why extensions.py Exists (Avoiding Circular Imports)To prevent circular dependencies between models and application routes, shared extension objects are initialized empty inside extensions.py:Pythonfrom flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
-from flask_jwt_extended import JWTManager
-from flask_cors import CORS
+# GemSpot KE API
 
-db = SQLAlchemy()
-ma = Marshmallow()
-jwt = JWTManager()
-cors = CORS()
-main.py binds these extensions to the app instance using init_app(app).4. Models — Your Schema as Python ClassesExample from models/place.py:Pythonfrom extensions import db
+<div align="center">
 
-class Place(db.Model):
-    __tablename__ = "places"
+# 🇰🇪 GemSpot KE — Backend API
 
-    place_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    latitude = db.Column(db.Float, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
-    damage_for_two = db.Column(db.Integer, nullable=True)
-    mpesa_available = db.Column(db.Boolean, default=True)
-    parking = db.Column(db.Boolean, default=True)
-    verified = db.Column(db.Boolean, default=False)
+**A Discovery-First Urban Lifestyle Platform for Kenya**
 
-    # Relationships
-    vibe_checks = db.relationship("VibeCheck", backref="place", lazy=True)
-    reviews = db.relationship("Review", backref="place", lazy=True)
-5. Migrations — Version Control for Your DatabaseDatabase migrations track changes to model structures over time. Flask-Migrate (powered by Alembic) compares your Python classes against the current database schema and creates executable python scripts in migrations/versions/.PlaintextModel Change ---> `flask db migrate` (Generate Script) ---> `flask db upgrade` (Apply to DB)
-6. The Controller Layer — Separation of ConcernsControllers contain business rules and database queries so routes remain small and declarative.Example from controllers/place_controller.py:Pythonfrom models.place import Place
+RESTful backend powering intelligent discovery of places, experiences, events, and community-driven recommendations across Kenya.
 
-class PlaceController:
-    @classmethod
-    def filter_places(cls, category_id=None, max_budget=None, mpesa_only=False):
-        query = Place.query
-        if category_id:
-            query = query.filter(Place.category_id == category_id)
-        if max_budget:
-            query = query.filter(Place.damage_for_two <= max_budget)
-        if mpesa_only:
-            query = query.filter(Place.mpesa_available == True)
-        return query.all()
-7. Serialization — Objects to JSON with MarshmallowFlask cannot return raw SQLAlchemy objects as JSON directly. Marshmallow converts Python class instances to dictionaries and validates incoming JSON payloads.Example from schemas/place_schema.py:Pythonfrom extensions import ma
-from models.place import Place
+Built with **Flask**, **PostgreSQL**, **SQLAlchemy**, and **JWT Authentication**.
 
-class PlaceSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Place
-        load_instance = True
+</div>
 
-place_schema = PlaceSchema()
-places_schema = PlaceSchema(many=True)
-8. Authentication & Security — Passwords & JWTPassword Hashing (models/user.py)Plaintext passwords are never saved. Passwords are hashed before storage:Pythonfrom werkzeug.security import generate_password_hash, check_password_hash
+---
 
-class User(db.Model):
-    password_hash = db.Column(db.String(256), nullable=False)
+# Table of Contents
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+- [Overview](#overview)
+- [Problem Statement](#problem-statement)
+- [Solution](#solution)
+- [Key Features](#key-features)
+- [Technology Stack](#technology-stack)
+- [Project Architecture](#project-architecture)
+- [Database Design](#database-design)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
+- [API Modules](#api-modules)
+- [Authentication](#authentication)
+- [Core Functionalities](#core-functionalities)
+- [Security Features](#security-features)
+- [Future Improvements](#future-improvements)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
-JSON Web Tokens (JWT)Upon login, the server issues a signed JWT. Subsequent requests pass this token in the header:HTTPAuthorization: Bearer <your_access_token>
-Routes protected with @jwt_required() verify this token automatically:Python@place_bp.route('/<int:place_id>/vibe-check', methods=['POST'])
-@jwt_required()
-def submit_vibe_check(place_id):
-    current_user_id = get_jwt_identity()
-    # Process crowdsourced vibe check update...
-🚀 Getting Started (Setup)1. Clone & Setup Virtual EnvironmentBashgit clone https://github.com/your-org/gemspot-backend.git
+---
+
+# Overview
+
+GemSpot KE is a **discovery-first urban lifestyle platform** built specifically for Kenya.
+
+Unlike traditional mapping applications that primarily focus on navigation, GemSpot KE helps users discover restaurants, cafés, adventures, entertainment venues, attractions, nightlife, events, and hidden gems using localized intelligence.
+
+The backend exposes a secure RESTful API consumed by the React frontend and is responsible for:
+
+- User authentication
+- Business logic
+- Search and filtering
+- Recommendation services
+- Reviews
+- Favorites
+- Event management
+- Real-time vibe updates
+- Administrative moderation
+
+---
+
+# Problem Statement
+
+Planning an outing in Kenya typically requires switching between multiple platforms:
+
+- Google Maps
+- TikTok
+- Instagram
+- Facebook Events
+- WhatsApp Groups
+- Restaurant Pages
+- Travel Blogs
+
+Even after all this searching, users still lack information such as:
+
+- Parking availability
+- M-Pesa acceptance
+- Crowd levels
+- Estimated spending
+- Wi-Fi availability
+- Safety
+- Reservations
+- Weather conditions
+- Best visiting hours
+
+GemSpot KE centralizes this information into one intelligent discovery platform.
+
+---
+
+# Solution
+
+GemSpot KE combines:
+
+- Location discovery
+- Community reviews
+- Budget intelligence
+- Local logistics
+- Event discovery
+- Weather awareness
+- Live crowd updates
+
+into one unified ecosystem designed specifically around how Kenyans explore, socialize and travel.
+
+---
+
+# Key Features
+
+## Authentication
+
+- User Registration
+- Secure Login
+- JWT Authentication
+- Password Hashing (bcrypt)
+- Password Reset
+- Protected Routes
+- Role-Based Authorization
+
+---
+
+## Place Discovery
+
+Users can:
+
+- Search destinations
+- Browse categories
+- Filter by county
+- Filter by town
+- Filter by budget
+- Filter by cuisine
+- Filter by vibe
+- Filter by amenities
+- Discover nearby places
+- View logistics information
+
+---
+
+## Reviews
+
+Users can
+
+- Rate places
+- Upload photos
+- Upload videos
+- Leave reviews
+- Edit reviews
+- Delete reviews
+
+---
+
+## Favorites
+
+Users can
+
+- Save places
+- Remove favorites
+- View bookmarked locations
+
+---
+
+## Events
+
+Users can
+
+- Browse events
+- Save events
+- View upcoming events
+- Add events to Google Calendar
+
+---
+
+## Live Vibe Check
+
+Community members can report
+
+- Quiet
+- Moderate
+- Busy
+- Packed
+- Closed
+
+alongside weather conditions to help others make informed decisions.
+
+---
+
+## Administrative Dashboard
+
+Administrators can
+
+- Verify businesses
+- Moderate reviews
+- Approve listings
+- Publish events
+- Manage categories
+- Manage users
+- Moderate Vibe Checks
+
+---
+
+# Technology Stack
+
+## Backend
+
+- Python 3
+- Flask
+- Flask RESTful
+- Flask SQLAlchemy
+- Flask JWT Extended
+- Flask Marshmallow
+- Flask Migrate
+- Flask CORS
+
+---
+
+## Database
+
+- PostgreSQL (Production)
+- SQLite (Development)
+
+---
+
+## Authentication
+
+- JWT Tokens
+- bcrypt Password Hashing
+
+---
+
+## External APIs
+
+- Mapbox API
+- OpenWeather API
+- Google Calendar API
+- Google OAuth
+- Geolocation API
+
+---
+
+## Deployment
+
+- Gunicorn
+- GitHub Actions
+- Render
+- Railway
+- Docker (Future)
+
+---
+
+# Project Architecture
+
+GemSpot KE follows the MVC architectural pattern.
+
+```
+                React Frontend
+                      │
+                 Axios Requests
+                      │
+             Flask RESTful API
+                      │
+        ┌─────────────┼─────────────┐
+        │             │             │
+ Authentication    Discovery    Recommendations
+        │             │             │
+        └─────────────┼─────────────┘
+                      │
+               PostgreSQL Database
+                      │
+     Mapbox │ Weather │ Google Calendar
+```
+
+---
+
+# Database Design
+
+The backend is built around the following core entities:
+
+- Users
+- Places
+- Categories
+- Tags
+- Reviews
+- Favorites
+- Events
+- Event Bookmarks
+- Vibe Checks
+- Place Images
+
+### Relationships
+
+```
+User
+ ├── Reviews
+ ├── Favorites
+ ├── Vibe Checks
+ └── Event Bookmarks
+
+Category
+ └── Places
+
+Place
+ ├── Reviews
+ ├── Images
+ ├── Events
+ ├── Favorites
+ ├── Vibe Checks
+ └── Tags
+
+Event
+ └── Bookmarks
+```
+
+---
+
+# Project Structure
+
+```
+gemspot-backend/
+
+controllers/
+models/
+schemas/
+migrations/
+
+extensions.py
+main.py
+requirements.txt
+README.md
+```
+
+Each layer has a clear responsibility.
+
+### Controllers
+
+Business logic and API endpoints.
+
+### Models
+
+Database schema using SQLAlchemy.
+
+### Schemas
+
+Validation and serialization using Marshmallow.
+
+### Extensions
+
+Application-wide singleton instances.
+
+### Migrations
+
+Database version control.
+
+---
+
+# Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/yourusername/gemspot-backend.git
+
 cd gemspot-backend
+```
 
-# Create virtual environment
-python3 -m venv venv
+Create a virtual environment
 
-# Activate environment
-source venv/bin/activate        # macOS/Linux
-# venv\Scripts\activate         # Windows
-2. Install DependenciesBashpip install -r requirements.txt
-3. Configure Environment VariablesCreate a .env file in the root folder:Code snippetFLASK_APP=main.py
+```bash
+python -m venv venv
+```
+
+Activate it
+
+Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+Windows
+
+```bash
+venv\Scripts\activate
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Environment Variables
+
+Create a `.env` file
+
+```
+SECRET_KEY=
+
+JWT_SECRET_KEY=
+
+DATABASE_URL=
+
+MAPBOX_API_KEY=
+
+OPENWEATHER_API_KEY=
+
+GOOGLE_CLIENT_ID=
+
+GOOGLE_CLIENT_SECRET=
+
 FLASK_ENV=development
-SECRET_KEY=dev_secret_key_change_in_production
-JWT_SECRET_KEY=jwt_secret_key_change_in_production
-DATABASE_URL=sqlite:///instance/gemspot.db
-4. Initialize Database & Run MigrationsBashexport FLASK_APP=main.py
-flask db upgrade
-5. Run the API ServerBashpython main.py
-The API will start running at [http://127.0.0.1:5000/](http://127.0.0.1:5000/).🔄 The Migration WorkflowRepeat this three-step workflow whenever model schema definitions change:Bash# 1. Update Python models in models/ folder
-# 2. Generate a new migration script
-flask db migrate -m "add verified_status to places"
+```
 
-# 3. Apply changes to the target database
+---
+
+# Running the Application
+
+Initialize migrations
+
+```bash
+flask db init
+```
+
+Generate migration
+
+```bash
+flask db migrate
+```
+
+Apply migration
+
+```bash
 flask db upgrade
-⚠️ Note: Always review generated migration files inside migrations/versions/ before applying them with flask db upgrade.🚀 Core REST API EndpointsAll routes are versioned under /api/v1.Auth Endpoints (/api/v1/auth)POST /register — Register new user account.POST /login — Authenticate user and return JWT access token.GET /me — Get current authenticated user details (Requires JWT).Place & Discovery Endpoints (/api/v1/places)GET / — Search/filter places (Params: category, max_budget, mpesa_only, vibe).GET /<int:place_id> — Fetch detailed venue profile & logistics metadata.POST / — Add a new venue listing (Admin/Business host).Vibe Checks (/api/v1/vibes)GET /<int:place_id> — Fetch current real-time crowd level (Packed, Moderate, Quiet) and weather status.POST /<int:place_id> — Submit crowdsourced live update (Requires JWT).Events (/api/v1/events)GET / — Retrieve upcoming local events and ticketing links.POST /<int:event_id>/bookmark — Bookmark an event to user calendar (Requires JWT).🔗 Frontend Integration Guidelines (React 19 + Vite)Authorization Headers: Attach JWT tokens to outgoing Axios or Fetch requests:JavaScriptheaders: {
-  Authorization: `Bearer ${token}`
-}
-CORS Support: CORS is configured to allow requests from local frontend servers (http://localhost:5173 or http://localhost:3000).Array Null-Safety: API response fields returning list collections (e.g., images, reviews, tags) default to empty arrays [] rather than null to avoid rendering crashes.🛠 Command Cheat SheetActionCommandActivate virtual environmentsource venv/bin/activateInstall dependenciespip install -r requirements.txtRun development serverpython main.pyGenerate database migrationflask db migrate -m "description"Apply database migrationflask db upgradeRollback last migrationflask db downgradeLaunch Flask Shellflask shell❓ Troubleshooting1. ModuleNotFoundError on server startEnsure your virtual environment is active ((venv) should appear in terminal prompt) and run pip install -r requirements.txt.2. JWT Header missing / 401 UnauthorizedVerify that the frontend request includes the exact string format Bearer <token> in the HTTP Authorization header.3. Database lock / migration conflictIf migration histories diverge during team development, run flask db history to inspect conflicting migration heads, or reset local development databases in non-production environments by deleting instance/gemspot.db and running flask db upgrade.
+```
+
+Run server
+
+```bash
+flask run
+```
+
+or
+
+```bash
+python main.py
+```
+
+---
+
+# API Modules
+
+## Authentication
+
+```
+POST   /auth/register
+
+POST   /auth/login
+
+POST   /auth/logout
+
+POST   /auth/reset-password
+```
+
+---
+
+## Users
+
+```
+GET    /users/profile
+
+PUT    /users/profile
+
+PATCH  /users/avatar
+```
+
+---
+
+## Places
+
+```
+GET    /places
+
+GET    /places/<id>
+
+POST   /places
+
+PATCH  /places/<id>
+
+DELETE /places/<id>
+```
+
+---
+
+## Reviews
+
+```
+GET
+
+POST
+
+PATCH
+
+DELETE
+```
+
+---
+
+## Favorites
+
+```
+GET
+
+POST
+
+DELETE
+```
+
+---
+
+## Events
+
+```
+GET
+
+POST
+
+PATCH
+
+DELETE
+```
+
+---
+
+## Categories
+
+```
+GET
+
+POST
+
+PATCH
+
+DELETE
+```
+
+---
+
+## Vibe Checks
+
+```
+GET
+
+POST
+```
+
+---
+
+## Admin
+
+```
+Verify Listings
+
+Moderate Reviews
+
+Approve Events
+
+Manage Users
+```
+
+---
+
+# Authentication
+
+GemSpot KE uses JWT Authentication.
+
+Protected endpoints require
+
+```
+Authorization
+
+Bearer <JWT Token>
+```
+
+Passwords are never stored in plaintext and are securely hashed using bcrypt before persistence.
+
+---
+
+# Core Functionalities
+
+- Intelligent Search
+- Budget-Based Filtering
+- Nearby Discovery
+- Event Discovery
+- Community Reviews
+- Photo Uploads
+- Video Uploads
+- Favorites
+- Live Crowd Reports
+- Weather Integration
+- Google Calendar Integration
+- Personalized Recommendations
+- Verified Listings
+- Administrative Moderation
+
+---
+
+# Security Features
+
+- JWT Authentication
+- bcrypt Password Hashing
+- SQL Injection Protection
+- CSRF Protection
+- XSS Protection
+- Input Validation
+- Role-Based Access Control
+- Environment Variable Secrets
+- CORS Configuration
+
+---
+
+# Future Improvements
+
+- AI-powered recommendations
+- Push notifications
+- Business analytics dashboard
+- Premium business listings
+- Recommendation engine
+- Machine learning personalization
+- Redis caching
+- Elasticsearch
+- WebSockets for live crowd updates
+- Mobile API versioning
+
+---
+
+# Deployment
+
+Production deployment supports
+
+- Render
+- Railway
+- AWS
+- DigitalOcean
+
+Recommended production stack
+
+```
+Gunicorn
+
+PostgreSQL
+
+Nginx
+
+GitHub Actions
+
+HTTPS
+```
+
+---
+
+# Contributing
+
+Contributions are welcome.
+
+To contribute:
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit your changes.
+4. Push your branch.
+5. Open a Pull Request.
+
+---
+
+# License
+
+This project is intended for educational and portfolio purposes.
+
+© 2026 GemSpot KE
+
+Built with ❤️ in Kenya.
