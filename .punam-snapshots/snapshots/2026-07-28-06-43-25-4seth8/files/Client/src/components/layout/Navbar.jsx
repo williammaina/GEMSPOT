@@ -15,9 +15,6 @@ export function Navbar() {
     { name: 'Events', path: '/events', icon: CalendarDays },
   ];
 
-
-  
-
   const isActive = (path) => location.pathname + location.search === path;
 
   return (
