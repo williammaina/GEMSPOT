@@ -1,0 +1,5 @@
+
+.Bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; display: flex; justify-content: space-around; padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); background: var(--navbar-bg); border-top: 1px solid var(--color-border); backdrop-filter: blur(12px); }
+@media (min-width: 768px) { .Bar { display: none; } }
+.Tab, .TabActive { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 12px; border-radius: 12px; font-size: 0.68rem; font-weight: 700; color: var(--color-text-muted); text-decoration: none; }
+.TabActive { color: var(--color-primary); }

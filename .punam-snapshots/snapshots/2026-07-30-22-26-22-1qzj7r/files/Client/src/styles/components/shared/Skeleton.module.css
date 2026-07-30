@@ -1,0 +1,4 @@
+
+.Skeleton { background: linear-gradient(90deg, var(--color-surface-soft), var(--color-border), var(--color-surface-soft)); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 12px; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.Card { height: 220px; border-radius: 16px; }
