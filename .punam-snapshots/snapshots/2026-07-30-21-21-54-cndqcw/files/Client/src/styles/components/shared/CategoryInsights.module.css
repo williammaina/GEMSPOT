@@ -1,0 +1,319 @@
+.Root {
+  margin: 8px 0 22px;
+  padding: 20px 22px;
+  border-radius: 22px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-sm);
+  animation: riseIn 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.Root[data-variant='nature'] {
+  border-color: rgba(16, 185, 129, 0.22);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.08), transparent 42%),
+    var(--card-bg);
+}
+.Root[data-variant='action'] {
+  border-color: rgba(59, 130, 246, 0.22);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.08), transparent 42%),
+    var(--card-bg);
+}
+.Root[data-variant='eats'] {
+  border-color: rgba(245, 158, 11, 0.22);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.08), transparent 42%),
+    var(--card-bg);
+}
+.Root[data-variant='nightlife'] {
+  border-color: rgba(167, 139, 250, 0.28);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(167, 139, 250, 0.1), transparent 42%),
+    var(--card-bg);
+}
+
+.Header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.IconShell {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.Root[data-variant='eats'] .IconShell {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.Root[data-variant='nightlife'] .IconShell {
+  background: rgba(167, 139, 250, 0.16);
+  color: #a78bfa;
+}
+.Root[data-variant='action'] .IconShell {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+
+.Title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+.Sub {
+  margin: 3px 0 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.ActivityGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.ActivityCard {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  animation: riseIn 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.ActivityTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+.ActivityTop strong {
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.ActivityMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+.ActivityMeta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.Intensity {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.Block {
+  margin-top: 14px;
+}
+.BlockTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-soft);
+}
+
+.ReqList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ReqList li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  animation: riseIn 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.ReqList strong {
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+.ReqList span {
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.ChipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.Chip,
+.ChipSoft {
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.Chip {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border-accent);
+}
+.ChipSoft {
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.MenuList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.MenuRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  animation: riseIn 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+.MenuRow:hover {
+  transform: translateX(3px);
+  border-color: var(--color-border-accent);
+}
+.MenuMain {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+.MenuIcon {
+  color: var(--color-primary);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.Root[data-variant='eats'] .MenuIcon {
+  color: var(--color-warning);
+}
+.Root[data-variant='nightlife'] .MenuIcon {
+  color: #a78bfa;
+}
+.MenuMain strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--color-text);
+}
+.MenuNote {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+.MenuPrice {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.MetaPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.MetaPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(167, 139, 250, 0.12);
+  color: #a78bfa;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.TipBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-border-accent);
+  color: var(--color-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.Root[data-variant='eats'] .TipBar {
+  background: var(--color-warning-soft);
+  border-color: rgba(245, 158, 11, 0.28);
+}
+.Root[data-variant='nightlife'] .TipBar {
+  background: rgba(167, 139, 250, 0.12);
+  border-color: rgba(167, 139, 250, 0.28);
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Root,
+  .ActivityCard,
+  .ReqList li,
+  .MenuRow {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .Root {
+    padding: 16px;
+  }
+  .ActivityGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

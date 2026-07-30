@@ -1,0 +1,160 @@
+.HeroContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.SearchForm { width: 100%; }
+.SearchWrapper { width: 100%; position: relative; }
+
+.SearchInput {
+  width: 100%;
+  padding: 16px 18px;
+  padding-right: 78px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  outline: none;
+  box-shadow: var(--shadow-md);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.SearchInput::placeholder { color: var(--color-text-soft); }
+
+.SearchInput:focus {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.SearchButton {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--color-border-accent);
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.SearchButton:hover {
+  transform: translateY(-50%) scale(1.03);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.SearchIcon { pointer-events: none; }
+
+.PillRow {
+  display: flex;
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+  .SearchInput { padding: 14px 16px; padding-right: 68px; font-size: 0.92rem; }
+  .SearchButton { width: 40px; height: 40px; }
+}
+
+.ModeRow {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+}
+.Mode,
+.ModeActive {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-muted);
+}
+.ModeActive {
+  background: var(--card-bg);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
+}
+.RecentRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.RecentLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-soft);
+}
+.RecentChip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.RecentChip:hover {
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+}
+
+.SearchWrapper {
+  position: relative;
+}
+.Suggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 20;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-lg);
+}
+.Suggestions button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.Suggestions button:hover {
+  background: var(--color-surface-soft);
+}

@@ -1,0 +1,38 @@
+.Bar {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .Bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 95;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--color-border);
+    background: var(--navbar-bg);
+    backdrop-filter: blur(16px);
+  }
+
+  .Tab,
+  .TabActive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 4px;
+    text-decoration: none;
+    color: var(--color-text-soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .TabActive {
+    color: var(--color-primary);
+  }
+}

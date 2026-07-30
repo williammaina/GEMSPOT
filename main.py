@@ -58,6 +58,26 @@ def create_app():
     app.register_blueprint(admin_bp)
 
     # ------------------------------------------------------------------
+    # Custom CLI Commands
+    # ------------------------------------------------------------------
+    @app.cli.command("seed")
+    def seed_db():
+        """Seed initial data into the database."""
+        try:
+            from seed import seed_data
+            seed_data()
+        except ImportError:
+            # Fallback if seed.py executes on import or uses a different function name
+            import seed
+            if hasattr(seed, "seed_data"):
+                seed.seed_data()
+            elif hasattr(seed, "seed"):
+                seed.seed()
+            elif hasattr(seed, "run"):
+                seed.run()
+        print("Database seeding process completed!")
+
+    # ------------------------------------------------------------------
     # Custom JWT Error Responses
     # ------------------------------------------------------------------
     @jwt.unauthorized_loader

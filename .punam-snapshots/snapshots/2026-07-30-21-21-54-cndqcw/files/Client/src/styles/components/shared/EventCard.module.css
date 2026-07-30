@@ -1,0 +1,244 @@
+.Card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.Card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
+}
+
+.Card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.FeaturedCard {
+  border-color: var(--color-border-accent);
+}
+
+.ImageContainer {
+  position: relative;
+  width: 100%;
+  height: 168px;
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+}
+
+.FeaturedImage {
+  height: 190px;
+}
+
+.Image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.Card:hover .Image {
+  transform: scale(1.05);
+}
+
+.DateBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+  line-height: 1.1;
+}
+
+[data-theme="dark"] .DateBadge {
+  background: rgba(18, 25, 40, 0.94);
+  color: var(--color-text);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.DateWeekday {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+}
+
+[data-theme="light"] .DateWeekday {
+  color: #94a3b8;
+}
+
+.DateDay {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-top: 2px;
+}
+
+.DateMonth {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-top: 1px;
+}
+
+.DateFallback {
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.CategoryChip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.Content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 16px 18px;
+  flex: 1;
+}
+
+.Title {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+
+.InfoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.InfoRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.MetaIcon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.MetaIconWarn {
+  color: var(--color-warning);
+  flex-shrink: 0;
+}
+
+.CtaWrapper {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.CalendarCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.CalendarCta:hover {
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.CalendarCta:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .ImageContainer {
+    height: 148px;
+  }
+
+  .FeaturedImage {
+    height: 160px;
+  }
+}
+
+.CardLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.CalendarBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 14px 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.CalendarBtn:hover {
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+}
+
+.HostLine {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}

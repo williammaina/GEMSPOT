@@ -1,0 +1,122 @@
+.ReviewContainer {
+  position: relative;
+  margin-top: var(--space-8, 32px);
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
+  padding: var(--space-6, 24px);
+  box-shadow: var(--shadow-md);
+}
+
+.HeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-5, 20px);
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
+}
+
+.Title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg, 18px);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.FilterDropdown {
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  border-radius: var(--radius-md, 14px);
+  outline: none;
+  font-family: var(--font-body);
+  font-size: var(--text-sm, 14px);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.FilterDropdown:hover {
+  border-color: var(--color-border-accent);
+}
+
+.FilterDropdown option {
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text);
+}
+
+.ReviewList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5, 20px);
+}
+
+.ReviewItem {
+  display: flex;
+  gap: var(--space-4, 16px);
+  padding-bottom: var(--space-5, 20px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ReviewItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.Avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-elevated);
+  flex-shrink: 0;
+}
+
+.ReviewContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+}
+
+.ReviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
+}
+
+.AuthorName {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: var(--text-sm, 14px);
+}
+
+.RatingRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--color-warning);
+}
+
+.StarUnfilled {
+  color: var(--color-border);
+}
+
+.ReviewText {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm, 14px);
+  line-height: 1.65;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .ReviewContainer { padding: 18px; }
+  .HeaderRow { flex-direction: column; align-items: flex-start; }
+  .FilterDropdown { width: 100%; }
+}

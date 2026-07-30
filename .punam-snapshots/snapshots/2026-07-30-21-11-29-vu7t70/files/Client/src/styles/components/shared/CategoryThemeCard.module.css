@@ -1,0 +1,59 @@
+.ThemeCard {
+  position: relative;
+  display: block;
+  height: 200px;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.ThemeCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.BackgroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.GradientOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.72) 100%);
+}
+
+.Badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.BadgeEmerald { background: rgba(16,185,129,0.9); color: #fff; }
+.BadgeAmber { background: rgba(245,158,11,0.9); color: #fff; }
+.BadgeSapphire { background: rgba(59,130,246,0.9); color: #fff; }
+.BadgeRuby { background: rgba(239,68,68,0.9); color: #fff; }
+
+.ThemeEmerald, .ThemeAmber, .ThemeSapphire, .ThemeRuby {}
+
+.Title {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  margin: 0;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}

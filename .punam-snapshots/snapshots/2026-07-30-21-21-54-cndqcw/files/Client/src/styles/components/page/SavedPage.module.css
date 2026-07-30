@@ -1,0 +1,203 @@
+.Page {
+  width: min(1100px, calc(100% - 1.75rem));
+  margin: 0 auto;
+  padding: 96px 0 64px;
+}
+
+.Header {
+  margin-bottom: 32px;
+}
+
+.Eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.Title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 1.5rem + 1.2vw, 2.6rem);
+  letter-spacing: -0.045em;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.Sub {
+  margin: 10px 0 0;
+  color: var(--color-text-muted);
+  font-size: 1.02rem;
+  max-width: 520px;
+  line-height: 1.55;
+}
+
+.Section {
+  margin-bottom: 40px;
+}
+
+.SectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.SectionHead h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.SectionHead span {
+  color: var(--color-text-soft);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.Grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.Empty {
+  padding: 28px;
+  border-radius: 18px;
+  border: 1px dashed var(--color-border);
+  background: var(--color-surface-soft);
+  text-align: center;
+}
+
+.Empty p {
+  margin: 0 0 14px;
+  color: var(--color-text-muted);
+}
+
+.Cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.SimpleList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.SimpleList a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 150ms ease;
+}
+
+.SimpleList a:hover {
+  border-color: var(--color-border-accent);
+}
+
+.SimpleList strong {
+  font-size: 0.98rem;
+  letter-spacing: -0.02em;
+}
+
+.SimpleList span {
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+}
+
+.HeaderActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.PrimaryLink,
+.GhostLink,
+.CtaGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.PrimaryLink {
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+}
+[data-theme='dark'] .PrimaryLink {
+  background: var(--color-primary);
+  color: #04140f;
+}
+.GhostLink,
+.CtaGhost {
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  background: var(--color-surface-soft);
+}
+.EmptyIcon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+.EmptyTitle {
+  margin: 0 0 6px;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--color-text);
+}
+.EmptyLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 14px;
+}
+.EmptyInline {
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+.EmptyInline a {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.SectionHead h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
