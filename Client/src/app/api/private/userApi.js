@@ -1,19 +1,17 @@
-import axios from 'axios';
+import {
+  submitReviewHandler,
+  fetchFavoritesHandler,
+  addFavoriteHandler,
+  removeFavoriteHandler,
+  fetchCurrentUserHandler,
+  updateUserHandler,
+} from '../../../library/handlers/apiHandler.js';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api/v1';
+export const submitPlaceReview = (reviewData) => submitReviewHandler(reviewData);
 
-// Helper to attach authorization header
-const getAuthHeaders = () => ({
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`
-  }
-});
+export const getFavorites = () => fetchFavoritesHandler();
+export const addFavorite = (placeId) => addFavoriteHandler(placeId);
+export const removeFavorite = (placeId) => removeFavoriteHandler(placeId);
 
-export const submitPlaceReview = async (placeId, reviewData) => {
-  const response = await axios.post(
-    `${API_URL}/places/${placeId}/reviews`,
-    reviewData,
-    getAuthHeaders()
-  );
-  return response.data;
-};
+export const getCurrentUser = () => fetchCurrentUserHandler();
+export const updateCurrentUser = (payload) => updateUserHandler(payload);

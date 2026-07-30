@@ -1,252 +1,280 @@
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
+  Bus,
   CalendarDays,
+  Coffee,
   Compass,
   MapPin,
-  ShieldCheck,
+  Music2,
   Sparkles,
-  Sparkles as SparklesIcon,
+  Trees,
   Wallet,
-  Wifi,
+  Zap,
 } from 'lucide-react';
-import { MasterSearch, CategoryThemeCard } from '@components';
+import { MasterSearch } from '@components';
+import { useEvents } from '@library';
 import { HomePageStyles as styles } from '@styles';
 
-const cityPills = ['Nairobi', 'Mombasa', 'Kisumu', 'Nakuru'];
-
-const metrics = [
-  { value: '250+', label: 'curated places & moments' },
-  { value: '8', label: 'signals that matter' },
-  { value: '1 tap', label: 'from search to plan' },
-];
-
-const discoverySignals = [
+const floatCards = [
   {
-    icon: MapPin,
-    title: 'Localized context',
-    text: 'Parking, M-Pesa, Wi-Fi, dress code, and crowd vibe in one glance.',
-  },
-  {
-    icon: CalendarDays,
-    title: 'Weekend-ready events',
-    text: 'Move from discovery to calendar without leaving the experience.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Confidence before you go',
-    text: 'Practical details that help you choose faster and avoid surprises.',
-  },
-  {
-    icon: Compass,
-    title: 'Fast discovery flow',
-    text: 'Browse by mood, budget, or occasion instead of scrolling endlessly.',
-  },
-];
-
-const categories = [
-  {
-    title: 'Explore Nature\n& Trails',
-    theme: 'emerald',
-    badgeLabel: 'Emerald',
+    title: 'Tigoni Tea Walk',
+    meta: 'Limuru · Kiambu',
+    tone: 'emerald',
     image:
-      'https://images.unsplash.com/photo-1518182170546-076616fdacaf?q=80&w=1200&auto=format&fit=crop',
-    path: '/explore?category=nature',
+      'https://images.unsplash.com/photo-1518182170546-076616fdacaf?q=80&w=400&auto=format&fit=crop',
   },
   {
-    title: 'Cafés & Dining\nRooms',
-    theme: 'amber',
-    badgeLabel: 'Amber',
+    title: 'Westlands Live Night',
+    meta: 'Tonight · 9 PM',
+    tone: 'ruby',
     image:
-      'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop',
-    path: '/explore?category=eats',
+      'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=400&auto=format&fit=crop',
   },
   {
-    title: 'Action & Play\nVenues',
-    theme: 'sapphire',
-    badgeLabel: 'Sapphire',
+    title: 'Karura Morning Run',
+    meta: 'Sat · 6:30 AM',
+    tone: 'amber',
     image:
-      'https://images.unsplash.com/photo-1583120194098-b8ce7711df77?q=80&w=1200&auto=format&fit=crop',
-    path: '/explore?category=action',
+      'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=400&auto=format&fit=crop',
   },
   {
-    title: 'Events & Social\nPulse',
-    theme: 'ruby',
-    badgeLabel: 'Ruby',
+    title: 'Nyali Coffee Yard',
+    meta: 'Mombasa · Open now',
+    tone: 'sapphire',
     image:
-      'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=1200&auto=format&fit=crop',
-    path: '/events',
+      'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=400&auto=format&fit=crop',
+  },
+  {
+    title: 'Mad Max Karting',
+    meta: 'Two Rivers · Ruaka',
+    tone: 'violet',
+    image:
+      'https://images.unsplash.com/photo-1583120194098-b8ce7711df77?q=80&w=400&auto=format&fit=crop',
+  },
+  {
+    title: 'Diani Sunset Deck',
+    meta: 'Kwale · Coast',
+    tone: 'coral',
+    image:
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop',
   },
 ];
 
-const valueCards = [
-  {
-    icon: ShieldCheck,
-    title: 'No surprises before you leave',
-    text: 'See the numbers, logistics, and vibe signals that actually affect the outing.',
-  },
-  {
-    icon: CalendarDays,
-    title: 'Events with immediate action',
-    text: 'Move from discovery to calendar planning in one clean flow.',
-  },
-  {
-    icon: Compass,
-    title: 'A clear way to explore',
-    text: 'Browse by mood, budget, and occasion instead of endless generic listings.',
-  },
+const browseCategories = [
+  { label: 'Nature', icon: Trees, path: '/explore?category=nature', color: '#34d399' },
+  { label: 'Eats', icon: Coffee, path: '/explore?category=eats', color: '#fbbf24' },
+  { label: 'Nightlife', icon: Music2, path: '/explore?category=nightlife', color: '#a78bfa' },
+  { label: 'Action', icon: Zap, path: '/explore?category=action', color: '#60a5fa' },
+  { label: 'Events', icon: CalendarDays, path: '/events', color: '#f472b6' },
+  { label: 'Near you', icon: MapPin, path: '/explore?sort=distance', color: '#2dd4bf' },
+  { label: 'Budget', icon: Wallet, path: '/explore?budget=under1500', color: '#fb923c' },
+  { label: 'Matatu-ready', icon: Bus, path: '/explore', color: '#94a3b8' },
 ];
+
+const cities = [
+  { name: 'Nairobi', path: '/explore?q=Nairobi' },
+  { name: 'Mombasa', path: '/explore?q=Mombasa' },
+  { name: 'Kisumu', path: '/explore?q=Kisumu' },
+  { name: 'Nakuru', path: '/explore?q=Nakuru' },
+  { name: 'Kiambu', path: '/explore?q=Tigoni' },
+];
+
+function formatEventWhen(event) {
+  const bits = [event.weekday, event.day, event.month, event.time].filter(Boolean);
+  if (bits.length) return bits.join(' · ');
+  if (event.startDate) {
+    try {
+      return new Date(event.startDate).toLocaleString('en', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+      });
+    } catch {
+      return 'Upcoming';
+    }
+  }
+  return 'Upcoming';
+}
 
 export function HomePage() {
+  const { events, loading } = useEvents({ category: 'all' });
+  const featured = events.slice(0, 8);
+
   return (
-    <main className={styles.HomeLayout}>
-      <section className={styles.HeroSection} aria-labelledby="home-hero-title">
-        <div className={styles.HeroGrid}>
-          <div className={styles.HeroCopy}>
-            <p className={styles.Eyebrow}>
-              <SparklesIcon size={14} aria-hidden="true" />
-              Discovery-first urban lifestyle platform
-            </p>
+    <main className={styles.Page}>
+      <div className={styles.GlowA} aria-hidden="true" />
+      <div className={styles.GlowB} aria-hidden="true" />
+      <div className={styles.DotGrid} aria-hidden="true" />
 
-            <div className={styles.CityRow} aria-label="Available cities">
-              {cityPills.map((city) => (
-                <span key={city} className={styles.CityPill}>
-                  {city}
-                </span>
-              ))}
-            </div>
+      <section className={styles.Hero}>
+        <div className={styles.FloatField} aria-hidden="true">
+          {floatCards.map((card, i) => (
+            <article
+              key={card.title}
+              className={styles.FloatCard}
+              data-i={i}
+              data-tone={card.tone}
+            >
+              <img src={card.image} alt="" loading="lazy" />
+              <div>
+                <strong>{card.title}</strong>
+                <span>{card.meta}</span>
+              </div>
+            </article>
+          ))}
+        </div>
 
-            <h1 id="home-hero-title" className={styles.HeroTitle}>
-              Curated Kenya.
-              <br />
-              No surprises.
-            </h1>
+        <div className={styles.HeroCore}>
+          <p className={styles.Eyebrow}>
+            <Sparkles size={14} /> GemSpot KE
+          </p>
+          <h1 className={styles.HeroTitle}>
+            Delightful nights
+            <br />
+            <span className={styles.GradientText}>start here</span>
+          </h1>
+          <p className={styles.HeroSub}>
+            Curated places and events across Kenya — budgets, matatus, M-Pesa, and vibe
+            built in. No surprises.
+          </p>
 
-            <p className={styles.HeroSubtitle}>
-              Search places, experiences, and events with budgets, parking, M-Pesa, and vibe
-              context built in. GemSpot KE is designed to help people decide faster and step out
-              with confidence.
-            </p>
-
-            <div className={styles.ActionRow}>
-              <Link to="/explore" className={styles.PrimaryButton}>
-                Start exploring
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-
-              <Link to="/events" className={styles.SecondaryButton}>
-                Browse events
-              </Link>
-            </div>
-
-            <div className={styles.MetricsRow} aria-label="Platform highlights">
-              {metrics.map((metric) => (
-                <div key={metric.label} className={styles.MetricCard}>
-                  <strong className={styles.MetricValue}>{metric.value}</strong>
-                  <span className={styles.MetricLabel}>{metric.label}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.SearchShell}>
-              <MasterSearch />
-            </div>
+          <div className={styles.HeroCtas}>
+            <Link to="/explore" className={styles.PrimaryCta}>
+              Explore places
+              <ArrowRight size={16} />
+            </Link>
+            <Link to="/events" className={styles.GhostCta}>
+              Discover events
+            </Link>
           </div>
 
-          <aside className={styles.HeroPanel} aria-label="Discovery highlights">
-            <div className={styles.PanelHeader}>
-              <span className={styles.PanelEyebrow}>
-                <Sparkles size={14} aria-hidden="true" />
-                Live discovery dashboard
-              </span>
-              <h2 className={styles.PanelTitle}>Every signal that matters, up front.</h2>
-              <p className={styles.PanelText}>
-                A homepage built like a premium product landing page: sharper hierarchy, cleaner
-                choices, and practical details that make planning feel effortless.
-              </p>
-            </div>
-
-            <div className={styles.SignalGrid}>
-              {discoverySignals.map((signal) => {
-                const Icon = signal.icon;
-                return (
-                  <article key={signal.title} className={styles.SignalCard}>
-                    <span className={styles.SignalIcon}>
-                      <Icon size={18} aria-hidden="true" />
-                    </span>
-                    <h3 className={styles.SignalTitle}>{signal.title}</h3>
-                    <p className={styles.SignalText}>{signal.text}</p>
-                  </article>
-                );
-              })}
-            </div>
-
-            <div className={styles.PanelFooter}>
-              <div className={styles.FooterLine}>
-                <Wallet size={16} aria-hidden="true" />
-                Budget-aware planning for real-world outings
-              </div>
-              <div className={styles.FooterLine}>
-                <Wifi size={16} aria-hidden="true" />
-                Reliable details for work, dates, and group plans
-              </div>
-            </div>
-          </aside>
+          <div className={styles.SearchShell}>
+            <MasterSearch />
+          </div>
         </div>
       </section>
 
-      <section className={styles.CategoriesSection} aria-labelledby="browse-categories">
-        <div className={styles.SectionHeader}>
-          <div>
-            <h2 id="browse-categories" className={styles.SectionTitle}>
-              Curated entry points for every kind of plan
-            </h2>
-            <p className={styles.SectionDescription}>
-              Move into the part of the platform that matches your mood: quiet, social, active, or
-              event-driven.
-            </p>
-          </div>
+      <section className={styles.Section} aria-labelledby="featured-events">
+        <div className={styles.SectionHead}>
+          <h2 id="featured-events">Upcoming in Kenya</h2>
+          <Link to="/events" className={styles.SectionLink}>
+            See all <ArrowRight size={14} />
+          </Link>
         </div>
 
-        <div className={styles.CategoriesGrid}>
-          {categories.map((cat) => (
-            <CategoryThemeCard
-              key={cat.path}
-              title={cat.title}
-              theme={cat.theme}
-              badgeLabel={cat.badgeLabel}
-              image={cat.image}
-              path={cat.path}
-            />
+        <div className={styles.EventRail}>
+          {loading &&
+            Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className={styles.EventRailSkeleton} />
+            ))}
+          {!loading &&
+            featured.map((event) => (
+              <Link
+                key={event.id}
+                to={`/event/${event.id}`}
+                className={styles.EventRailCard}
+              >
+                <div className={styles.EventRailMedia}>
+                  {event.image ? (
+                    <img src={event.image} alt="" loading="lazy" />
+                  ) : (
+                    <div className={styles.EventRailPlaceholder} />
+                  )}
+                </div>
+                <h3>{event.title}</h3>
+                <p>{formatEventWhen(event)}</p>
+                {event.location && <span>{event.location}</span>}
+              </Link>
+            ))}
+          {!loading && featured.length === 0 && (
+            <p className={styles.EmptyHint}>Events will appear here once seeded.</p>
+          )}
+        </div>
+      </section>
+
+      <section className={styles.Section} aria-labelledby="browse-cat">
+        <div className={styles.SectionHead}>
+          <h2 id="browse-cat">Browse by vibe</h2>
+        </div>
+        <div className={styles.CategoryGrid}>
+          {browseCategories.map((cat) => {
+            const Icon = cat.icon;
+            return (
+              <Link
+                key={cat.label}
+                to={cat.path}
+                className={styles.CategoryTile}
+                style={{ ['--tile-accent']: cat.color }}
+              >
+                <span className={styles.CategoryIcon}>
+                  <Icon size={20} strokeWidth={1.75} />
+                </span>
+                <span className={styles.CategoryLabel}>{cat.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.Section} aria-labelledby="cities">
+        <div className={styles.SectionHead}>
+          <h2 id="cities">Explore cities</h2>
+        </div>
+        <div className={styles.CityRow}>
+          {cities.map((c) => (
+            <Link key={c.name} to={c.path} className={styles.CityChip}>
+              <MapPin size={14} />
+              {c.name}
+            </Link>
           ))}
         </div>
       </section>
 
-      <section className={styles.ValueSection} aria-labelledby="why-gemspot">
-        <div className={styles.SectionHeader}>
-          <div>
-            <h2 id="why-gemspot" className={styles.SectionTitle}>
-              Designed for the way people actually plan their day
-            </h2>
-            <p className={styles.SectionDescription}>
-              The interface combines the clarity of a polished website with the speed of a high-signal dashboard.
-            </p>
-          </div>
+      <section className={styles.Section} aria-labelledby="why">
+        <div className={styles.SectionHead}>
+          <h2 id="why">Why GemSpot feels different</h2>
         </div>
+        <div className={styles.WhyGrid}>
+          <article className={styles.WhyCard}>
+            <Wallet size={20} />
+            <h3>Damage for two</h3>
+            <p>Real budget ranges before you leave the house — not surprise bills.</p>
+          </article>
+          <article className={styles.WhyCard}>
+            <Bus size={20} />
+            <h3>Matatu directions</h3>
+            <p>Stage hints and routes so getting there is part of the plan.</p>
+          </article>
+          <article className={styles.WhyCard}>
+            <CalendarDays size={20} />
+            <h3>Calendar-ready events</h3>
+            <p>One tap into Google or Apple Calendar. Interest tracking included.</p>
+          </article>
+          <article className={styles.WhyCard}>
+            <Compass size={20} />
+            <h3>Kenya-first curation</h3>
+            <p>From Tigoni tea ridges to Nyali nights — local, not generic.</p>
+          </article>
+        </div>
+      </section>
 
-        <div className={styles.ValueGrid}>
-          {valueCards.map((card) => {
-            const Icon = card.icon;
-            return (
-              <article key={card.title} className={styles.ValueCard}>
-                <div className={styles.ValueIcon}>
-                  <Icon size={18} aria-hidden="true" />
-                </div>
-                <h3 className={styles.ValueTitle}>{card.title}</h3>
-                <p className={styles.ValueText}>{card.text}</p>
-              </article>
-            );
-          })}
+      <section className={styles.CloseBand}>
+        <h2>
+          Your next <span className={styles.GradientText}>unforgettable</span>
+          <br />
+          memory awaits
+        </h2>
+        <p>Plan the place, the event, and the ride — then go.</p>
+        <div className={styles.HeroCtas}>
+          <Link to="/explore" className={styles.PrimaryCta}>
+            Start exploring
+          </Link>
+          <Link to="/register" className={styles.GhostCta}>
+            Create free account
+          </Link>
         </div>
       </section>
     </main>

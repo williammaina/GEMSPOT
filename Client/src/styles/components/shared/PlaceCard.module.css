@@ -1,57 +1,35 @@
 .Card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  background:
-    linear-gradient(180deg, rgba(18, 24, 35, 0.84), rgba(11, 16, 26, 0.76)),
-    rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
   overflow: hidden;
-  cursor: pointer;
-  color: inherit;
   text-decoration: none;
-  box-shadow: var(--shadow-md, 0 18px 48px rgba(0, 0, 0, 0.30));
-  isolation: isolate;
-  transition:
-    transform var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-    border-color var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-    box-shadow var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1));
+  color: inherit;
+  box-shadow: var(--shadow-card, var(--shadow-md));
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .Card:hover {
   transform: translateY(-4px);
-  border-color: rgba(54, 230, 195, 0.20);
-  box-shadow: var(--shadow-lg, 0 28px 84px rgba(0, 0, 0, 0.42));
-}
-
-.Card:focus-visible {
-  outline: 2px solid var(--color-primary, #36e6c3);
-  outline-offset: 3px;
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
 }
 
 .ImageContainer {
   position: relative;
   width: 100%;
-  height: 220px;
+  height: 168px;
   overflow: hidden;
-  background-color: var(--color-bg-elevated, #111827);
-}
-
-.ImageContainer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(7, 11, 16, 0.04), rgba(7, 11, 16, 0.34));
-  pointer-events: none;
+  background: var(--color-bg-elevated);
 }
 
 .Image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-slow, 300ms cubic-bezier(0.16, 1, 0.3, 1));
+  transition: transform var(--transition-slow);
 }
 
 .Card:hover .Image {
@@ -63,112 +41,155 @@
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  min-width: 0;
 }
 
 .TitleRow {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 10px;
 }
 
 .Title {
-  font-family: var(--font-display, "Sora", "Inter", system-ui, sans-serif);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-text, #f5f7fb);
-  line-height: 1.24;
-  letter-spacing: -0.03em;
   margin: 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  color: var(--color-text);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
 }
 
 .Rating {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--color-warning, #ffb14d);
-  font-family: var(--font-body, "Inter", system-ui, sans-serif);
-  font-size: var(--text-xs, 12px);
-  font-weight: 800;
-  background: rgba(255, 177, 77, 0.12);
-  padding: 4px 8px;
+  padding: 4px 9px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 177, 77, 0.22);
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+  font-size: 0.8rem;
+  font-weight: 700;
   flex-shrink: 0;
 }
 
 .DetailGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
 }
 
 .DetailRow {
-  display: flex;
-  align-items: flex-start;
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
-  color: var(--color-text-muted, #a5afbb);
-  font-size: 0.87rem;
-  line-height: 1.5;
-}
-
-.DetailRow span {
-  min-width: 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
 }
 
 .IconPrimary {
-  color: var(--color-primary, #36e6c3);
+  color: var(--color-primary);
   flex-shrink: 0;
-  margin-top: 2px;
 }
 
 .IconMuted {
-  color: var(--color-text-soft, #7f8a96);
+  color: var(--color-text-soft);
   flex-shrink: 0;
-  margin-top: 2px;
 }
 
 .VibeTags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   align-items: center;
-  padding-top: 2px;
+  gap: 6px;
+  margin-top: 2px;
 }
 
 .VibeLabel {
-  color: var(--color-text-soft, #7f8a96);
-  font-size: 0.74rem;
-  font-weight: 800;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-text-soft);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
 }
 
 .Tag {
   display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 10px;
+  padding: 4px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(54, 230, 195, 0.14);
-  background: rgba(54, 230, 195, 0.08);
-  color: var(--color-text, #f5f7fb);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
   font-size: 0.75rem;
-  font-weight: 700;
-  white-space: nowrap;
+  font-weight: 600;
 }
 
-@media (max-width: 640px) {
-  .ImageContainer {
-    height: 200px;
-  }
+.FavBtn,
+.FavBtnActive {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+  z-index: 2;
+}
 
-  .Content {
-    padding: 14px;
-  }
+.FavBtn {
+  background: rgba(255, 255, 255, 0.9);
+  color: #64748b;
+}
+
+[data-theme="dark"] .FavBtn {
+  background: rgba(18, 25, 40, 0.85);
+  color: var(--color-text-muted);
+}
+
+.FavBtnActive {
+  background: rgba(239, 68, 68, 0.95);
+  color: #fff;
+}
+
+.FavBtn:hover,
+.FavBtnActive:hover {
+  transform: scale(1.08);
+}
+
+.DistanceBadge {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+}
+
+.OpenBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  background: rgba(16, 185, 129, 0.92);
+  color: #04140f;
+}
+.OpenBadge[data-open='0'] {
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
 }

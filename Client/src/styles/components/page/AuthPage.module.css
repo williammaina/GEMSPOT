@@ -1,0 +1,191 @@
+.Page {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  place-items: center;
+  padding: 100px 16px 48px;
+}
+
+.Card {
+  width: min(420px, 100%);
+  padding: 28px 26px 24px;
+  border-radius: 22px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-lg);
+}
+
+.Brand {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.BrandIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-inverse);
+  margin-bottom: 12px;
+}
+
+.Brand h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+.Brand p {
+  margin: 8px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.Row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.Field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.Field input {
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  outline: none;
+}
+
+.Field input:focus {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.PasswordWrap {
+  position: relative;
+}
+
+.PasswordWrap input {
+  width: 100%;
+  padding-right: 42px;
+}
+
+.EyeBtn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 4px;
+}
+
+.PrimaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.PrimaryBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+[data-theme='dark'] .PrimaryBtn {
+  background: var(--color-primary);
+  color: #04140f;
+}
+
+.Error {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.Footer {
+  margin: 18px 0 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.Footer a {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.DemoHint {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.DemoHint strong {
+  color: var(--color-text);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.Spin {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .Row2 {
+    grid-template-columns: 1fr;
+  }
+}

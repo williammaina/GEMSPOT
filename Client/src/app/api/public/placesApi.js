@@ -1,13 +1,17 @@
-import axios from 'axios';
+import {
+  fetchPlacesHandler,
+  fetchPlaceByIdHandler,
+  fetchEventsHandler,
+  fetchEventByIdHandler,
+  fetchCategoriesHandler,
+  fetchVibesHandler,
+  fetchReviewsHandler,
+} from '../../../library/handlers/apiHandler.js';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api/v1';
-
-export const getPlaces = async (params = {}) => {
-  const response = await axios.get(`${API_URL}/places`, { params });
-  return response.data;
-};
-
-export const getPlaceById = async (id) => {
-  const response = await axios.get(`${API_URL}/places/${id}`);
-  return response.data;
-};
+export const getPlaces = (params = {}) => fetchPlacesHandler(params);
+export const getPlaceById = (id) => fetchPlaceByIdHandler(id);
+export const getEvents = (params = {}) => fetchEventsHandler(params);
+export const getEventById = (id) => fetchEventByIdHandler(id);
+export const getCategories = () => fetchCategoriesHandler();
+export const getVibes = () => fetchVibesHandler();
+export const getReviews = (params = {}) => fetchReviewsHandler(params);

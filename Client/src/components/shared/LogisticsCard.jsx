@@ -1,4 +1,4 @@
-import { Wallet, Smartphone, ShieldCheck, Wifi, Ticket, Shirt } from 'lucide-react';
+import { Wallet, Smartphone, ShieldCheck, Wifi, Ticket, Shirt, Bus, Clock } from 'lucide-react';
 import clsx from 'clsx';
 import { LogisticsCardStyles as styles } from '@styles';
 import { formatKES } from '@library';
@@ -18,6 +18,21 @@ function renderAvailability(value, availableLabel, unavailableLabel, fallback = 
 export function LogisticsCard({ title, type, details = {} }) {
   const isNoSurprises = type === 'no-surprises';
 
+  const matatu =
+    details.matatu ||
+    details.matatu_route ||
+    details.matatuRoute ||
+    details.transport ||
+    '';
+
+  const till =
+    details.till_number ||
+    details.tillNumber ||
+    details.till ||
+    null;
+
+  const hours = details.opening_hours || details.openingHours || details.hours || '';
+
   return (
     <article className={styles.CardWrapper}>
       {title && <h3 className={styles.CardHeader}>{title}</h3>}
@@ -30,9 +45,9 @@ export function LogisticsCard({ title, type, details = {} }) {
                 <Wallet size={16} />
               </div>
               <span>
-                Average Damage:{' '}
+                Average damage:{' '}
                 <strong className={styles.ListItemText}>
-                  {renderMoney(details.damage ?? details.damageForTwo)}
+                  {renderMoney(details.damage ?? details.damage_for_two ?? details.price ?? details.damageForTwo)}
                 </strong>{' '}
                 for two
               </span>
@@ -43,9 +58,17 @@ export function LogisticsCard({ title, type, details = {} }) {
                 <Smartphone size={16} />
               </div>
               <span>
-                M-Pesa Till:{' '}
+                M-Pesa:{' '}
                 <strong className={styles.ListItemText}>
-                  {renderAvailability(details.mpesaAvailable, 'Available', 'Cash Only')}
+                  {details.mpesaAvailable || details.mpesa_available
+                    ? till
+                      ? `Till ${till}`
+                      : 'Available'
+                    : renderAvailability(
+                        details.mpesaAvailable ?? details.mpesa_available,
+                        'Available',
+                        'Cash only'
+                      )}
                 </strong>
               </span>
             </div>
@@ -57,7 +80,11 @@ export function LogisticsCard({ title, type, details = {} }) {
               <span>
                 Parking:{' '}
                 <strong className={styles.ListItemText}>
-                  {renderAvailability(details.parking, 'Secure parking available', 'Parking not listed')}
+                  {renderAvailability(
+                    details.parking,
+                    'Secure parking available',
+                    'Limited / street parking'
+                  )}
                 </strong>
               </span>
             </div>
@@ -69,10 +96,35 @@ export function LogisticsCard({ title, type, details = {} }) {
               <span>
                 Wi-Fi:{' '}
                 <strong className={styles.ListItemText}>
-                  {renderAvailability(details.wifi, 'Reliable', 'Not available')}
+                  {renderAvailability(details.wifi, 'Available', 'Not available')}
                 </strong>
               </span>
             </div>
+
+            {/* Matatu routes — always shown when present */}
+            <div className={styles.ListItem}>
+              <div className={clsx(styles.IconWrapper, styles.RubyIcon)}>
+                <Bus size={16} />
+              </div>
+              <span>
+                Matatu:{' '}
+                <strong className={styles.ListItemText}>
+                  {matatu || 'Uber / Bolt recommended'}
+                </strong>
+              </span>
+            </div>
+
+            {hours && (
+              <div className={styles.ListItem}>
+                <div className={styles.IconWrapper}>
+                  <Clock size={16} />
+                </div>
+                <span>
+                  Hours:{' '}
+                  <strong className={styles.ListItemText}>{hours}</strong>
+                </span>
+              </div>
+            )}
           </>
         ) : (
           <>
@@ -81,7 +133,7 @@ export function LogisticsCard({ title, type, details = {} }) {
                 <Ticket size={16} />
               </div>
               <span>
-                Gate Fee:{' '}
+                Gate fee:{' '}
                 <strong className={styles.ListItemText}>
                   {details.gateFee || details.gate_fee || 'None'}
                 </strong>
@@ -93,9 +145,21 @@ export function LogisticsCard({ title, type, details = {} }) {
                 <Shirt size={16} />
               </div>
               <span>
-                Dress Code:{' '}
+                Dress code:{' '}
                 <strong className={styles.ListItemText}>
                   {details.dressCode || details.dress_code || 'Smart Casual'}
+                </strong>
+              </span>
+            </div>
+
+            <div className={styles.ListItem}>
+              <div className={clsx(styles.IconWrapper, styles.RubyIcon)}>
+                <Bus size={16} />
+              </div>
+              <span>
+                Getting there:{' '}
+                <strong className={styles.ListItemText}>
+                  {matatu || 'Check map for directions'}
                 </strong>
               </span>
             </div>

@@ -1,16 +1,11 @@
 .ReviewContainer {
   position: relative;
   margin-top: var(--space-8, 32px);
-  background:
-    linear-gradient(180deg, rgba(18, 24, 35, 0.84), rgba(11, 16, 26, 0.76)),
-    rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 22px;
   padding: var(--space-6, 24px);
-  box-shadow: var(--shadow-md, 0 18px 48px rgba(0, 0, 0, 0.30));
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  isolation: isolate;
+  box-shadow: var(--shadow-md);
 }
 
 .HeaderRow {
@@ -23,44 +18,34 @@
 }
 
 .Title {
-  font-family: var(--font-display, "Sora", "Inter", system-ui, sans-serif);
+  font-family: var(--font-display);
   font-size: var(--text-lg, 18px);
   font-weight: 700;
-  color: var(--color-text, #f5f7fb);
+  color: var(--color-text);
   letter-spacing: -0.03em;
   margin: 0;
 }
 
 .FilterDropdown {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
-    rgba(11, 16, 26, 0.90);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--color-text, #f5f7fb);
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
   padding: var(--space-2, 8px) var(--space-4, 16px);
   border-radius: var(--radius-md, 14px);
   outline: none;
-  font-family: var(--font-body, "Inter", system-ui, sans-serif);
+  font-family: var(--font-body);
   font-size: var(--text-sm, 14px);
   font-weight: 500;
   cursor: pointer;
-  transition:
-    border-color var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1)),
-    box-shadow var(--transition-fast, 150ms cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .FilterDropdown:hover {
-  border-color: rgba(54, 230, 195, 0.18);
-}
-
-.FilterDropdown:focus-visible {
-  outline: 2px solid var(--color-primary, #36e6c3);
-  outline-offset: 2px;
+  border-color: var(--color-border-accent);
 }
 
 .FilterDropdown option {
-  background-color: #0b101a;
-  color: var(--color-text, #f5f7fb);
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text);
 }
 
 .ReviewList {
@@ -73,7 +58,7 @@
   display: flex;
   gap: var(--space-4, 16px);
   padding-bottom: var(--space-5, 20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .ReviewItem:last-child {
@@ -84,10 +69,10 @@
 .Avatar {
   width: 42px;
   height: 42px;
-  border-radius: var(--radius-pill, 999px);
+  border-radius: var(--radius-pill);
   object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background-color: var(--color-bg-elevated, #111827);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-elevated);
   flex-shrink: 0;
 }
 
@@ -107,9 +92,8 @@
 }
 
 .AuthorName {
-  font-family: var(--font-body, "Inter", system-ui, sans-serif);
   font-weight: 600;
-  color: var(--color-text, #f5f7fb);
+  color: var(--color-text);
   font-size: var(--text-sm, 14px);
 }
 
@@ -117,32 +101,22 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  color: var(--color-warning, #ffb14d);
+  color: var(--color-warning);
 }
 
 .StarUnfilled {
-  color: var(--color-border, rgba(255, 255, 255, 0.12));
+  color: var(--color-border);
 }
 
 .ReviewText {
-  color: var(--color-text-muted, #a5afbb);
-  font-family: var(--font-body, "Inter", system-ui, sans-serif);
+  color: var(--color-text-muted);
   font-size: var(--text-sm, 14px);
   line-height: 1.65;
   margin: 0;
 }
 
 @media (max-width: 640px) {
-  .ReviewContainer {
-    padding: 18px;
-  }
-
-  .HeaderRow {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .FilterDropdown {
-    width: 100%;
-  }
+  .ReviewContainer { padding: 18px; }
+  .HeaderRow { flex-direction: column; align-items: flex-start; }
+  .FilterDropdown { width: 100%; }
 }

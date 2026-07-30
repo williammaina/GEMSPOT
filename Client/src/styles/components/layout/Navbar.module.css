@@ -3,303 +3,416 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  padding: 14px 0 0;
+  z-index: 100;
+  padding: 14px 16px 0;
   pointer-events: none;
 }
 
 .NavbarContainer {
   pointer-events: auto;
-  width: min(1320px, calc(100% - 1.25rem));
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 14px 16px;
-  border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background:
-    linear-gradient(135deg, rgba(15, 20, 29, 0.90), rgba(10, 14, 22, 0.78)),
-    radial-gradient(circle at top left, rgba(54, 230, 195, 0.16), transparent 28%),
-    radial-gradient(circle at top right, rgba(255, 177, 77, 0.10), transparent 24%);
-  backdrop-filter: blur(20px) saturate(1.15);
-  -webkit-backdrop-filter: blur(20px) saturate(1.15);
-  box-shadow:
-    0 18px 60px rgba(0, 0, 0, 0.36),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  justify-content: space-between;
+  gap: 12px;
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding: 10px 12px 10px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--navbar-bg);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: var(--shadow-md);
+  transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 
 .BrandMark {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  min-width: 0;
+  gap: 10px;
   text-decoration: none;
-  color: var(--color-text, #f5f7fb);
-}
-
-.BrandMark:hover {
-  opacity: 0.98;
+  color: var(--color-text);
+  flex-shrink: 0;
 }
 
 .BrandIconShell {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 15px;
-  background:
-    linear-gradient(135deg, rgba(54, 230, 195, 0.18), rgba(54, 230, 195, 0.06)),
-    rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(54, 230, 195, 0.18);
-  box-shadow: 0 12px 30px rgba(54, 230, 195, 0.12);
-  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-inverse);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="dark"] .BrandIconShell {
+  box-shadow: 0 4px 14px rgba(54, 230, 195, 0.22);
 }
 
 .LogoIcon {
-  color: var(--color-primary, #36e6c3);
-  filter: drop-shadow(0 0 10px rgba(54, 230, 195, 0.45));
+  color: inherit;
 }
 
 .BrandCopy {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 0;
+  gap: 1px;
 }
 
 .BrandName {
-  color: var(--color-text, #f5f7fb);
-  font-family: var(--font-display, 'Sora', 'Inter', system-ui, sans-serif);
-  font-size: 0.98rem;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--color-text);
 }
 
 .BrandTagline {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  color: var(--color-text-muted, #a5afbb);
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  gap: 3px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .NavLinks {
   display: flex;
   align-items: center;
+  gap: 2px;
+  flex: 1;
   justify-content: center;
-  gap: 6px;
-  padding: 6px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.NavLinks::-webkit-scrollbar {
-  display: none;
 }
 
 .NavLink,
 .NavLinkActive {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 40px;
-  padding: 0 14px;
+  gap: 6px;
+  padding: 8px 13px;
   border-radius: 999px;
-  text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
   white-space: nowrap;
-  transition:
-    transform var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-    background-color var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-    color var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-    box-shadow var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .NavLink {
-  color: var(--color-text-muted, #a5afbb);
+  color: var(--color-text-muted);
 }
 
 .NavLink:hover {
-  color: var(--color-text, #f5f7fb);
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateY(-1px);
+  color: var(--color-text);
+  background: var(--color-surface-soft);
 }
 
 .NavLinkActive {
-  color: #071111;
-  background: linear-gradient(135deg, #98f6e9 0%, #36e6c3 100%);
-  box-shadow: 0 10px 22px rgba(54, 230, 195, 0.20);
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.NavActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.AddEventBtn { display: none; /* removed from product nav */
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-inverse);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.AddEventBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.32);
+}
+
+.IconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.IconBtn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
 }
 
 .ProfileButton {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 0 12px 0 10px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
-    rgba(255, 255, 255, 0.01);
-  color: var(--color-text, #f5f7fb);
+  gap: 8px;
+  padding: 5px 12px 5px 5px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
   cursor: pointer;
-  transition:
-    transform var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-    border-color var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-    background-color var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1)),
-    box-shadow var(--transition-base, 220ms cubic-bezier(0.16, 1, 0.3, 1));
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .ProfileButton:hover {
-  transform: translateY(-1px);
-  border-color: rgba(54, 230, 195, 0.22);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.20);
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
 }
 
 .ProfileAvatar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(54, 230, 195, 0.18), rgba(255, 177, 77, 0.10));
-  border: 1px solid rgba(54, 230, 195, 0.16);
-  color: var(--color-primary, #36e6c3);
-  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
 }
 
 .ProfileText {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  min-width: 0;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .ProfileLabel {
-  color: var(--color-text-soft, #7f8a96);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  color: var(--color-text);
 }
 
 .ProfileName {
-  color: var(--color-text, #f5f7fb);
-  font-size: 0.9rem;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 120px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--color-text-soft);
 }
 
 .AppContent {
   min-height: 100vh;
-  padding-top: 0;
 }
 
-@media (max-width: 1120px) {
-  .NavbarContainer {
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas:
-      'brand profile'
-      'links links';
-    gap: 12px;
-  }
-
-  .BrandMark {
-    grid-area: brand;
-  }
-
+@media (max-width: 1020px) {
   .NavLinks {
-    grid-area: links;
-    justify-content: flex-start;
-  }
-
-  .ProfileButton {
-    grid-area: profile;
-    justify-self: end;
-  }
-}
-
-@media (max-width: 720px) {
-  .NavbarWrap {
-    padding-top: 10px;
-  }
-
-  .NavbarContainer {
-    width: min(100%, calc(100% - 0.75rem));
-    padding: 12px;
-    gap: 12px;
-    border-radius: 20px;
-  }
-
-  .BrandName {
-    font-size: 0.92rem;
-    letter-spacing: 0.08em;
+    display: none;
   }
 
   .BrandTagline {
     display: none;
   }
+}
 
-  .NavLinks {
-    width: 100%;
-    justify-content: flex-start;
+@media (max-width: 640px) {
+  .AddEventBtn span {
+    display: none;
   }
 
-  .NavLink,
-  .NavLinkActive {
-    min-height: 38px;
-    padding: 0 12px;
-    font-size: 0.86rem;
-  }
+  .AddEventBtn { display: none; /* removed from product nav */
 
-  .ProfileButton {
-    width: 100%;
-    justify-content: center;
+    padding: 8px 10px;
   }
 
   .ProfileText {
     display: none;
   }
+
+  .ProfileButton {
+    padding: 5px;
+  }
+
+  .NavbarContainer {
+    padding: 8px 10px;
+  }
 }
 
-@media (max-width: 420px) {
-  .NavbarContainer {
-    padding: 10px;
-  }
 
-  .BrandIconShell {
-    width: 40px;
-    height: 40px;
-    border-radius: 14px;
-  }
+.SkipLink {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  padding: 10px 16px;
+  background: var(--color-primary);
+  color: #04140f;
+  font-weight: 700;
+  border-radius: 0 0 10px 0;
+}
+.SkipLink:focus {
+  left: 0;
+  pointer-events: auto;
+}
 
+.Badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #04140f;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.IconButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+.IconButton:hover {
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+}
+
+.MenuBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.MobileMenu {
+  pointer-events: auto;
+  margin: 10px auto 0;
+  width: min(1240px, 100%);
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--navbar-bg);
+  backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow-md);
+}
+
+.MobileLink,
+.MobileLinkActive {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.MobileLinkActive {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+.MobileLink:hover {
+  background: var(--color-surface-soft);
+}
+
+@media (max-width: 980px) {
   .NavLinks {
-    gap: 4px;
+    display: none;
   }
+  .MenuBtn {
+    display: inline-flex;
+  }
+  .ProfileText {
+    display: none;
+  }
+}
 
-  .NavLink,
-  .NavLinkActive {
-    padding: 0 10px;
-  }
+.ProfileWrap {
+  position: relative;
+}
+.ProfileButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  cursor: pointer;
+  color: var(--color-text);
+  font-family: inherit;
+}
+.ProfileMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 180px;
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-lg);
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ProfileMenu a,
+.ProfileMenu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+.ProfileMenu a:hover,
+.ProfileMenu button:hover {
+  background: var(--color-surface-soft);
 }

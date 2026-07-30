@@ -1,97 +1,248 @@
-import { useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useCallback, useMemo, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  ArrowUpDown,
+  MapPin,
+  Search,
+  SlidersHorizontal,
+  X,
+} from 'lucide-react';
 import { MapboxCanvas } from '../view/MapboxCanvas.jsx';
 import { PlaceCard } from '../shared/PlaceCard.jsx';
+import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
 import { ExplorePageStyles as styles } from '@styles';
-import { placesData } from '@library';
+import { usePlaces } from '@library';
+import { useApp } from '../../library/contexts/AppContext.js';
 
-const CATEGORY_LABELS = {
-  all: 'Everything',
-  nature: 'Nature',
-  eats: 'Eats',
-  nightlife: 'Nightlife',
-  action: 'Action & Play',
-  events: 'Events',
-};
+const CATEGORIES = [
+  { id: 'all', label: 'Everything' },
+  { id: 'nature', label: 'Nature' },
+  { id: 'eats', label: 'Eats' },
+  { id: 'nightlife', label: 'Nightlife' },
+  { id: 'action', label: 'Action & Play' },
+];
 
-const BUDGET_LABELS = {
-  under1500: 'Under KES 1,500',
-  mid: 'KES 1,500–3,000',
-  premium: 'KES 3,000–6,000',
-  luxury: 'Premium Experiences',
-};
+const BUDGETS = [
+  { id: 'all', label: 'Any budget' },
+  { id: 'under1500', label: 'Under 1,500' },
+  { id: 'mid', label: '1,500–3,000' },
+  { id: 'premium', label: '3,000–6,000' },
+  { id: 'luxury', label: 'Premium' },
+];
+
+const SORTS = [
+  { id: 'rating', label: 'Top rated' },
+  { id: 'price-asc', label: 'Price ↑' },
+  { id: 'price-desc', label: 'Price ↓' },
+  { id: 'name', label: 'Name A–Z' },
+  { id: 'distance', label: 'Nearest' },
+];
 
 export function ExplorePage() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { addRecentSearch, userLocation } = useApp();
 
-  const filters = useMemo(() => {
-    const searchParams = new URLSearchParams(location.search);
+  const urlFilters = useMemo(() => {
+    const params = new URLSearchParams(location.search);
     return {
-      category: (searchParams.get('category') || 'all').toLowerCase(),
-      query: (searchParams.get('q') || '').trim().toLowerCase(),
-      budget: (searchParams.get('budget') || 'all').toLowerCase(),
+      category: (params.get('category') || 'all').toLowerCase(),
+      query: (params.get('q') || '').trim(),
+      budget: (params.get('budget') || 'all').toLowerCase(),
+      sort: (params.get('sort') || 'rating').toLowerCase(),
+      open: params.get('open') === '1',
     };
   }, [location.search]);
 
-  const displayedPlaces = useMemo(() => {
-    const normalized = placesData.filter((place) => {
-      const title = (place.title || place.name || '').toLowerCase();
-      const locationName = (place.location || '').toLowerCase();
-      const category = (place.category || '').toLowerCase();
-      const description = (place.description || '').toLowerCase();
-      const vibes = Array.isArray(place.vibes) ? place.vibes.join(' ').toLowerCase() : '';
-      const amenities = Array.isArray(place.amenities) ? place.amenities.join(' ').toLowerCase() : '';
-      const searchBlob = [title, locationName, category, description, vibes, amenities].join(' ');
+  const [localQuery, setLocalQuery] = useState(urlFilters.query);
 
-      const categoryMatches = filters.category === 'all' || category === filters.category;
-      const queryMatches = !filters.query || searchBlob.includes(filters.query);
-      const budgetMatches = filters.budget === 'all' || (place.budgetTier || '').toLowerCase() === filters.budget;
+  const { places, total, isEmpty, loading, source } = usePlaces({
+    category: urlFilters.category,
+    query: urlFilters.query,
+    budget: urlFilters.budget,
+    sort: urlFilters.sort,
+    openNowOnly: urlFilters.open,
+    userLocation,
+  });
 
-      return categoryMatches && queryMatches && budgetMatches;
-    });
+  const updateParams = useCallback(
+    (patch) => {
+      const params = new URLSearchParams(location.search);
+      Object.entries(patch).forEach(([key, value]) => {
+        if (!value || value === 'all' || (key === 'sort' && value === 'rating')) {
+          params.delete(key === 'query' ? 'q' : key);
+        } else {
+          params.set(key === 'query' ? 'q' : key, value);
+        }
+      });
+      const qs = params.toString();
+      navigate(qs ? `/explore?${qs}` : '/explore', { replace: true });
+    },
+    [location.search, navigate]
+  );
 
-    return normalized.sort((a, b) => {
-      const featuredDelta = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
-      if (featuredDelta !== 0) return featuredDelta;
-      return (b.rating ?? 0) - (a.rating ?? 0);
-    });
-  }, [filters]);
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const q = localQuery.trim();
+    if (q) addRecentSearch?.(q);
+    updateParams({ query: q });
+  };
 
-  const formattedTitle = CATEGORY_LABELS[filters.category] || CATEGORY_LABELS.all;
-  const searchSummary = filters.query ? `Search results for “${filters.query}”` : 'Curated local recommendations';
-  const budgetSummary = filters.budget !== 'all' ? BUDGET_LABELS[filters.budget] : null;
+  const clearAll = () => {
+    setLocalQuery('');
+    navigate('/explore');
+  };
+
+  const hasActiveFilters =
+    urlFilters.category !== 'all' ||
+    urlFilters.query ||
+    urlFilters.budget !== 'all' ||
+    urlFilters.sort !== 'rating' ||
+    urlFilters.open;
+
+  const categoryLabel =
+    CATEGORIES.find((c) => c.id === urlFilters.category)?.label || 'Everything';
 
   return (
     <main className={styles.LayoutSplit}>
       <aside className={styles.ListSection} aria-label="Explore results">
-        <div>
-          <h2 className={styles.SectionTitle}>Explore {formattedTitle}</h2>
-          <p className={styles.SectionSubtitle}>{searchSummary}</p>
-          {budgetSummary && <p className={styles.SectionSubtitle}>{budgetSummary}</p>}
+        <header className={styles.ListHeader}>
+          <div>
+            <h1 className={styles.SectionTitle}>Explore {categoryLabel}</h1>
+            <p className={styles.SectionSubtitle}>
+              {urlFilters.query
+                ? `Results for “${urlFilters.query}”`
+                : 'Handpicked spots with budgets, parking & vibe built in'}
+            </p>
+          </div>
+        </header>
+
+        <form className={styles.SearchRow} onSubmit={handleSearchSubmit} role="search">
+          <Search size={16} className={styles.SearchIcon} aria-hidden="true" />
+          <input
+            type="search"
+            className={styles.SearchField}
+            placeholder="Search places, vibes, areas…"
+            value={localQuery}
+            onChange={(e) => setLocalQuery(e.target.value)}
+            aria-label="Search places"
+          />
+          {localQuery && (
+            <button
+              type="button"
+              className={styles.ClearBtn}
+              onClick={() => {
+                setLocalQuery('');
+                updateParams({ query: '' });
+              }}
+              aria-label="Clear search"
+            >
+              <X size={14} />
+            </button>
+          )}
+        </form>
+
+        <div className={styles.FilterBlock}>
+          <div className={styles.FilterLabel}>
+            <SlidersHorizontal size={14} aria-hidden="true" />
+            Category
+          </div>
+          <div className={styles.PillRow} role="group" aria-label="Category filters">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                className={
+                  urlFilters.category === cat.id ? styles.PillActive : styles.Pill
+                }
+                onClick={() => updateParams({ category: cat.id })}
+                aria-pressed={urlFilters.category === cat.id}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className={styles.ResultsMeta} aria-live="polite">
-          {displayedPlaces.length} {displayedPlaces.length === 1 ? 'spot' : 'spots'} found
+        <div className={styles.FilterBlock}>
+          <div className={styles.FilterLabel}>Budget</div>
+          <div className={styles.PillRow} role="group" aria-label="Budget filters">
+            {BUDGETS.map((b) => (
+              <button
+                key={b.id}
+                type="button"
+                className={
+                  urlFilters.budget === b.id ? styles.PillActive : styles.Pill
+                }
+                onClick={() => updateParams({ budget: b.id })}
+                aria-pressed={urlFilters.budget === b.id}
+              >
+                {b.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.MetaRow}>
+          <button
+            type="button"
+            className={urlFilters.open ? styles.PillActive : styles.Pill}
+            onClick={() => updateParams({ open: urlFilters.open ? '' : '1' })}
+            aria-pressed={urlFilters.open}
+          >
+            Open now
+          </button>
+          <span className={styles.ResultsMeta} aria-live="polite" aria-live="polite">
+            <MapPin size={13} aria-hidden="true" />
+            {loading ? 'Loading…' : `${total} ${total === 1 ? 'spot' : 'spots'}`}
+            {source === 'api' && !loading ? ' · live' : ''}
+          </span>
+
+          <div className={styles.SortWrap}>
+            <ArrowUpDown size={13} aria-hidden="true" />
+            <select
+              className={styles.SortSelect}
+              value={urlFilters.sort}
+              onChange={(e) => updateParams({ sort: e.target.value })}
+              aria-label="Sort results"
+            >
+              {SORTS.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {hasActiveFilters && (
+            <button type="button" className={styles.ResetBtn} onClick={clearAll}>
+              Reset
+            </button>
+          )}
         </div>
 
         <div className={styles.PlaceStack}>
-          {displayedPlaces.length > 0 ? (
-            displayedPlaces.map((place) => (
+          {loading &&
+            Array.from({ length: 6 }).map((_, i) => <PlaceCardSkeleton key={`sk-${i}`} />)}
+
+          {!loading && !isEmpty &&
+            places.map((place) => (
               <PlaceCard
-                key={place.slug || place.id}
+                key={place.place_id ?? place.id}
                 place={place}
-                to={`/place/${place.slug || place.id}`}
+                to={`/place/${place.place_id ?? place.id}`}
               />
-            ))
-          ) : (
+            ))}
+
+          {!loading && isEmpty && (
             <section className={styles.EmptyState} aria-live="polite">
-              <h3 className={styles.EmptyStateTitle}>No spots found for your current filters.</h3>
+              <h3 className={styles.EmptyStateTitle}>No spots match these filters</h3>
               <p className={styles.EmptyStateText}>
-                Try a different category, a broader search term, or return to the full discovery feed.
+                Try a broader category, clear the search, or reset budget filters.
               </p>
-              <Link className={styles.EmptyStateAction} to="/explore?category=all">
+              <button type="button" className={styles.EmptyStateAction} onClick={clearAll}>
                 View everything
-              </Link>
+              </button>
             </section>
           )}
         </div>
@@ -99,7 +250,7 @@ export function ExplorePage() {
 
       <section className={styles.MapSection} aria-label="Map view">
         <div className={styles.MapCanvas}>
-          <MapboxCanvas places={displayedPlaces} />
+          <MapboxCanvas places={places} />
         </div>
       </section>
     </main>
