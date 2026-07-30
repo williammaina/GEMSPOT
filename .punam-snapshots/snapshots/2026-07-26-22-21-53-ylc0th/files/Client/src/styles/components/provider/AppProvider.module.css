@@ -1,7 +1,0 @@
-/* Layout wrapper for global providers if UI overlays or toast alerts are added */
-.ProviderContainer {
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  background-color: var(--color-bg-dark);
-}
