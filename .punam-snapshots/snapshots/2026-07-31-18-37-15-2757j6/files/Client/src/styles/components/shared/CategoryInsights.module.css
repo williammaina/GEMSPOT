@@ -1,0 +1,193 @@
+
+.Panel {
+  position: relative;
+  margin-top: 24px;
+  padding: 22px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  animation: insightsIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.Panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--color-primary-gradient);
+}
+
+.Panel[data-category='nature']::before,
+.Panel[data-category='action']::before {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+.Panel[data-category='eats']::before {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+.Panel[data-category='nightlife']::before {
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+}
+
+@keyframes insightsIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--color-text);
+}
+.Header h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: -0.03em;
+}
+
+.Grid { display: flex; flex-direction: column; gap: 16px; }
+
+.MetaChip, .MetaRow .MetaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.MetaRow { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.Block h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.ActivityList, .ReqList, .MenuList, .ChipList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ActivityItem, .MenuRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--color-surface-soft);
+  border: 1px solid transparent;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.ActivityItem:hover, .MenuRow:hover {
+  border-color: var(--color-border-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.ActivityItem strong, .MenuRow strong {
+  display: block;
+  color: var(--color-text);
+  font-size: 0.92rem;
+}
+.Muted {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-text-soft);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+.Price {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+}
+
+.IntensityEasy, .IntensityMod, .IntensityHard {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.IntensityEasy { background: rgba(16,185,129,0.12); color: #059669; }
+.IntensityMod { background: rgba(245,158,11,0.14); color: #d97706; }
+.IntensityHard { background: rgba(239,68,68,0.12); color: #dc2626; }
+
+.ChipList {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ChipList li {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--color-border-accent);
+}
+
+.ReqList li {
+  position: relative;
+  padding: 8px 8px 8px 18px;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.ReqList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-warning);
+}
+
+.ChipListInline { display: flex; flex-wrap: wrap; gap: 8px; }
+.DietTag {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.VibeBanner {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(16,185,129,0.08));
+  border: 1px solid rgba(139,92,246,0.25);
+  color: var(--color-text);
+}
+.VibeBanner p { margin: 0; font-size: 0.92rem; line-height: 1.5; font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .Panel { animation: none; }
+  .ActivityItem:hover, .MenuRow:hover { transform: none; }
+}
