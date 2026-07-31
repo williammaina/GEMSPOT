@@ -4,6 +4,7 @@ import { ArrowLeft, Heart, MapPin, Share2, Star } from 'lucide-react';
 import {
   CategoryPill,
   LogisticsCard,
+  LocationCard,
   PlaceCard,
   PlanBAlert,
   VibeReel,
@@ -220,10 +221,23 @@ export function PlaceDetailPage() {
             />
           </section>
 
+          <section className={styles.SectionBlock} aria-label="Location">
+            <h2 className={styles.SectionHeading}>Location</h2>
+            <LocationCard
+              name={place.title || place.name}
+              address={place.address || place.location}
+              town={place.town}
+              county={place.county}
+              directions={place.directions}
+              matatu={place.matatu || place.matatu_route}
+              latitude={place.latitude}
+              longitude={place.longitude}
+            />
+          </section>
+
           <section className={styles.SectionBlock} aria-label="Reviews">
             <CategoryInsights place={place} />
-
-      <ReviewSection reviewsData={reviews} />
+            <ReviewSection reviewsData={reviews} />
           </section>
 
           {related.length > 0 && (

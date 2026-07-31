@@ -2,8 +2,9 @@ export { default as NavbarStyles } from '../styles/components/layout/Navbar.modu
 
 export { default as CategoryPillStyles } from '../styles/components/shared/CategoryPill.module.css';
 export { default as PlaceCardStyles } from '../styles/components/shared/PlaceCard.module.css';
-export { default as EventCardStyles } from '../styles/components/shared/EventCard.module.css';
 export { default as LogisticsCardStyles } from '../styles/components/shared/LogisticsCard.module.css';
+export { default as LocationCardStyles } from '../styles/components/shared/LocationCard.module.css';
+export { default as EventCardStyles } from '../styles/components/shared/EventCard.module.css';
 export { default as PlanBAlertStyles } from '../styles/components/shared/PlanBAlert.module.css';
 export { default as CalendarButtonStyles } from '../styles/components/shared/CalendarButton.module.css';
 export { default as EventsPageStyles } from '../styles/components/page/EventsPage.module.css';

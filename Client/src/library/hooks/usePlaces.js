@@ -3,6 +3,7 @@ import { placesData } from '../json/placesData.js';
 import { fetchPlacesHandler, fetchPlaceByIdHandler } from '../handlers/apiHandler.js';
 import { calculateDistance } from '../helpers/calculateDistance.js';
 import { isOpenNow } from '../helpers/openingHours.js';
+import { mergeWithAdminPlaces, ADMIN_CHANGED } from '../helpers/adminStore.js';
 
 function normalizePlace(p) {
   if (!p) return null;
@@ -63,10 +64,13 @@ function sortPlaces(list, sort, userLocation) {
 
 export function getPlaceById(id) {
   const key = String(id || '');
+  const adminHit = mergeWithAdminPlaces([]).find(
+    (p) => String(p.place_id) === key || String(p.id) === key || String(p.slug) === key
+  );
   const local = placesData.find(
     (p) => String(p.place_id) === key || String(p.id) === key || String(p.slug) === key
   );
-  return Promise.resolve(normalizePlace(local)).then(async (seed) => {
+  return Promise.resolve(normalizePlace(adminHit || local)).then(async (seed) => {
     try {
       const remote = await fetchPlaceByIdHandler(id);
       if (remote) return normalizePlace({ ...seed, ...remote });
@@ -118,11 +122,12 @@ export function usePlaces(params = {}) {
       } catch {
         /* seed */
       }
+      list = mergeWithAdminPlaces(list);
       setRawPlaces(list);
       setSource(fromApi ? 'api' : 'local');
     } catch (e) {
       setError(e);
-      setRawPlaces(placesData.map(normalizePlace));
+      setRawPlaces(mergeWithAdminPlaces(placesData.map(normalizePlace)));
       setSource('local');
     } finally {
       setLoading(false);
@@ -131,6 +136,13 @@ export function usePlaces(params = {}) {
 
   useEffect(() => {
     load();
+    const onAdmin = () => load();
+    window.addEventListener(ADMIN_CHANGED, onAdmin);
+    window.addEventListener('storage', onAdmin);
+    return () => {
+      window.removeEventListener(ADMIN_CHANGED, onAdmin);
+      window.removeEventListener('storage', onAdmin);
+    };
   }, [load]);
 
   const places = useMemo(() => {

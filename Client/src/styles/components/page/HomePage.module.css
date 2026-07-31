@@ -160,7 +160,7 @@
   background: var(--color-primary-gradient);
   color: var(--color-text-inverse);
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   text-decoration: none;
   box-shadow: 0 10px 28px rgba(16, 185, 129, 0.28);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -179,7 +179,7 @@
   background: var(--card-bg);
   color: var(--color-text);
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   text-decoration: none;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -218,7 +218,7 @@
   gap: 4px;
   color: var(--color-primary);
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 0.98rem;
   text-decoration: none;
 }
 .SectionLink:hover { text-decoration: underline; }
@@ -353,7 +353,7 @@
   border: 1px solid var(--color-border);
   color: var(--color-text);
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 0.98rem;
   text-decoration: none;
   transition: border-color 0.2s, background 0.2s, transform 0.2s;
 }
@@ -390,7 +390,7 @@
 }
 .WhyCard p {
   margin: 0;
-  font-size: 0.88rem;
+  font-size: 0.98rem;
   color: var(--color-text-muted);
   line-height: 1.5;
 }
@@ -425,3 +425,77 @@
     transform: none;
   }
 }
+
+
+.DiscoveryPanel {
+  max-width: 1100px;
+  margin: 8px auto 40px;
+  padding: 0 20px;
+}
+.DiscoveryInner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+  padding: 28px 28px;
+  border-radius: 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+@media (max-width: 800px) {
+  .DiscoveryInner { grid-template-columns: 1fr; padding: 22px; }
+}
+.DiscoveryKicker {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-primary);
+}
+.DiscoveryTitle {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.DiscoveryCopy {
+  margin: 0;
+  font-size: 1.02rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: 42ch;
+}
+.DiscoveryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-content: center;
+}
+.DiscoveryLink {
+  display: inline-flex;
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.DiscoveryLink:hover {
+  border-color: var(--color-border-accent);
+  transform: translateY(-1px);
+}
+.DiscoveryLinkAccent {
+  display: inline-flex;
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.DiscoveryLinkAccent:hover { background: var(--color-primary-hover); }

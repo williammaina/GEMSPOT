@@ -16,6 +16,14 @@ export function PlaceCard({ place = {}, to }) {
   const teaser = getInsightTeaser(place);
   const category = String(place.category || '').toLowerCase();
 
+  const foodItems = (
+    Array.isArray(place.menuHighlights)
+      ? place.menuHighlights
+      : Array.isArray(place.popularFood)
+        ? place.popularFood
+        : ['Local favourite', 'Chef special']
+  ).slice(0, 3);
+
   let distanceLabel = null;
   if (
     userLocation &&
@@ -60,65 +68,79 @@ export function PlaceCard({ place = {}, to }) {
         >
           <Heart size={15} fill={favorited ? 'currentColor' : 'none'} />
         </button>
-        {category && (
+        {category ? (
           <span className={styles.CategoryBadge} data-cat={category}>
             {category}
           </span>
-        )}
-        {place.openLabel && (
+        ) : null}
+        {place.openLabel ? (
           <span className={styles.OpenBadge} data-open={place.openNow ? '1' : '0'}>
             {place.openLabel}
           </span>
-        )}
-        {distanceLabel && (
+        ) : null}
+        {distanceLabel ? (
           <span className={styles.DistanceBadge}>
             <Navigation size={11} /> {distanceLabel}
           </span>
-        )}
+        ) : null}
       </div>
 
       <div className={styles.Content}>
         <div className={styles.TitleRow}>
           <h3 className={styles.Title}>{title}</h3>
-          {typeof place.rating === 'number' && place.rating > 0 && (
+          {place.rating != null && !Number.isNaN(Number(place.rating)) ? (
             <div className={styles.Rating}>
               <Star size={12} fill="currentColor" />
-              <span>{place.rating.toFixed(1)}</span>
+              <span>{Number(place.rating).toFixed(1)}</span>
             </div>
-          )}
+          ) : null}
         </div>
 
         <div className={styles.DetailGroup}>
-          {place.location && (
+          {place.location ? (
             <div className={styles.DetailRow}>
               <MapPin size={13} className={styles.IconPrimary} />
               <span>{place.location}</span>
             </div>
-          )}
+          ) : null}
 
-          {place.price !== undefined && place.price !== null && (
+          {place.price !== undefined && place.price !== null ? (
             <div className={styles.DetailRow}>
               <Wallet size={13} className={styles.IconPrimary} />
               <span>{formatKES(place.price)} for two</span>
             </div>
-          )}
+          ) : null}
 
-          {place.matatu && (
+          {place.matatu ? (
             <div className={styles.DetailRow}>
               <Bus size={13} className={styles.IconMuted} />
               <span>Matatu: {place.matatu}</span>
             </div>
-          )}
+          ) : null}
         </div>
 
-        {teaser && (
+        {teaser ? (
           <div className={styles.InsightChip}>
             <Sparkles size={12} />
             <span>{teaser}</span>
           </div>
-        )}
+        ) : null}
 
-        {vibes.length > 0 && (
+        {category === 'eats' || category === 'cafe' ? (
+          <div className={styles.FoodRow}>
+            <span className={styles.FoodLabel}>Popular</span>
+            {foodItems.map((item, i) => (
+              <span key={i} className={styles.FoodChip}>
+                {typeof item === 'string' ? item : item.name || item.title}
+                {item && typeof item === 'object' && item.price != null
+                  ? ` · ${item.price}`
+                  : ''}
+              </span>
+            ))}
+          </div>
+        ) : null}
+
+        {vibes.length > 0 ? (
           <div className={styles.VibeTags}>
             <span className={styles.VibeLabel}>Vibe</span>
             {vibes.slice(0, 3).map((vibe) => (
@@ -127,7 +149,7 @@ export function PlaceCard({ place = {}, to }) {
               </span>
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </Link>
   );

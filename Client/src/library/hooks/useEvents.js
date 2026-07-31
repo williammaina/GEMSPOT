@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { eventsData } from '../json/eventsData.js';
 import { fetchEventsHandler, fetchEventByIdHandler } from '../handlers/apiHandler.js';
+import { mergeWithAdminEvents, ADMIN_CHANGED } from '../helpers/adminStore.js';
 
 const EVENT_CATEGORY_ALIASES = {
   all: [],
@@ -116,7 +117,7 @@ export function useEvents({ query = '', category = 'all' } = {}) {
       try {
         const remote = await fetchEventsHandler(params);
         if (cancelled) return;
-        const normalized = (Array.isArray(remote) ? remote : []).map(normalizeEvent);
+        const normalized = mergeWithAdminEvents((Array.isArray(remote) ? remote : []).map(normalizeEvent));
         setEvents(normalized);
         setSource('api');
         setLoading(false);
@@ -134,14 +135,17 @@ export function useEvents({ query = '', category = 'all' } = {}) {
       }
 
       if (cancelled) return;
-      setEvents(eventsData.map(normalizeEvent));
+      setEvents(mergeWithAdminEvents(eventsData.map(normalizeEvent)));
       setSource('local');
       setLoading(false);
     }
 
     load();
+    const onAdmin = () => { cancelled = false; load(); };
+    window.addEventListener(ADMIN_CHANGED, onAdmin);
     return () => {
       cancelled = true;
+      window.removeEventListener(ADMIN_CHANGED, onAdmin);
     };
   }, [query, category]);
 

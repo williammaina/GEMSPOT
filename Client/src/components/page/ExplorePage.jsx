@@ -1,14 +1,20 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   ArrowUpDown,
   MapPin,
   Search,
+  Shuffle,
+  Sparkles,
+  Sun,
+  Moon,
+  Users,
+  Wallet,
   SlidersHorizontal,
   X,
 } from 'lucide-react';
-import { MapboxCanvas } from '../view/MapboxCanvas.jsx';
 import { PlaceCard } from '../shared/PlaceCard.jsx';
+import { ExploreInsightsRail } from '../shared/ExploreInsightsRail.jsx';
 import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
 import { ExplorePageStyles as styles } from '@styles';
 import { usePlaces } from '@library';
@@ -55,6 +61,7 @@ export function ExplorePage() {
   }, [location.search]);
 
   const [localQuery, setLocalQuery] = useState(urlFilters.query);
+  const [focusedId, setFocusedId] = useState(null);
 
   const { places, total, isEmpty, loading, source } = usePlaces({
     category: urlFilters.category,
@@ -103,6 +110,22 @@ export function ExplorePage() {
   const categoryLabel =
     CATEGORIES.find((c) => c.id === urlFilters.category)?.label || 'Everything';
 
+
+  useEffect(() => {
+    setFocusedId(null);
+  }, [urlFilters.category, urlFilters.query, urlFilters.budget, urlFilters.open]);
+
+  const focusPlace = useMemo(() => {
+    if (!places?.length) return null;
+    if (focusedId) {
+      const hit = places.find(
+        (p) => String(p.place_id ?? p.id) === String(focusedId)
+      );
+      if (hit) return hit;
+    }
+    return places[0];
+  }, [places, focusedId]);
+
   return (
     <main className={styles.LayoutSplit}>
       <aside className={styles.ListSection} aria-label="Explore results">
@@ -116,6 +139,37 @@ export function ExplorePage() {
             </p>
           </div>
         </header>
+
+        <div className={styles.DiscoveryStrip} role="group" aria-label="Quick discovery">
+          <span className={styles.DiscoveryLabel}>Not sure where to start?</span>
+          <button
+            type="button"
+            className={styles.DiscoverChip}
+            onClick={() => {
+              if (!places?.length) return;
+              const pick = places[Math.floor(Math.random() * places.length)];
+              const id = pick.place_id || pick.id;
+              if (id) navigate(`/place/${id}`);
+            }}
+          >
+            <Shuffle size={16} aria-hidden="true" /> Surprise me
+          </button>
+          <button type="button" className={styles.DiscoverChip} onClick={() => updateParams({ category: 'nature', budget: 'all' })}>
+            <Sun size={16} aria-hidden="true" /> Fresh air
+          </button>
+          <button type="button" className={styles.DiscoverChip} onClick={() => updateParams({ category: 'eats', budget: 'mid' })}>
+            <Wallet size={16} aria-hidden="true" /> Mid-range meal
+          </button>
+          <button type="button" className={styles.DiscoverChip} onClick={() => updateParams({ category: 'nightlife', open: '1' })}>
+            <Moon size={16} aria-hidden="true" /> Tonight
+          </button>
+          <button type="button" className={styles.DiscoverChip} onClick={() => updateParams({ category: 'action', budget: 'all' })}>
+            <Users size={16} aria-hidden="true" /> With friends
+          </button>
+          <button type="button" className={styles.DiscoverChip} onClick={() => updateParams({ budget: 'under1500', category: 'all' })}>
+            <Sparkles size={16} aria-hidden="true" /> Under 1.5k
+          </button>
+        </div>
 
         <form className={styles.SearchRow} onSubmit={handleSearchSubmit} role="search">
           <Search size={16} className={styles.SearchIcon} aria-hidden="true" />
@@ -248,11 +302,12 @@ export function ExplorePage() {
         </div>
       </aside>
 
-      <section className={styles.MapSection} aria-label="Map view">
-        <div className={styles.MapCanvas}>
-          <MapboxCanvas places={places} />
-        </div>
-      </section>
+      <ExploreInsightsRail
+        places={places}
+        categoryLabel={categoryLabel}
+        pick={focusPlace}
+        onSelectPick={setFocusedId}
+      />
     </main>
   );
 }

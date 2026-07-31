@@ -2,67 +2,75 @@
 
 :root,
 [data-theme="light"] {
-  --color-bg: #f7f8fa;
+  --color-bg: #f4f6f8;
   --color-bg-elevated: #ffffff;
-  --color-surface: rgba(255, 255, 255, 0.92);
+  --color-surface: rgba(255, 255, 255, 0.94);
   --color-surface-strong: #ffffff;
-  --color-surface-soft: rgba(0, 0, 0, 0.03);
-  --color-border: rgba(15, 23, 42, 0.08);
-  --color-border-strong: rgba(15, 23, 42, 0.12);
-  --color-border-accent: rgba(16, 185, 129, 0.28);
-  --color-primary: #10b981;
+  --color-surface-soft: rgba(15, 23, 42, 0.04);
+  --color-border: rgba(15, 23, 42, 0.09);
+  --color-border-strong: rgba(15, 23, 42, 0.14);
+  --color-border-accent: rgba(16, 185, 129, 0.32);
+  --color-primary: #0d9f6e;
   --color-primary-hover: #059669;
-  --color-primary-soft: rgba(16, 185, 129, 0.10);
-  --color-primary-gradient: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-  --color-warning: #f59e0b;
-  --color-warning-soft: rgba(245, 158, 11, 0.12);
-  --color-danger: #ef4444;
-  --color-danger-soft: rgba(239, 68, 68, 0.10);
-  --color-info: #3b82f6;
-  --color-info-soft: rgba(59, 130, 246, 0.10);
+  --color-primary-soft: rgba(16, 185, 129, 0.12);
+  --color-primary-gradient: linear-gradient(135deg, #34d399 0%, #0d9f6e 100%);
+  --color-warning: #d97706;
+  --color-warning-soft: rgba(245, 158, 11, 0.14);
+  --color-danger: #dc2626;
+  --color-danger-soft: rgba(239, 68, 68, 0.12);
+  --color-info: #2563eb;
+  --color-info-soft: rgba(59, 130, 246, 0.12);
   --color-text: #0f172a;
-  --color-text-muted: #64748b;
-  --color-text-soft: #94a3b8;
+  --color-text-muted: #475569;
+  --color-text-soft: #64748b;
   --color-text-inverse: #ffffff;
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 16px 48px rgba(15, 23, 42, 0.10), 0 6px 16px rgba(15, 23, 42, 0.05);
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
-  --shadow-glow: 0 0 0 1px rgba(16, 185, 129, 0.18), 0 8px 24px rgba(16, 185, 129, 0.12);
-  --navbar-bg: rgba(255, 255, 255, 0.85);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 20px 48px rgba(15, 23, 42, 0.12), 0 8px 16px rgba(15, 23, 42, 0.06);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 28px rgba(15, 23, 42, 0.07);
+  --shadow-glow: 0 0 0 1px rgba(16, 185, 129, 0.2), 0 10px 28px rgba(16, 185, 129, 0.14);
+  --navbar-bg: rgba(255, 255, 255, 0.88);
   --card-bg: #ffffff;
-  --hero-gradient: linear-gradient(180deg, #f0fdf4 0%, #f7f8fa 40%, #f7f8fa 100%);
+  --hero-gradient: linear-gradient(180deg, #ecfdf5 0%, #f4f6f8 42%, #f4f6f8 100%);
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-base: 1.1875rem;
+  --text-md: 1.2rem;
+  --text-lg: 1.5rem;
+  --text-xl: 1.85rem;
+  --text-2xl: 2.35rem;
+  --text-3xl: 2.6rem;
 }
 
 [data-theme="dark"] {
   --color-bg: #070b10;
   --color-bg-elevated: #111827;
-  --color-surface: rgba(15, 22, 34, 0.78);
-  --color-surface-strong: rgba(18, 25, 40, 0.95);
-  --color-surface-soft: rgba(255, 255, 255, 0.03);
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.14);
-  --color-border-accent: rgba(54, 230, 195, 0.36);
+  --color-surface: rgba(15, 22, 34, 0.82);
+  --color-surface-strong: rgba(18, 25, 40, 0.96);
+  --color-surface-soft: rgba(255, 255, 255, 0.04);
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-border-strong: rgba(255, 255, 255, 0.15);
+  --color-border-accent: rgba(54, 230, 195, 0.38);
   --color-primary: #36e6c3;
   --color-primary-hover: #2dd4bf;
-  --color-primary-soft: rgba(54, 230, 195, 0.12);
+  --color-primary-soft: rgba(54, 230, 195, 0.14);
   --color-primary-gradient: linear-gradient(135deg, #98f6e9 0%, #36e6c3 100%);
   --color-warning: #ffb14d;
-  --color-warning-soft: rgba(255, 177, 77, 0.14);
+  --color-warning-soft: rgba(255, 177, 77, 0.16);
   --color-danger: #ff6b7f;
-  --color-danger-soft: rgba(255, 107, 127, 0.12);
+  --color-danger-soft: rgba(255, 107, 127, 0.14);
   --color-info: #7aa7ff;
-  --color-info-soft: rgba(122, 167, 255, 0.12);
+  --color-info-soft: rgba(122, 167, 255, 0.14);
   --color-text: #f5f7fb;
-  --color-text-muted: #a5afbb;
-  --color-text-soft: #7f8a96;
+  --color-text-muted: #b0b8c4;
+  --color-text-soft: #8b95a3;
   --color-text-inverse: #081019;
-  --shadow-sm: 0 8px 22px rgba(0, 0, 0, 0.18);
-  --shadow-md: 0 18px 48px rgba(0, 0, 0, 0.30);
-  --shadow-lg: 0 28px 84px rgba(0, 0, 0, 0.42);
-  --shadow-glow: 0 0 0 1px rgba(54, 230, 195, 0.16), 0 0 30px rgba(54, 230, 195, 0.12);
-  --navbar-bg: rgba(7, 11, 16, 0.88);
-  --card-bg: rgba(18, 24, 35, 0.86);
+  --shadow-sm: 0 8px 22px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 28px 84px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 0 1px rgba(54, 230, 195, 0.18), 0 0 32px rgba(54, 230, 195, 0.14);
+  --navbar-bg: rgba(7, 11, 16, 0.9);
+  --card-bg: rgba(18, 24, 35, 0.9);
   --hero-gradient: linear-gradient(180deg, #070b10 0%, #090d13 45%, #0b1017 100%);
 }
 
@@ -81,7 +89,11 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  font-size: 18px;
+}
 html[data-theme="dark"] { color-scheme: dark; }
 
 body {
@@ -90,10 +102,17 @@ body {
   color: var(--color-text);
   background: var(--color-bg);
   font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: var(--text-base);
+  line-height: 1.6;
   letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  color: var(--color-text);
 }
 
 a { color: inherit; text-decoration: none; }
@@ -102,12 +121,13 @@ img, video { display: block; max-width: 100%; height: auto; }
 
 #main-content { min-height: 60vh; }
 @media (max-width: 720px) {
-  #main-content { padding-bottom: 72px; }
+  #main-content { padding-bottom: 80px; }
 }
 
 button, [role="button"] {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  font-family: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {

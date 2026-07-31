@@ -5,8 +5,10 @@ import {
   CalendarDays,
   Coffee,
   Compass,
+  HelpCircle,
   MapPin,
   Music2,
+  Shuffle,
   Sparkles,
   Trees,
   Wallet,
@@ -157,7 +159,28 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className={styles.Section} aria-labelledby="featured-events">
+      
+      <section className={styles.DiscoveryPanel} aria-labelledby="discover-help">
+        <div className={styles.DiscoveryInner}>
+          <div>
+            <p className={styles.DiscoveryKicker} id="discover-help">New here?</p>
+            <h2 className={styles.DiscoveryTitle}>Don&apos;t know what you want yet</h2>
+            <p className={styles.DiscoveryCopy}>
+              Tell us the mood — we&apos;ll narrow Kenya to a shortlist with budgets and matatu hints built in.
+            </p>
+          </div>
+          <div className={styles.DiscoveryActions}>
+            <Link to="/explore?category=nature" className={styles.DiscoveryLink}>Outdoor reset</Link>
+            <Link to="/explore?category=eats&budget=mid" className={styles.DiscoveryLink}>Good meal · mid budget</Link>
+            <Link to="/explore?category=nightlife" className={styles.DiscoveryLink}>Tonight&apos;s vibe</Link>
+            <Link to="/explore?category=action" className={styles.DiscoveryLink}>Something active</Link>
+            <Link to="/explore?budget=under1500" className={styles.DiscoveryLink}>Keep it under 1.5k</Link>
+            <Link to="/explore" className={styles.DiscoveryLinkAccent}>Browse everything →</Link>
+          </div>
+        </div>
+      </section>
+
+<section className={styles.Section} aria-labelledby="featured-events">
         <div className={styles.SectionHead}>
           <h2 id="featured-events">Upcoming in Kenya</h2>
           <Link to="/events" className={styles.SectionLink}>
