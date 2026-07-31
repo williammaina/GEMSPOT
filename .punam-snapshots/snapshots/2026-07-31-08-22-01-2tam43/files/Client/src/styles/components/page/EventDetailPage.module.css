@@ -1,0 +1,389 @@
+.Page {
+  padding: 16px 0 100px;
+  max-width: 860px;
+  margin: 0 auto;
+  animation: detailIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes detailIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.Back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.Back:hover { color: var(--color-primary); }
+
+.Hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 28px;
+}
+@media (max-width: 720px) {
+  .Hero { grid-template-columns: 1fr; }
+}
+
+.Media {
+  position: relative;
+  min-height: 260px;
+  background: var(--color-bg-elevated);
+}
+.Image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+.Cat {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.7);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  backdrop-filter: blur(8px);
+}
+
+.Body {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.When {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.Title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+.Meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+.Meta span { display: inline-flex; align-items: center; gap: 6px; }
+
+.Actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.PrimaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: none;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-inverse);
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.25);
+  transition: transform 0.2s;
+}
+.PrimaryBtn:hover { transform: translateY(-1px); }
+.SecondaryBtn, .SecondaryOn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.SecondaryBtn:hover { border-color: var(--color-border-accent); }
+.SecondaryOn {
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+.IconBtn {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.IconBtn:hover { border-color: var(--color-border-accent); color: var(--color-primary); }
+
+.Section { margin-top: 28px; }
+.SectionTitle {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+.Description {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+.Details {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+.Details div {
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+}
+.Details dt {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-soft);
+  margin-bottom: 4px;
+}
+.Details dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: 0.92rem;
+}
+
+.Cta {
+  margin-top: 36px;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-border-accent);
+  text-align: center;
+}
+.Cta p {
+  margin: 0 0 14px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.Muted { color: var(--color-text-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .Page { animation: none; }
+  .PrimaryBtn:hover { transform: none; }
+}
+
+
+
+.Page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 100px;
+}
+.Layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 340px);
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .Layout { grid-template-columns: 1fr; }
+}
+.MainCol { min-width: 0; }
+.SideCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 88px;
+}
+.SideCard {
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+.SideLabel {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-soft);
+}
+.HostRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.HostAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.HostName {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.FollowBtn {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--color-text);
+}
+.FollowBtn:hover { border-color: var(--color-border-accent); }
+.GoingRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+.AvatarStack {
+  display: flex;
+  margin: 8px 0 0;
+}
+.MiniAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #94a3b8, #64748b);
+  border: 2px solid var(--card-bg);
+  margin-left: -8px;
+}
+.MiniAvatar:first-child { margin-left: 0; }
+.TextLink, .TextLinkMuted {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  background: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-text);
+}
+.TextLinkMuted { color: var(--color-text-muted); }
+.TagChip {
+  display: inline-flex;
+  margin-top: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+.MapWrap {
+  margin-top: 12px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface-soft);
+}
+.MapFrame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.MapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.LocationName {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.Directions {
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+.SubTitle {
+  margin: 18px 0 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.PriceLine {
+  margin-top: 12px;
+  font-size: 1rem;
+}
+.Title {
+  font-size: 1.85rem !important;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.SectionTitle {
+  font-size: 1.15rem !important;
+  font-weight: 800;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+.Description {
+  font-size: 1.02rem !important;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}
