@@ -1,0 +1,128 @@
+
+.Shell, .ShellCompact {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.MapStage {
+  position: relative;
+  aspect-ratio: 16 / 12;
+  background: var(--color-surface-soft);
+}
+.ShellCompact .MapStage {
+  aspect-ratio: 16 / 11;
+}
+.MapFrame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.MapScrim {
+  pointer-events: none;
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 28%;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.25), transparent);
+}
+.MapBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #0f172a;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+}
+
+.Body {
+  padding: 16px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.Identity {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.Thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+}
+.ThumbFallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.IdentityText { min-width: 0; }
+.Name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+.Sub {
+  margin: 3px 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}
+.Transit {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.Transit svg { flex-shrink: 0; margin-top: 2px; color: var(--color-primary); }
+.Transit p { margin: 0; }
+.MapsCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 999px;
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.MapsCta:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}

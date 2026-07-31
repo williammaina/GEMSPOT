@@ -1,0 +1,70 @@
+.Page {
+  padding: 24px 0 100px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.Header { margin-bottom: 24px; }
+.Title {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+}
+.Sub { margin: 0 0 16px; color: var(--color-text-muted); font-size: 0.92rem; }
+.ShareBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 12px;
+  border: none;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-inverse);
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.25);
+}
+.ShareBtn:hover { transform: translateY(-1px); }
+
+.Empty {
+  padding: 32px 20px;
+  text-align: center;
+  border-radius: 16px;
+  border: 1px dashed var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+}
+.Empty a { color: var(--color-primary); font-weight: 700; }
+
+.Section { margin-bottom: 28px; }
+.Section h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+.Section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.Section li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.2s;
+}
+.Section li a:hover { border-color: var(--color-border-accent); }
+.Section strong { display: block; font-size: 0.95rem; }
+.Section small { color: var(--color-text-muted); font-size: 0.8rem; }
