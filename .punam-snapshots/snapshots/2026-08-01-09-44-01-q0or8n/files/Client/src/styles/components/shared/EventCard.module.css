@@ -1,0 +1,7 @@
+
+.Card { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: var(--card-bg); border: 1px solid var(--color-border); text-decoration: none; color: inherit; transition: transform 0.25s, box-shadow 0.25s; }
+.Card:hover { transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+.Image { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+.Content { padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+.Title { margin: 0; font-family: var(--font-display); font-size: 1rem; font-weight: 700; }
+.Meta { font-size: 0.8rem; color: var(--color-text-muted); }

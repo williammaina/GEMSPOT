@@ -2,6 +2,36 @@
   "version": 1,
   "snapshots": [
     {
+      "id": "2026-08-01-10-14-37-0ywnbq",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-01T10:14:38.475Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 5509,
+      "totalSize": 124299655,
+      "workspaceName": "GEMSPOT",
+      "workspacePath": "/home/user/Desktop/GEMSPOT"
+    },
+    {
+      "id": "2026-08-01-09-54-57-6fq7f9",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-01T09:54:59.318Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 5484,
+      "totalSize": 124207187,
+      "workspaceName": "GEMSPOT",
+      "workspacePath": "/home/user/Desktop/GEMSPOT"
+    },
+    {
+      "id": "2026-08-01-09-44-01-q0or8n",
+      "name": "Auto recovery point after bulk changes",
+      "createdAt": "2026-08-01T09:44:04.436Z",
+      "reason": "auto-bulk-change",
+      "fileCount": 5039,
+      "totalSize": 95664108,
+      "workspaceName": "GEMSPOT",
+      "workspacePath": "/home/user/Desktop/GEMSPOT"
+    },
+    {
       "id": "2026-07-31-19-45-19-9wy9id",
       "name": "Auto recovery point after bulk changes",
       "createdAt": "2026-07-31T19:45:22.228Z",
@@ -168,36 +198,6 @@
       "reason": "auto-bulk-change",
       "fileCount": 5030,
       "totalSize": 95005770,
-      "workspaceName": "GEMSPOT",
-      "workspacePath": "/home/user/Desktop/GEMSPOT"
-    },
-    {
-      "id": "2026-07-30-21-21-54-cndqcw",
-      "name": "Auto recovery point after bulk changes",
-      "createdAt": "2026-07-30T21:21:56.285Z",
-      "reason": "auto-bulk-change",
-      "fileCount": 5029,
-      "totalSize": 95084213,
-      "workspaceName": "GEMSPOT",
-      "workspacePath": "/home/user/Desktop/GEMSPOT"
-    },
-    {
-      "id": "2026-07-30-21-11-29-vu7t70",
-      "name": "Auto recovery point after bulk changes",
-      "createdAt": "2026-07-30T21:11:30.665Z",
-      "reason": "auto-bulk-change",
-      "fileCount": 4719,
-      "totalSize": 92818125,
-      "workspaceName": "GEMSPOT",
-      "workspacePath": "/home/user/Desktop/GEMSPOT"
-    },
-    {
-      "id": "2026-07-29-21-56-20-8gej8m",
-      "name": "Auto recovery point after bulk changes",
-      "createdAt": "2026-07-29T21:56:25.217Z",
-      "reason": "auto-bulk-change",
-      "fileCount": 4677,
-      "totalSize": 92647180,
       "workspaceName": "GEMSPOT",
       "workspacePath": "/home/user/Desktop/GEMSPOT"
     }
