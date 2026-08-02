@@ -5,21 +5,20 @@ import axios from 'axios';
  *
  * Flask serves routes under /api/*  (e.g. /api/places, /api/events)
  *
- * Env:
+ * Env (required for production):
+ *   VITE_API_BASE_URL=https://emspot-api.onrender.com/api
+ * Local default:
  *   VITE_API_BASE_URL=http://localhost:5000/api
- *   VITE_BACKEND_URL  (legacy alias)
  *
- * If the env value is missing /api, it is appended automatically.
+ * Paths in handlers are relative (e.g. /places) and resolve against this base.
+ * If the env value is missing a trailing /api, it is appended automatically.
  */
 function resolveBaseUrl() {
-  const raw =
-    import.meta.env.VITE_API_BASE_URL ||
-    import.meta.env.VITE_BACKEND_URL ||
-    'http://localhost:5000/api';
+  const raw = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
   let url = String(raw).trim().replace(/\/$/, '');
 
-  // User often sets http://localhost:5000 — ensure /api suffix
+  // Ensure /api suffix so /places → …/api/places
   if (!/\/api(\/v\d+)?$/i.test(url)) {
     url = `${url}/api`;
   }
@@ -44,7 +43,8 @@ if (import.meta.env.DEV) {
 
 apiClient.interceptors.request.use((config) => {
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  if (token) {
+  // Never send demo offline tokens to a real API
+  if (token && !String(token).startsWith('demo.')) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -54,7 +54,10 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error?.response?.status === 401 && typeof window !== 'undefined') {
-      localStorage.removeItem('token');
+      const t = localStorage.getItem('token');
+      if (t && !String(t).startsWith('demo.')) {
+        localStorage.removeItem('token');
+      }
     }
     if (import.meta.env.DEV) {
       const full =
