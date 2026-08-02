@@ -52,7 +52,7 @@ export function PlanSharePage() {
   return (
     <main className={styles.Page}>
       <header className={styles.Header}>
-        <h1 className={styles.Title}>Tonight’s plan</h1>
+        <h1 className={styles.Title}>Your plan</h1>
         <p className={styles.Sub}>Places and events you’re lining up — share with friends.</p>
         <button type="button" className={styles.ShareBtn} onClick={handleShare}>
           <Share2 size={16} /> Share plan link

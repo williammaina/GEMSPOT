@@ -29,7 +29,7 @@ function whyGo(place, categoryLabel) {
   }
   const price = priceOf(place);
   if (price != null && price < 1500) bits.push('easy on the budget');
-  else if (price != null && price >= 6000) bits.push('premium pick for a special night');
+  else if (price != null && price >= 6000) bits.push('premium pick for a special outing');
   if (place?.matatu || place?.matatu_route) bits.push('matatu-friendly');
   if (place?.wifi) bits.push('Wi‑Fi on site');
   if (place?.parking) bits.push('parking available');
@@ -43,7 +43,7 @@ function whyGo(place, categoryLabel) {
 }
 
 /**
- * Right-rail: Tonight's pick + alternate options only.
+ * Right-rail: Today's pick + alternate options only.
  */
 export function ExploreInsightsRail({
   places = [],
@@ -57,13 +57,13 @@ export function ExploreInsightsRail({
   const inPlan = featuredId ? isInPlan?.(featuredId) : false;
 
   return (
-    <aside className={styles.MapSection} aria-label="Tonight's pick">
+    <aside className={styles.MapSection} aria-label="Today's pick">
       <div className={styles.InsightsRail}>
-        <section className={styles.PickCard} aria-labelledby="tonights-pick-title">
+        <section className={styles.PickCard} aria-labelledby="todays-pick-title">
           <div className={styles.PickHeader}>
             <span className={styles.PickEyebrow}>
               <Sparkles size={14} aria-hidden="true" />
-              Tonight&apos;s pick
+              Today&apos;s pick
             </span>
             <span className={styles.PickContext}>{categoryLabel}</span>
           </div>
@@ -84,7 +84,7 @@ export function ExploreInsightsRail({
                   <span className={styles.PickCat}>
                     {(featured.category || 'spot').toString().toUpperCase()}
                   </span>
-                  <h2 id="tonights-pick-title" className={styles.PickName}>
+                  <h2 id="todays-pick-title" className={styles.PickName}>
                     {featured.title || featured.name}
                   </h2>
                   <p className={styles.PickLoc}>
@@ -136,7 +136,7 @@ export function ExploreInsightsRail({
                     else addToPlan?.(featured);
                   }}
                 >
-                  {inPlan ? 'In tonight’s plan' : 'Add to tonight’s plan'}
+                  {inPlan ? 'In your plan' : 'Add to your plan'}
                 </button>
               </div>
             </>

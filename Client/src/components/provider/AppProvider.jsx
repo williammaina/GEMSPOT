@@ -219,13 +219,13 @@ export function AppProvider({ children }) {
       let added = false;
       setPlanStops((prev) => {
         if (prev.some((p) => p.id === entry.id)) {
-          pushToast(`“${entry.title}” is already in tonight’s plan`, 'info');
+          pushToast(`“${entry.title}” is already in your plan`, 'info');
           return prev;
         }
         added = true;
         return [...prev, entry].slice(0, 12);
       });
-      if (added) pushToast(`Added “${entry.title}” to tonight’s plan`, 'success');
+      if (added) pushToast(`Added “${entry.title}” to your plan`, 'success');
       // also mirror into recent for continuity
       setRecentPlaces((prev) => {
         const r = { id: entry.id, title: entry.title, location: entry.location, image: entry.image, viewedAt: Date.now() };
@@ -240,7 +240,7 @@ export function AppProvider({ children }) {
     (id) => {
       const key = String(id);
       setPlanStops((prev) => prev.filter((p) => p.id !== key));
-      pushToast('Removed from tonight’s plan', 'info');
+      pushToast('Removed from your plan', 'info');
     },
     [pushToast]
   );
@@ -254,7 +254,7 @@ export function AppProvider({ children }) {
     setRecentPlaces([]);
     setInterestedEvents([]);
     setPlanStops([]);
-    pushToast('Tonight’s plan cleared', 'info');
+    pushToast('Your plan cleared', 'info');
   }, [pushToast]);
 
   const login = useCallback(async (credentials) => {

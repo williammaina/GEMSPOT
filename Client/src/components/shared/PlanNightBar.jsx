@@ -5,8 +5,8 @@ import { PlanNightBarStyles as styles } from '@styles';
 import { useApp } from '../../library/contexts/AppContext.js';
 
 /**
- * Floating tray for "Tonight's plan" — driven by planStops from
- * Tonight's pick + explicit Add to plan actions.
+ * Floating tray for "Your plan" — driven by planStops from
+ * Today's pick + Add to plan actions.
  */
 export function PlanNightBar() {
   const {
@@ -37,10 +37,10 @@ export function PlanNightBar() {
   if (!open || (stops.length === 0 && !event)) return null;
 
   return (
-    <aside className={styles.Bar} aria-label="Tonight’s plan">
+    <aside className={styles.Bar} aria-label="Your plan">
       <div className={styles.Head}>
         <span className={styles.Label}>
-          <Sparkles size={14} /> Tonight’s plan
+          <Sparkles size={14} /> Your plan
           {stops.length > 0 ? ` · ${stops.length}` : ''}
         </span>
         <button type="button" className={styles.Close} onClick={() => setOpen(false)} aria-label="Hide">

@@ -78,7 +78,7 @@ export function ProfilePage() {
           <Heart size={18} /> Saved & planning
         </Link>
         <Link to="/plan" className={styles.MenuItem}>
-          <CalendarDays size={18} /> Tonight’s plan
+          <CalendarDays size={18} /> Your plan
         </Link>
         <Link to="/explore" className={styles.MenuItem}>
           <MapPin size={18} /> Explore places

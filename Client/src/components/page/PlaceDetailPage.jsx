@@ -223,8 +223,8 @@ export function PlaceDetailPage() {
                 }}
               >
                 {isInPlan?.(String(place.place_id ?? place.id))
-                  ? "In tonight's plan"
-                  : "Add to tonight's plan"}
+                  ? "In your plan"
+                  : "Add to your plan"}
               </button>
             </div>
           </header>

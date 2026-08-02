@@ -161,7 +161,7 @@ export function ExplorePage() {
             <Wallet size={16} aria-hidden="true" /> Mid-range meal
           </button>
           <button type="button" className={styles.DiscoverChip} onClick={() => updateParams({ category: 'nightlife', open: '1' })}>
-            <Moon size={16} aria-hidden="true" /> Tonight
+            <Moon size={16} aria-hidden="true" /> Evening
           </button>
           <button type="button" className={styles.DiscoverChip} onClick={() => updateParams({ category: 'action', budget: 'all' })}>
             <Users size={16} aria-hidden="true" /> With friends
