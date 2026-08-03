@@ -402,9 +402,13 @@
 }
 
 @media (max-width: 560px) {
-  .PlanActions .IconGhost:nth-child(1),
-  .PlanActions .IconGhost:nth-child(2) {
-    display: none;
+  .PlanRow {
+    flex-wrap: wrap;
+  }
+  .PlanActions {
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 4px;
   }
 }
 

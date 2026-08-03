@@ -238,7 +238,7 @@ export function AppProvider({ children }) {
         const r = { ...entry, viewedAt: Date.now() };
         return [r, ...prev.filter((p) => p.id !== id)].slice(0, 12);
       });
-      if (added) pushToast(`Added “${entry.title}” to your plan`, 'success');
+      if (added) pushToast(`Added “${entry.title}” to plan · open My list`, 'success');
       else pushToast(`“${entry.title}” is already in your plan`, 'info');
       return added;
     },

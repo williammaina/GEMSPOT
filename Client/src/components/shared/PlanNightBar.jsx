@@ -4,52 +4,65 @@ import { CalendarDays, MapPin, Sparkles, X, Trash2 } from 'lucide-react';
 import { PlanNightBarStyles as styles } from '@styles';
 import { useApp } from '../../library/contexts/AppContext.js';
 
+const DISMISS_KEY = 'gemspot-plan-bar-dismissed';
+
 /**
- * Floating tray for "Your plan" — driven by planStops from
- * Today's pick + Add to plan actions.
+ * Floating tray for an active plan only — not for empty/recent-only noise.
  */
 export function PlanNightBar() {
   const {
     planStops = [],
-    recentPlaces = [],
     interestedEvents = [],
     removeFromPlan,
     clearPlan,
   } = useApp();
-  const [open, setOpen] = useState(true);
+
+  const [open, setOpen] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return sessionStorage.getItem(DISMISS_KEY) !== '1';
+  });
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') handleDismiss();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Prefer explicit plan stops; fall back to last viewed place
-  const stops = planStops.length
-    ? planStops
-    : recentPlaces[0]
-      ? [recentPlaces[0]]
-      : [];
-  const event = interestedEvents[0];
+  // Re-open when user adds a stop after dismissing
+  useEffect(() => {
+    if (planStops.length > 0 && sessionStorage.getItem(DISMISS_KEY) !== '1') {
+      setOpen(true);
+    }
+  }, [planStops.length]);
 
-  if (!open || (stops.length === 0 && !event)) return null;
+  const handleDismiss = () => {
+    setOpen(false);
+    try {
+      sessionStorage.setItem(DISMISS_KEY, '1');
+    } catch {
+      /* ignore */
+    }
+  };
+
+  // Only show for explicit plan content — never recent-only filler
+  if (!open || (planStops.length === 0 && interestedEvents.length === 0)) return null;
 
   return (
     <aside className={styles.Bar} aria-label="Your plan">
       <div className={styles.Head}>
         <span className={styles.Label}>
           <Sparkles size={14} /> Your plan
-          {stops.length > 0 ? ` · ${stops.length}` : ''}
+          {planStops.length > 0 ? ` · ${planStops.length}` : ''}
         </span>
-        <button type="button" className={styles.Close} onClick={() => setOpen(false)} aria-label="Hide">
+        <button type="button" className={styles.Close} onClick={handleDismiss} aria-label="Hide">
           <X size={14} />
         </button>
       </div>
 
       <div className={styles.Items}>
-        {stops.map((place) => (
+        {planStops.slice(0, 3).map((place) => (
           <div key={place.id} className={styles.ItemRow}>
             <Link to={`/place/${place.id}`} className={styles.Item}>
               <MapPin size={14} />
@@ -60,38 +73,36 @@ export function PlanNightBar() {
                 </small>
               </span>
             </Link>
-            {planStops.length > 0 && (
-              <button
-                type="button"
-                className={styles.Remove}
-                aria-label={`Remove ${place.title}`}
-                onClick={() => removeFromPlan?.(place.id)}
-              >
-                <Trash2 size={13} />
-              </button>
-            )}
+            <button
+              type="button"
+              className={styles.Remove}
+              aria-label={`Remove ${place.title}`}
+              onClick={() => removeFromPlan?.(place.id)}
+            >
+              <Trash2 size={13} />
+            </button>
           </div>
         ))}
-        {event && (
-          <Link to={`/event/${event.id}`} className={styles.Item}>
+        {interestedEvents[0] && (
+          <Link to={`/event/${interestedEvents[0].id}`} className={styles.Item}>
             <CalendarDays size={14} />
             <span>
-              <strong>{event.title}</strong>
-              <small>{event.location || 'Event'}</small>
+              <strong>{interestedEvents[0].title}</strong>
+              <small>{interestedEvents[0].location || 'Event'}</small>
             </span>
           </Link>
         )}
       </div>
 
       <div className={styles.Actions}>
-        <Link to="/saved?tab=plan" className={styles.OpenPlan}>
+        <Link to="/saved?tab=plan" className={styles.OpenPlan} onClick={() => {
+          try { sessionStorage.removeItem(DISMISS_KEY); } catch { /* */ }
+        }}>
           Open my list
         </Link>
-        {(stops.length > 0 || event) && (
-          <button type="button" className={styles.Clear} onClick={() => clearPlan?.()}>
-            Clear
-          </button>
-        )}
+        <button type="button" className={styles.Clear} onClick={() => clearPlan?.()}>
+          Clear
+        </button>
       </div>
     </aside>
   );

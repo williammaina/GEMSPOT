@@ -74,15 +74,26 @@ export function SavedPage() {
     }
   }, [params, planStops.length, interestedEvents.length, setParams]);
 
+  const buildPlanText = () => {
+    const lines = ['My GemSpot plan 🇰🇪', ''];
+    planStops.forEach((p, i) => {
+      lines.push(`${i + 1}. ${p.title || p.name || 'Stop'}`);
+      if (p.location) lines.push(`   ${p.location}`);
+    });
+    interestedEvents.forEach((e) => {
+      lines.push(`• Event: ${e.title}`);
+      if (e.location) lines.push(`   ${e.location}`);
+    });
+    lines.push('', 'Open on GemSpot:', typeof window !== 'undefined' ? window.location.href : '');
+    return lines.join('\n');
+  };
+
   const handleShare = async () => {
+    const text = buildPlanText();
     const url = typeof window !== 'undefined' ? window.location.href : '';
     try {
       if (navigator.share) {
-        await navigator.share({
-          title: 'My GemSpot plan',
-          text: 'Places I’m lining up on GemSpot KE',
-          url,
-        });
+        await navigator.share({ title: 'My GemSpot plan', text, url });
         pushToast?.('Shared', 'success');
         return;
       }
@@ -90,8 +101,8 @@ export function SavedPage() {
       /* fall through */
     }
     try {
-      await navigator.clipboard.writeText(url);
-      pushToast?.('Plan link copied', 'success');
+      await navigator.clipboard.writeText(text);
+      pushToast?.('Plan copied — paste into WhatsApp', 'success');
     } catch {
       pushToast?.('Could not share', 'error');
     }

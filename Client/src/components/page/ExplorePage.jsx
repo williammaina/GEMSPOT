@@ -12,12 +12,16 @@ import {
   Wallet,
   SlidersHorizontal,
   X,
+  Bus,
+  Navigation,
 } from 'lucide-react';
 import { PlaceCard } from '../shared/PlaceCard.jsx';
 import { ExploreInsightsRail } from '../shared/ExploreInsightsRail.jsx';
 import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
+import { MapboxCanvas } from '../view/MapboxCanvas.jsx';
 import { ExplorePageStyles as styles } from '@styles';
 import { usePlaces } from '@library';
+import { geocodeLocation } from '../../library/helpers/geocode.js';
 import { useApp } from '../../library/contexts/AppContext.js';
 
 const CATEGORIES = [
@@ -57,11 +61,15 @@ export function ExplorePage() {
       budget: (params.get('budget') || 'all').toLowerCase(),
       sort: (params.get('sort') || 'rating').toLowerCase(),
       open: params.get('open') === '1',
+      matatu: params.get('matatu') === '1',
+      evening: params.get('evening') === '1',
     };
   }, [location.search]);
 
   const [localQuery, setLocalQuery] = useState(urlFilters.query);
   const [focusedId, setFocusedId] = useState(null);
+  const [mapFocus, setMapFocus] = useState(null);
+  const [areaLabel, setAreaLabel] = useState('');
 
   const { places, total, isEmpty, loading, source } = usePlaces({
     category: urlFilters.category,
@@ -69,6 +77,8 @@ export function ExplorePage() {
     budget: urlFilters.budget,
     sort: urlFilters.sort,
     openNowOnly: urlFilters.open,
+    matatuOnly: urlFilters.matatu,
+    eveningOnly: urlFilters.evening,
     userLocation,
   });
 
@@ -105,7 +115,9 @@ export function ExplorePage() {
     urlFilters.query ||
     urlFilters.budget !== 'all' ||
     urlFilters.sort !== 'rating' ||
-    urlFilters.open;
+    urlFilters.open ||
+    urlFilters.matatu ||
+    urlFilters.evening;
 
   const categoryLabel =
     CATEGORIES.find((c) => c.id === urlFilters.category)?.label || 'Everything';
@@ -113,7 +125,50 @@ export function ExplorePage() {
 
   useEffect(() => {
     setFocusedId(null);
-  }, [urlFilters.category, urlFilters.query, urlFilters.budget, urlFilters.open]);
+  }, [urlFilters.category, urlFilters.query, urlFilters.budget, urlFilters.open, urlFilters.matatu, urlFilters.evening]);
+
+  // Search → map focus + area chip (does not touch Today's pick)
+  useEffect(() => {
+    const q = urlFilters.query;
+    if (!q || q.length < 2) {
+      setMapFocus(null);
+      setAreaLabel('');
+      return undefined;
+    }
+    let cancelled = false;
+    const placeHit = (places || []).find((p) => {
+      const blob = `${p.title || ''} ${p.location || ''} ${p.town || ''} ${p.county || ''}`.toLowerCase();
+      return blob.includes(q.toLowerCase());
+    });
+    if (
+      placeHit &&
+      Number.isFinite(Number(placeHit.latitude ?? placeHit.lat)) &&
+      Number.isFinite(Number(placeHit.longitude ?? placeHit.lng))
+    ) {
+      const label = placeHit.location || placeHit.title || q;
+      setMapFocus({
+        lng: Number(placeHit.longitude ?? placeHit.lng),
+        lat: Number(placeHit.latitude ?? placeHit.lat),
+        label,
+        zoom: 13.5,
+      });
+      setAreaLabel(label);
+      return undefined;
+    }
+    geocodeLocation(q).then((hit) => {
+      if (cancelled) return;
+      if (hit) {
+        setMapFocus({ lng: hit.lng, lat: hit.lat, label: hit.label || q, zoom: 13.2 });
+        setAreaLabel(hit.label || q);
+      } else {
+        setMapFocus(null);
+        setAreaLabel(q);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [urlFilters.query, places]);
 
   const focusPlace = useMemo(() => {
     if (!places?.length) return null;
@@ -196,6 +251,28 @@ export function ExplorePage() {
           )}
         </form>
 
+
+        {areaLabel && (
+          <div className={styles.AreaChipRow}>
+            <span className={styles.AreaChip}>
+              <Navigation size={13} aria-hidden="true" />
+              Near {areaLabel}
+              <button
+                type="button"
+                className={styles.AreaChipClear}
+                onClick={() => {
+                  setLocalQuery('');
+                  setAreaLabel('');
+                  setMapFocus(null);
+                  updateParams({ query: '' });
+                }}
+                aria-label="Clear area filter"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          </div>
+        )}
         <div className={styles.FilterBlock}>
           <div className={styles.FilterLabel}>
             <SlidersHorizontal size={14} aria-hidden="true" />
@@ -245,6 +322,22 @@ export function ExplorePage() {
             aria-pressed={urlFilters.open}
           >
             Open now
+          </button>
+          <button
+            type="button"
+            className={urlFilters.evening ? styles.PillActive : styles.Pill}
+            onClick={() => updateParams({ evening: urlFilters.evening ? '' : '1' })}
+            aria-pressed={urlFilters.evening}
+          >
+            <Moon size={13} aria-hidden="true" /> Evening
+          </button>
+          <button
+            type="button"
+            className={urlFilters.matatu ? styles.PillActive : styles.Pill}
+            onClick={() => updateParams({ matatu: urlFilters.matatu ? '' : '1' })}
+            aria-pressed={urlFilters.matatu}
+          >
+            <Bus size={13} aria-hidden="true" /> Matatu
           </button>
           <span className={styles.ResultsMeta} aria-live="polite" aria-live="polite">
             <MapPin size={13} aria-hidden="true" />
@@ -302,12 +395,17 @@ export function ExplorePage() {
         </div>
       </aside>
 
-      <ExploreInsightsRail
-        places={places}
-        categoryLabel={categoryLabel}
-        pick={focusPlace}
-        onSelectPick={setFocusedId}
-      />
+      <div className={styles.RightStack}>
+        <section className={styles.MapPane} aria-label="Map">
+          <MapboxCanvas places={places} focus={mapFocus} focusLabel={mapFocus?.label} />
+        </section>
+        <ExploreInsightsRail
+          places={places}
+          categoryLabel={categoryLabel}
+          pick={focusPlace}
+          onSelectPick={setFocusedId}
+        />
+      </div>
     </main>
   );
 }

@@ -40,6 +40,7 @@ export { AdminDashboard } from '../components/page/AdminDashboard.jsx';
 export { CategoryInsights } from '../components/shared/CategoryInsights.jsx';
 
 export { LocationCard } from '../components/shared/LocationCard.jsx';
+export { KnowBeforeYouGo } from '../components/shared/KnowBeforeYouGo.jsx';
 
 export { ExploreInsightsRail } from '../components/shared/ExploreInsightsRail.jsx';
 

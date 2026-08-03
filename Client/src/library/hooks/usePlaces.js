@@ -174,6 +174,8 @@ export function usePlaces(params = {}) {
   const budget = params.budget || 'all';
   const sort = params.sort || 'rating';
   const openNowOnly = Boolean(params.openNowOnly || params.open);
+  const matatuOnly = Boolean(params.matatuOnly || params.matatu);
+  const eveningOnly = Boolean(params.eveningOnly || params.evening);
   const userLocation = params.userLocation || null;
 
   const load = useCallback(async () => {
@@ -253,8 +255,27 @@ export function usePlaces(params = {}) {
       });
     }
 
+    if (matatuOnly) {
+      list = list.filter((p) => {
+        const m = String(p.matatu || p.matatu_route || '').trim();
+        return m.length > 0;
+      });
+    }
+
+    if (eveningOnly) {
+      list = list.filter((p) => {
+        const cat = String(p.category || '').toLowerCase();
+        const peak = String(p.peakHours || p.peak_hours || p.bestTime || p.best_time || '').toLowerCase();
+        const hours = String(p.hours || p.opening_hours || '').toLowerCase();
+        if (cat === 'nightlife') return true;
+        if (/evening|night|sunset|pm|after/.test(peak)) return true;
+        if (/pm|evening|night/.test(hours)) return true;
+        return false;
+      });
+    }
+
     return sortPlaces(list, sort, userLocation);
-  }, [rawPlaces, category, query, budget, sort, openNowOnly, userLocation]);
+  }, [rawPlaces, category, query, budget, sort, openNowOnly, matatuOnly, eveningOnly, userLocation]);
 
   return {
     places,

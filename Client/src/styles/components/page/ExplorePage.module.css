@@ -1027,3 +1027,63 @@
     padding-bottom: 32px !important;
   }
 }
+
+.AreaChipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.AreaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px 8px 12px;
+  border-radius: 999px;
+  background: var(--color-info-soft);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  color: var(--color-info);
+  font-size: 0.82rem;
+  font-weight: 700;
+  max-width: 100%;
+}
+.AreaChipClear {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.12);
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+.AreaChipClear:hover { background: rgba(37, 99, 235, 0.22); }
+
+.RightStack {
+  position: sticky;
+  top: 72px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(100vh - 80px);
+  overflow: auto;
+  padding: 16px 12px 24px 4px;
+}
+.MapPane {
+  flex-shrink: 0;
+  height: min(280px, 36vh);
+  min-height: 200px;
+}
+@media (max-width: 960px) {
+  .RightStack {
+    position: relative;
+    top: 0;
+    max-height: none;
+    order: -1;
+    padding: 12px 0 8px;
+  }
+  .MapPane { height: 220px; }
+}

@@ -14,6 +14,7 @@ export { useApiData } from '../library/hooks/useApiData.js';
 export { formatKES } from '../library/helpers/formatCurrency.js';
 export { calculateDistance } from '../library/helpers/calculateDistance.js';
 export { cn } from '../library/helpers/cn.js';
+export { geocodeLocation, getMapboxToken } from '../library/helpers/geocode.js';
 
 export { placesData } from '../library/json/placesData.js';
 export { eventsData } from '../library/json/eventsData.js';

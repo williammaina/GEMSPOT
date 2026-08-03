@@ -11,6 +11,7 @@ import {
   ReviewSection,
 } from '@components';
 import { CategoryInsights } from '../shared/CategoryInsights.jsx';
+import { KnowBeforeYouGo } from '../shared/KnowBeforeYouGo.jsx';
 import { PlaceDetailPageStyles as styles } from '@styles';
 import {
   getPlaceById,
@@ -244,6 +245,7 @@ export function PlaceDetailPage() {
           {/* Single category panel (menu / activities / vibe) — sits just above the map */}
           <section className={styles.SectionBlock} aria-label="Category insights">
             <CategoryInsights place={place} />
+            <KnowBeforeYouGo place={place} />
           </section>
 
           <section className={styles.SectionBlock} aria-label="Location">
@@ -294,6 +296,29 @@ export function PlaceDetailPage() {
           />
         </aside>
       </div>
+    
+      <div className={styles.StickyBar} role="region" aria-label="Place actions">
+        <button
+          type="button"
+          className={favorited ? styles.StickySecondaryOn : styles.StickySecondary}
+          onClick={() => toggleFavorite?.(placeId)}
+          aria-pressed={favorited}
+        >
+          <Heart size={16} fill={favorited ? 'currentColor' : 'none'} />
+          {favorited ? 'Saved' : 'Save'}
+        </button>
+        <button
+          type="button"
+          className={styles.StickyPrimary}
+          onClick={() => {
+            if (isInPlan?.(placeId)) removeFromPlan?.(placeId);
+            else addToPlan?.(place);
+          }}
+        >
+          {isInPlan?.(placeId) ? 'Remove from plan' : 'Add to plan'}
+        </button>
+      </div>
+
     </main>
   );
 }
