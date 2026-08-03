@@ -1,0 +1,173 @@
+
+.NavbarWrap { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px); background: var(--navbar-bg); border-bottom: 1px solid var(--color-border); }
+.NavbarContainer { max-width: 100%; margin: 0 auto; padding: 12px 28px; display: flex; align-items: center; gap: 16px; }
+/* BrandMark redefined below */
+/* BrandIconShell redefined below */
+/* LogoIcon redefined */
+/* BrandCopy redefined */
+/* BrandName redefined */
+/* BrandTagline redefined */
+.NavLinks { display: none; gap: 4px; flex: 1; }
+@media (min-width: 900px) { .NavLinks { display: flex; } }
+.NavLink, .NavLinkActive { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; font-size: 1rem; font-weight: 600; color: var(--color-text-muted); text-decoration: none; }
+.NavLinkActive, .NavLink:hover { color: var(--color-text); background: var(--color-surface-soft); }
+.NavActions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.IconButton { position: relative; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--color-border); background: var(--card-bg); color: var(--color-text); cursor: pointer; text-decoration: none; }
+.Badge { position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--color-primary); color: var(--color-text-inverse); font-size: 0.65rem; font-weight: 800; display: grid; place-items: center; }
+.ProfileWrap { position: relative; }
+.ProfileButton { display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px; border-radius: 999px; border: 1px solid var(--color-border); background: var(--card-bg); cursor: pointer; color: var(--color-text); }
+.ProfileAvatar { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 999px; background: var(--color-surface-soft); }
+.ProfileText { display: none; flex-direction: column; text-align: left; }
+@media (min-width: 640px) { .ProfileText { display: flex; } }
+.ProfileLabel { font-size: 0.8rem; font-weight: 700; }
+.ProfileName { font-size: 0.7rem; color: var(--color-text-muted); }
+.ProfileMenu { position: absolute; right: 0; top: calc(100% + 8px); min-width: 180px; padding: 8px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--color-border); box-shadow: var(--shadow-lg); z-index: 60; display: flex; flex-direction: column; gap: 2px; }
+.ProfileMenu a, .ProfileMenu button { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: none; background: transparent; border-radius: 10px; color: var(--color-text); font-size: 0.98rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: left; width: 100%; }
+.ProfileMenu a:hover, .ProfileMenu button:hover { background: var(--color-surface-soft); }
+.MenuBtn { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--color-border); background: var(--card-bg); color: var(--color-text); cursor: pointer; }
+@media (min-width: 900px) { .MenuBtn { display: none; } }
+.MobileMenu { position: fixed; inset: 56px 0 0 0; background: var(--color-bg); padding: 16px; display: flex; flex-direction: column; gap: 4px; z-index: 40; overflow-y: auto; }
+.MobileLink, .MobileLinkActive { display: flex; align-items: center; gap: 10px; padding: 14px; border-radius: 12px; font-weight: 600; color: var(--color-text); text-decoration: none; }
+.MobileLinkActive { background: var(--color-primary-soft); color: var(--color-primary); }
+.SkipLink { position: absolute; left: -9999px; }
+.SkipLink:focus { left: 12px; top: 12px; z-index: 100; padding: 8px 12px; background: var(--color-primary); color: #fff; border-radius: 8px; }
+.AppContent { max-width: 100%; margin: 0; padding: 0 20px; width: 100%; }
+
+/* BrandIconShell redefined below */
+/* removed dup logo */
+
+.IconLink {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  text-decoration: none;
+}
+.IconLink:hover {
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+}
+.Badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.68rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+
+/* ——— Brand lockup ——— */
+.BrandMark {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--color-text);
+  min-width: 0;
+  transition: opacity var(--transition-fast);
+}
+.BrandMark:hover { opacity: 0.92; }
+
+.BrandIconShell {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(94, 234, 212, 0.35), transparent 55%),
+    linear-gradient(145deg, rgba(16, 185, 129, 0.18), rgba(13, 159, 110, 0.08));
+  box-shadow:
+    0 0 0 1px var(--color-border-accent),
+    0 10px 24px rgba(13, 159, 110, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  flex-shrink: 0;
+}
+[data-theme='dark'] .BrandIconShell {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(54, 230, 195, 0.22), transparent 55%),
+    linear-gradient(145deg, rgba(54, 230, 195, 0.14), rgba(15, 23, 42, 0.4));
+  box-shadow:
+    0 0 0 1px var(--color-border-accent),
+    0 12px 28px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.LogoIcon { display: block; }
+
+.BrandCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  line-height: 1.15;
+}
+.BrandNameRow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.BrandName {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.055em;
+  color: var(--color-text);
+  background: linear-gradient(120deg, var(--color-text) 0%, var(--color-text) 55%, var(--color-primary) 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .BrandName {
+    color: transparent;
+  }
+  [data-theme='dark'] .BrandName {
+    background: linear-gradient(120deg, #f8fafc 0%, #e2e8f0 50%, #5eead4 120%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+.BrandKe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  color: var(--color-text-inverse);
+  background: var(--color-primary-gradient);
+  box-shadow: 0 2px 8px rgba(13, 159, 110, 0.28);
+  transform: translateY(-1px);
+}
+.BrandTagline {
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: var(--color-text-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+@media (max-width: 420px) {
+  .BrandTagline { display: none; }
+  .BrandName { font-size: 1.08rem; }
+  .BrandIconShell { width: 38px; height: 38px; border-radius: 12px; }
+}

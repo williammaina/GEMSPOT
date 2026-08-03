@@ -56,8 +56,9 @@ export function SavedPage() {
     [places, favorites]
   );
 
-  const planCount = planStops.length + interestedEvents.length;
-  const savedCount = favorites.length;
+  const planCount = planStops.length;
+  const savedEventCount = interestedEvents.length;
+  const savedCount = favorites.length + interestedEvents.length;
   const recentCount = recentPlaces.length;
 
   const setTab = (id) => {
@@ -69,20 +70,17 @@ export function SavedPage() {
   // Smart default: open Plan if it has items and no explicit tab
   useEffect(() => {
     if (params.get('tab')) return;
-    if (planStops.length > 0 || interestedEvents.length > 0) {
+    if (planStops.length > 0) {
       setParams({ tab: 'plan' }, { replace: true });
     }
-  }, [params, planStops.length, interestedEvents.length, setParams]);
+  }, [params, planStops.length, setParams]);
 
-  const buildPlanText = () => {
+    const buildPlanText = () => {
     const lines = ['My GemSpot plan 🇰🇪', ''];
     planStops.forEach((p, i) => {
-      lines.push(`${i + 1}. ${p.title || p.name || 'Stop'}`);
+      const kind = p.type === 'event' ? 'Event' : 'Place';
+      lines.push(`${i + 1}. [${kind}] ${p.title || p.name || 'Stop'}`);
       if (p.location) lines.push(`   ${p.location}`);
-    });
-    interestedEvents.forEach((e) => {
-      lines.push(`• Event: ${e.title}`);
-      if (e.location) lines.push(`   ${e.location}`);
     });
     lines.push('', 'Open on GemSpot:', typeof window !== 'undefined' ? window.location.href : '');
     return lines.join('\n');
@@ -163,11 +161,8 @@ export function SavedPage() {
       {tab === 'plan' && (
         <PlanPanel
           planStops={planStops}
-          interestedEvents={interestedEvents}
           removeFromPlan={removeFromPlan}
           clearPlan={clearPlan}
-          toggleInterestedEvent={toggleInterestedEvent}
-          pushToast={pushToast}
           moveStop={moveStop}
         />
       )}
@@ -176,8 +171,11 @@ export function SavedPage() {
         <SavedPanel
           loading={loading}
           savedPlaces={savedPlaces}
+          interestedEvents={interestedEvents}
           isInPlan={isInPlan}
           addToPlan={addToPlan}
+          toggleInterestedEvent={toggleInterestedEvent}
+          pushToast={pushToast}
         />
       )}
 
@@ -195,14 +193,11 @@ function normalizeTab(raw) {
 
 function PlanPanel({
   planStops,
-  interestedEvents,
   removeFromPlan,
   clearPlan,
-  toggleInterestedEvent,
-  pushToast,
   moveStop,
 }) {
-  const empty = planStops.length === 0 && interestedEvents.length === 0;
+  const empty = planStops.length === 0;
 
   if (empty) {
     return (
@@ -212,15 +207,15 @@ function PlanPanel({
         </div>
         <h2 className={styles.EmptyTitle}>No stops yet</h2>
         <p>
-          Build tonight’s route from Saved places, Explore, or a place page — tap{' '}
-          <strong>Add to plan</strong>.
+          Build tonight’s route from Saved places or events — open the{' '}
+          <strong>Saved</strong> tab and tap <strong>Add to plan</strong>.
         </p>
         <div className={styles.EmptyLinks}>
-          <Link to="/explore" className={styles.Cta}>
-            Explore places <ArrowRight size={16} />
+          <Link to="/saved?tab=saved" className={styles.Cta}>
+            Open wishlist <ArrowRight size={16} />
           </Link>
-          <Link to="/saved?tab=saved" className={styles.CtaGhost}>
-            Open wishlist
+          <Link to="/events" className={styles.CtaGhost}>
+            Browse events
           </Link>
         </div>
       </div>
@@ -238,27 +233,34 @@ function PlanPanel({
         </button>
       </div>
 
-      {planStops.length > 0 && (
-        <section className={styles.Section}>
-          <div className={styles.SectionHead}>
-            <h2>Places</h2>
-            <span>{planStops.length}</span>
-          </div>
-          <ol className={styles.PlanList}>
-            {planStops.map((p, i) => (
-              <li key={p.id} className={styles.PlanRow}>
-                <span className={styles.Step}>{i + 1}</span>
-                <Link to={`/place/${p.id}`} className={styles.PlanMain}>
+      <section className={styles.Section}>
+        <div className={styles.SectionHead}>
+          <h2>Stops</h2>
+          <span>{planStops.length}</span>
+        </div>
+        <ol className={styles.PlanList}>
+          {planStops.map((p, i) => {
+            const isEvent = p.type === 'event';
+            const href = isEvent ? `/event/${p.id}` : `/place/${p.id}`;
+            return (
+              <li key={`${p.type || 'place'}-${p.id}`} className={styles.PlanRow}>
+                <span className={isEvent ? styles.StepEvent : styles.Step}>
+                  {isEvent ? <CalendarDays size={14} /> : i + 1}
+                </span>
+                <Link to={href} className={styles.PlanMain}>
                   {p.image ? (
                     <img src={p.image} alt="" className={styles.Thumb} loading="lazy" />
                   ) : (
                     <span className={styles.ThumbPlaceholder}>
-                      <MapPin size={16} />
+                      {isEvent ? <CalendarDays size={16} /> : <MapPin size={16} />}
                     </span>
                   )}
                   <span className={styles.Meta}>
                     <strong>{p.title || p.name}</strong>
-                    <small>{p.location || p.town || p.category || 'Place'}</small>
+                    <small>
+                      {isEvent ? 'Event' : 'Place'}
+                      {p.location ? ` · ${p.location}` : ''}
+                    </small>
                   </span>
                 </Link>
                 <div className={styles.PlanActions}>
@@ -280,7 +282,7 @@ function PlanPanel({
                   >
                     <ChevronDown size={16} />
                   </button>
-                  <Link to={`/place/${p.id}`} className={styles.ViewBtn} title="View">
+                  <Link to={href} className={styles.ViewBtn} title="View">
                     <ExternalLink size={14} />
                   </Link>
                   <button
@@ -293,54 +295,23 @@ function PlanPanel({
                   </button>
                 </div>
               </li>
-            ))}
-          </ol>
-        </section>
-      )}
-
-      {interestedEvents.length > 0 && (
-        <section className={styles.Section}>
-          <div className={styles.SectionHead}>
-            <h2>Events</h2>
-            <span>{interestedEvents.length}</span>
-          </div>
-          <ul className={styles.PlanList}>
-            {interestedEvents.map((e) => (
-              <li key={e.id} className={styles.PlanRow}>
-                <span className={styles.StepEvent}>
-                  <CalendarDays size={14} />
-                </span>
-                <Link to={`/event/${e.id}`} className={styles.PlanMain}>
-                  <span className={styles.Meta}>
-                    <strong>{e.title}</strong>
-                    <small>{e.location || 'Event'}</small>
-                  </span>
-                </Link>
-                <div className={styles.PlanActions}>
-                  <Link to={`/event/${e.id}`} className={styles.ViewBtn}>
-                    <ExternalLink size={14} />
-                  </Link>
-                  <button
-                    type="button"
-                    className={styles.RemoveBtn}
-                    onClick={() => {
-                      toggleInterestedEvent?.(e);
-                      pushToast?.('Removed interest', 'info');
-                    }}
-                  >
-                    <Trash2 size={14} />
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+            );
+          })}
+        </ol>
+      </section>
     </div>
   );
 }
 
-function SavedPanel({ loading, savedPlaces, isInPlan, addToPlan }) {
+function SavedPanel({
+  loading,
+  savedPlaces,
+  interestedEvents = [],
+  isInPlan,
+  addToPlan,
+  toggleInterestedEvent,
+  pushToast,
+}) {
   if (loading) {
     return (
       <div className={styles.Grid}>
@@ -351,17 +322,27 @@ function SavedPanel({ loading, savedPlaces, isInPlan, addToPlan }) {
     );
   }
 
-  if (savedPlaces.length === 0) {
+  const empty = savedPlaces.length === 0 && interestedEvents.length === 0;
+
+  if (empty) {
     return (
       <div className={styles.Empty}>
         <div className={styles.EmptyIcon}>
           <Heart size={28} />
         </div>
         <h2 className={styles.EmptyTitle}>Nothing saved yet</h2>
-        <p>Heart spots while you explore — then pull them into tonight’s plan when you’re ready.</p>
-        <Link to="/explore" className={styles.Cta}>
-          Explore places <ArrowRight size={16} />
-        </Link>
+        <p>
+          Heart places on Explore, or tap <strong>I’m interested</strong> on events — then add
+          them to tonight’s plan when you’re ready.
+        </p>
+        <div className={styles.EmptyLinks}>
+          <Link to="/explore" className={styles.Cta}>
+            Explore places <ArrowRight size={16} />
+          </Link>
+          <Link to="/events" className={styles.CtaGhost}>
+            Browse events
+          </Link>
+        </div>
       </div>
     );
   }
@@ -369,33 +350,103 @@ function SavedPanel({ loading, savedPlaces, isInPlan, addToPlan }) {
   return (
     <div className={styles.Panel}>
       <p className={styles.PanelHint}>
-        Long-term wishlist. Tap <strong>Add to plan</strong> when you’re ready to go.
+        Wishlist of places and events. Tap <strong>Add to plan</strong> when you’re ready to go.
       </p>
-      <div className={styles.Grid}>
-        {savedPlaces.map((place) => {
-          const id = String(place.place_id ?? place.id);
-          const inPlan = isInPlan?.(id);
-          return (
-            <div key={id} className={styles.SavedCardWrap}>
-              <PlaceCard place={place} />
-              <button
-                type="button"
-                className={inPlan ? styles.AddPlanBtnOn : styles.AddPlanBtn}
-                disabled={inPlan}
-                onClick={() => addToPlan?.(place)}
-              >
-                {inPlan ? (
-                  <>In plan</>
-                ) : (
-                  <>
-                    <Plus size={14} /> Add to plan
-                  </>
-                )}
-              </button>
-            </div>
-          );
-        })}
-      </div>
+
+      {savedPlaces.length > 0 && (
+        <section className={styles.Section}>
+          <div className={styles.SectionHead}>
+            <h2>Places</h2>
+            <span>{savedPlaces.length}</span>
+          </div>
+          <div className={styles.Grid}>
+            {savedPlaces.map((place) => {
+              const id = String(place.place_id ?? place.id);
+              const inPlan = isInPlan?.(id);
+              return (
+                <div key={id} className={styles.SavedCardWrap}>
+                  <PlaceCard place={place} />
+                  <button
+                    type="button"
+                    className={inPlan ? styles.AddPlanBtnOn : styles.AddPlanBtn}
+                    disabled={inPlan}
+                    onClick={() => addToPlan?.(place)}
+                  >
+                    {inPlan ? (
+                      <>In plan</>
+                    ) : (
+                      <>
+                        <Plus size={14} /> Add to plan
+                      </>
+                    )}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {interestedEvents.length > 0 && (
+        <section className={styles.Section}>
+          <div className={styles.SectionHead}>
+            <h2>Events</h2>
+            <span>{interestedEvents.length}</span>
+          </div>
+          <ul className={styles.PlanList}>
+            {interestedEvents.map((e) => {
+              const inPlan = isInPlan?.(e.id);
+              return (
+                <li key={e.id} className={styles.PlanRow}>
+                  <span className={styles.StepEvent}>
+                    <CalendarDays size={14} />
+                  </span>
+                  <Link to={`/event/${e.id}`} className={styles.PlanMain}>
+                    {e.image ? (
+                      <img src={e.image} alt="" className={styles.Thumb} loading="lazy" />
+                    ) : (
+                      <span className={styles.ThumbPlaceholder}>
+                        <CalendarDays size={16} />
+                      </span>
+                    )}
+                    <span className={styles.Meta}>
+                      <strong>{e.title}</strong>
+                      <small>
+                        {[e.startDate, e.location].filter(Boolean).join(' · ') || 'Event'}
+                      </small>
+                    </span>
+                  </Link>
+                  <div className={styles.PlanActions}>
+                    <button
+                      type="button"
+                      className={inPlan ? styles.AddPlanBtnOn : styles.AddPlanBtn}
+                      style={{ width: 'auto', padding: '8px 12px' }}
+                      disabled={inPlan}
+                      onClick={() => addToPlan?.({ ...e, type: 'event' })}
+                    >
+                      {inPlan ? 'In plan' : (
+                        <>
+                          <Plus size={14} /> Plan
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.RemoveBtn}
+                      title="Remove from saved"
+                      onClick={() => {
+                        toggleInterestedEvent?.(e);
+                      }}
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

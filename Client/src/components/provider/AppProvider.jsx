@@ -193,21 +193,33 @@ export function AppProvider({ children }) {
     if (!event) return;
     const id = String(event.id || event.event_id || '');
     if (!id) return;
+    let removed = false;
     setInterestedEvents((prev) => {
       const exists = prev.some((e) => String(e.id) === id);
-      if (exists) return prev.filter((e) => String(e.id) !== id);
+      if (exists) {
+        removed = true;
+        return prev.filter((e) => String(e.id) !== id);
+      }
       return [
         {
           id,
           title: event.title,
           location: event.location || event.venue_name,
           image: event.image || event.banner,
-          startDate: event.startDate || event.start_date,
+          startDate: event.startDate || event.start_date || event.weekday,
+          type: 'event',
         },
         ...prev,
       ].slice(0, 20);
     });
-  }, []);
+    // Also drop from plan if un-saving
+    if (removed) {
+      setPlanStops((prev) => prev.filter((p) => p.id !== id));
+      pushToast('Removed from saved events', 'info');
+    } else {
+      pushToast('Saved event · open My list to add to plan', 'success');
+    }
+  }, [pushToast]);
 
   const isInterestedEvent = useCallback(
     (id) => interestedEvents.some((e) => String(e.id) === String(id)),
@@ -217,14 +229,20 @@ export function AppProvider({ children }) {
   const addToPlan = useCallback(
     (place) => {
       if (!place) return false;
-      const id = String(place.place_id ?? place.id ?? '');
+      const isEvent =
+        place.type === 'event' ||
+        place.kind === 'event' ||
+        Boolean(place.startDate || place.start_date || place.event_id);
+      const id = String(place.place_id ?? place.event_id ?? place.id ?? '');
       if (!id) return false;
       const entry = {
         id,
         title: place.title || place.name,
-        location: place.location || place.town,
-        image: place.image || place.featured_image,
+        location: place.location || place.venue_name || place.town,
+        image: place.image || place.featured_image || place.banner,
         category: place.category,
+        type: isEvent ? 'event' : 'place',
+        startDate: place.startDate || place.start_date || place.weekday || null,
       };
       let added = false;
       setPlanStops((prev) => {
@@ -238,7 +256,7 @@ export function AppProvider({ children }) {
         const r = { ...entry, viewedAt: Date.now() };
         return [r, ...prev.filter((p) => p.id !== id)].slice(0, 12);
       });
-      if (added) pushToast(`Added “${entry.title}” to plan · open My list`, 'success');
+      if (added) pushToast(`Added “${entry.title}” to plan`, 'success');
       else pushToast(`“${entry.title}” is already in your plan`, 'info');
       return added;
     },

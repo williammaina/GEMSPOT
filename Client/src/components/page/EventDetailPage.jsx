@@ -19,7 +19,7 @@ import { SafeImage } from '../shared/SafeImage.jsx';
 export function EventDetailPage() {
   const { id } = useParams();
   const { syncEvent, downloadIcs, openOutlookWeb } = useCalendar();
-  const { pushToast, toggleInterestedEvent, isInterestedEvent } = useApp();
+  const { pushToast, toggleInterestedEvent, isInterestedEvent, addToPlan, isInPlan, removeFromPlan } = useApp();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -164,8 +164,20 @@ export function EventDetailPage() {
                   onClick={() => toggleInterestedEvent?.(event)}
                 >
                   <Users size={16} />{' '}
-                  {isInterestedEvent?.(event.id) ? 'Interested' : "I'm interested"}
+                  {isInterestedEvent?.(event.id) ? 'Saved' : "I'm interested"}
                 </button>
+                {isInterestedEvent?.(event.id) && (
+                  <button
+                    type="button"
+                    className={isInPlan?.(event.id) ? styles.SecondaryOn : styles.SecondaryBtn}
+                    onClick={() => {
+                      if (isInPlan?.(event.id)) removeFromPlan?.(event.id);
+                      else addToPlan?.({ ...event, type: 'event' });
+                    }}
+                  >
+                    {isInPlan?.(event.id) ? 'In plan' : 'Add to plan'}
+                  </button>
+                )}
                 <button
                   type="button"
                   className={styles.IconBtn}

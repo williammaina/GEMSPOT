@@ -253,7 +253,7 @@ export function EventsPage() {
                 onClick={() => toggleInterestedEvent?.(featuredEvent)}
               >
                 <Users size={16} />
-                {isInterestedEvent?.(featuredEvent.id) ? 'Interested' : "I'm interested"}
+                {isInterestedEvent?.(featuredEvent.id) ? 'Saved' : "I'm interested"}
               </button>
             </div>
           </div>
@@ -364,7 +364,7 @@ export function EventsPage() {
                         }}
                         aria-pressed={isOn}
                       >
-                        {isOn ? 'Interested' : 'Interest'}
+                        {isOn ? 'Saved' : 'Save'}
                       </button>
                       <button
                         type="button"
