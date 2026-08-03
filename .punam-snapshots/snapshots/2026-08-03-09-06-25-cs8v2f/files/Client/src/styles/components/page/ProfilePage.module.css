@@ -1,0 +1,419 @@
+.Page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 16px 100px;
+}
+
+.HeroCard {
+  padding: 22px 20px;
+  border-radius: 22px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 18px;
+}
+
+.HeroTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.Avatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  color: var(--color-text-inverse);
+  background: var(--color-primary-gradient);
+  box-shadow: var(--shadow-glow);
+}
+
+.HeroText {
+  flex: 1;
+  min-width: 0;
+}
+
+.NameRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.Title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--color-text);
+}
+
+.Email {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  word-break: break-all;
+}
+
+.Username {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-soft);
+}
+
+.AdminBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--color-primary) 16%, transparent);
+  color: var(--color-primary);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.EditBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.EditBtn:hover {
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+}
+
+.BioPreview {
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.EditForm {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.FormGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 520px) {
+  .FormGrid { grid-template-columns: 1fr; }
+}
+
+.FormGrid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.FormGrid input,
+.FormGrid textarea {
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.FormGrid input:focus,
+.FormGrid textarea:focus {
+  outline: none;
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.Full { grid-column: 1 / -1; }
+
+.FormActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.PrimaryBtn,
+.GhostBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.PrimaryBtn {
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+.PrimaryBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.GhostBtn {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.Stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+@media (max-width: 520px) {
+  .Stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+.StatCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 14px 14px 12px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+a.StatCard:hover {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-sm);
+}
+.StatCard strong {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+.StatCard span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.StatCard svg {
+  color: var(--color-primary);
+}
+
+.Section {
+  margin-bottom: 22px;
+}
+
+.SectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.SectionTitle {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.Menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.MenuItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.MenuItem:hover {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.MenuIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.MenuText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.MenuText strong {
+  font-size: 0.95rem;
+  font-weight: 750;
+  color: var(--color-text);
+}
+.MenuText small {
+  font-size: 0.8rem;
+  color: var(--color-text-soft);
+}
+
+.Chevron {
+  color: var(--color-text-soft);
+  flex-shrink: 0;
+}
+
+.RecentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.RecentItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  color: inherit;
+}
+.RecentItem:hover {
+  border-color: var(--color-border-accent);
+}
+.RecentItem img,
+.RecentPlaceholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--color-surface-soft);
+}
+.RecentPlaceholder {
+  display: grid;
+  place-items: center;
+  color: var(--color-text-soft);
+}
+.RecentItem strong {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+.RecentItem small {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-text-soft);
+}
+
+.PrefCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+}
+.PrefCard strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 750;
+}
+.PrefCard p {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: var(--color-text-soft);
+}
+
+.ThemeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-weight: 750;
+  font-size: 0.85rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.ThemeBtn:hover {
+  border-color: var(--color-border-accent);
+}
+
+.SignOut {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--color-danger) 35%, var(--color-border));
+  background: color-mix(in srgb, var(--color-danger) 8%, transparent);
+  color: var(--color-danger);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.SignOut:hover {
+  background: color-mix(in srgb, var(--color-danger) 14%, transparent);
+}

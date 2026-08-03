@@ -1,0 +1,1029 @@
+.LayoutSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
+  gap: 0;
+  min-height: calc(100vh - 120px);
+  margin: 0;
+  max-width: none;
+  width: 100%;
+}
+@media (max-width: 960px) {
+  .LayoutSplit { grid-template-columns: 1fr; margin: 0; }
+  .MapSection { order: -1; }
+}
+
+.ListSection {
+  padding: 24px 16px 110px 8px;
+  overflow-y: auto;
+  max-height: calc(100vh - 64px);
+  border-right: 1px solid var(--color-border);
+}
+@media (max-width: 960px) {
+  .ListSection { max-height: none; border-right: none; padding: 16px 0 80px; }
+}
+
+.ListHeader { margin-bottom: 16px; }
+.SectionTitle {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  font-weight: 800;
+}
+.SectionSubtitle { margin: 0; color: var(--color-text-muted); font-size: 1.02rem; line-height: 1.5; }
+
+.SearchRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.SearchIcon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-soft);
+  pointer-events: none;
+}
+.SearchField {
+  width: 100%;
+  padding: 14px 44px 14px 44px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text);
+  font-size: 1.02rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.SearchField:focus {
+  border-color: var(--color-border-accent);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+.ClearBtn {
+  position: absolute;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.ClearBtn:hover { color: var(--color-text); }
+
+.FilterBlock { margin-bottom: 12px; }
+.FilterLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-soft);
+}
+.PillRow { display: flex; flex-wrap: wrap; gap: 8px; }
+.Pill, .PillActive {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text-muted);
+  font-size: 1.02rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.Pill:hover { border-color: var(--color-border-accent); color: var(--color-primary); }
+.PillActive {
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.MetaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+.ResultsMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+.SortWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--color-text-muted);
+}
+.SortSelect {
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+.SortSelect:focus { border-color: var(--color-border-accent); }
+.ResetBtn {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ResetBtn:hover { color: var(--color-danger); border-color: rgba(239, 68, 68, 0.35); }
+
+.PlaceStack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+@media (max-width: 1200px) {
+  .PlaceStack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .PlaceStack { grid-template-columns: 1fr; gap: 14px; }
+}
+
+.EmptyState {
+  text-align: center;
+  padding: 48px 20px;
+  border-radius: 18px;
+  border: 1px dashed var(--color-border);
+  background: var(--color-surface-soft);
+}
+.EmptyStateTitle {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+.EmptyStateText { margin: 0 0 16px; color: var(--color-text-muted); font-size: 0.9rem; }
+.EmptyStateAction {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-inverse);
+  font-weight: 800;
+  font-size: 1.02rem;
+  cursor: pointer;
+}
+
+.MapSection {
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  padding: 12px;
+}
+@media (max-width: 960px) {
+  .MapSection { position: relative; top: 0; height: auto; min-height: 0; padding: 16px 12px 24px; order: -1; }
+}
+.MapCanvas {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+}
+
+
+/* Discovery helpers — for users who don't know what they want */
+.DiscoveryStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--color-primary-soft), rgba(59,130,246,0.08));
+  border: 1px solid var(--color-border-accent);
+}
+.DiscoveryLabel {
+  width: 100%;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-soft);
+  margin-bottom: 2px;
+}
+.DiscoverChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.DiscoverChip:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-sm);
+}
+.DiscoverChipPrimary {
+  composes: DiscoverChip;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: transparent;
+}
+.DiscoverChipPrimary:hover {
+  background: var(--color-primary-hover);
+}
+
+.ResultsMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.FilterChip, .FilterChipActive {
+  font-size: 0.9rem !important;
+  padding: 9px 14px !important;
+  font-weight: 700 !important;
+}
+
+
+.LocationHub {
+  position: sticky;
+  top: 80px;
+  padding: 20px 16px;
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
+}
+.HubEyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-soft);
+}
+.HubTitle {
+  margin: 4px 0 6px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.HubText {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+.HubList {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.HubItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+.HubItem:hover {
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
+}
+.HubItemTitle {
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+.HubItemMeta {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+.HubEmpty {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  padding: 8px 0;
+}
+.HubMap {
+  margin-top: 8px;
+}
+
+
+/* —— Refined place preview rail —— */
+.MapSection {
+  position: sticky;
+  top: 72px;
+  height: calc(100vh - 80px);
+  padding: 16px 16px 16px 8px;
+  overflow: hidden;
+}
+@media (max-width: 960px) {
+  .MapSection {
+    position: relative;
+    top: 0;
+    height: auto;
+    padding: 0 0 32px;
+  }
+}
+.PreviewPanel {
+  height: 100%;
+  overflow-y: auto;
+  border-radius: 22px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+}
+.PreviewHero {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  background: var(--color-bg-elevated);
+  flex-shrink: 0;
+}
+.PreviewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.PreviewHeroOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(8, 12, 20, 0.82) 0%, rgba(8, 12, 20, 0.15) 55%, transparent 100%);
+  color: #fff;
+}
+.PreviewCat {
+  align-self: flex-start;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.PreviewName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+.PreviewLoc {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  opacity: 0.88;
+}
+.PreviewBody {
+  padding: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.PreviewMatatu {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+.PreviewCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.PreviewCta:hover { background: var(--color-primary-hover); }
+.PreviewMap {
+  padding: 14px 12px 0;
+}
+.PreviewMap :global(section) {
+  box-shadow: none;
+  border-radius: 16px;
+}
+.PreviewList {
+  padding: 14px 12px 18px;
+  margin-top: auto;
+}
+.PreviewListLabel {
+  margin: 0 0 8px;
+  padding: 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-soft);
+}
+.PreviewList ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.PreviewListItem, .PreviewListItemActive {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--color-text);
+  transition: background 0.15s, border-color 0.15s;
+}
+.PreviewListItem:hover {
+  background: var(--color-surface-soft);
+}
+.PreviewListItemActive {
+  background: var(--color-primary-soft);
+  border-color: var(--color-border-accent);
+}
+.PreviewListItem span, .PreviewListItemActive span {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+.PreviewListItem small, .PreviewListItemActive small {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+.PreviewEmpty {
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+
+/* —— Insights rail (Tonight's pick + list stats) —— */
+.InsightsRail {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 24px;
+  scrollbar-width: thin;
+}
+
+.PickCard {
+  border-radius: 22px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+}
+.PickHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px 10px;
+}
+.PickEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+.PickContext {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-soft);
+}
+.PickHero {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 11;
+  background: var(--color-bg-elevated);
+  text-decoration: none;
+  color: inherit;
+}
+.PickImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.PickOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(8,12,20,0.88) 0%, rgba(8,12,20,0.2) 55%, transparent);
+  color: #fff;
+}
+.PickCat {
+  align-self: flex-start;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.16);
+  backdrop-filter: blur(6px);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+.PickName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+.PickLoc {
+  margin: 6px 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.88rem;
+  opacity: 0.9;
+}
+.PickWhy {
+  margin: 0;
+  padding: 12px 16px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+.PickMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px 0;
+}
+.PickChip, .PickChipMuted {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+.PickChipMuted {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+.PickCta {
+  margin: 14px 16px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.98rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+.PickCta:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+.PickEmpty {
+  padding: 28px 18px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.InsightsCard {
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.InsightsTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.InsightsSub {
+  margin: 4px 0 14px;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+.InsightGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.InsightItem {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 14px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+}
+.InsightIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.InsightItem strong {
+  display: block;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+.InsightItem span {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+.MatatuBlock {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+.MatatuLabel {
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-soft);
+}
+.MatatuList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.MatatuList li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}
+.MatatuRoute { flex: 1; }
+.MatatuCount {
+  font-weight: 800;
+  color: var(--color-text);
+  background: var(--color-primary-soft);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+}
+
+.AltPicks {
+  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  padding: 12px;
+}
+.AltLabel {
+  margin: 0 0 8px;
+  padding: 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-soft);
+}
+.AltList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.AltItem, .AltItemActive {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: background 0.15s, border-color 0.15s;
+}
+.AltItem:hover { background: var(--color-surface-soft); }
+.AltItemActive {
+  background: var(--color-primary-soft);
+  border-color: var(--color-border-accent);
+}
+.AltItem img, .AltItemActive img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.AltItem span, .AltItemActive span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.AltItem strong, .AltItemActive strong {
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.AltItem small, .AltItemActive small {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* MapSection used as sticky rail container */
+.MapSection {
+  position: sticky;
+  top: 72px;
+  height: calc(100vh - 80px);
+  padding: 16px 12px 16px 4px;
+  overflow: hidden;
+}
+@media (max-width: 960px) {
+  .MapSection {
+    position: relative;
+    top: 0;
+    height: auto;
+    padding: 0 0 40px;
+  }
+}
+
+.PickActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 16px 16px;
+}
+.PickActions .PickCta { margin: 0; }
+.PickPlan, .PickPlanActive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  transition: background 0.15s, border-color 0.15s;
+}
+.PickPlan:hover { border-color: var(--color-border-accent); background: var(--color-primary-soft); }
+.PickPlanActive {
+  background: var(--color-primary-soft);
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+}
+
+/* —— Shape this night (replaces list insights) —— */
+.QuickFilterGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 14px;
+}
+.QuickFilter,
+.QuickFilterActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.15s;
+}
+.QuickFilter:hover {
+  border-color: var(--color-border-accent);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+.QuickFilterActive {
+  background: var(--color-primary-soft);
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+}
+
+.TownChipBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+.TownChipBtn:hover .MatatuRoute {
+  color: var(--color-primary);
+}
+
+.PlanPreview {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+.PlanPreviewList {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.PlanPreviewList a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.PlanPreviewList a:hover {
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
+}
+
+.AmenityHints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--color-text-muted);
+}
+.AmenityHints span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Today's pick prominence */
+.PickCard {
+  position: sticky;
+  top: 12px;
+  z-index: 2;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 35%, var(--color-border));
+  box-shadow: var(--shadow-lg), 0 0 0 1px color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+.PickEyebrow {
+  font-size: 0.82rem !important;
+}
+@media (max-width: 960px) {
+  .MapSection {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 12px 12px 8px !important;
+  }
+  .InsightsRail {
+    max-height: none;
+    overflow: visible;
+  }
+  .PickCard {
+    position: relative;
+    top: 0;
+  }
+}
+
+/* Ensure Add to plan is always on-screen */
+.PickHero { border-radius: 0; overflow: hidden; }
+.PickActions {
+  flex-shrink: 0 !important;
+  position: relative;
+  z-index: 3;
+  background: var(--card-bg);
+  margin: 12px 16px 18px !important;
+  padding-bottom: 2px;
+}
+.PickPlan, .PickPlanActive {
+  min-height: 44px;
+  width: 100%;
+}
+.InsightsRail {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 48px !important;
+  max-height: none;
+}
+@media (min-width: 961px) {
+  .MapSection {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    max-height: calc(100vh - 72px);
+    padding-bottom: 32px !important;
+  }
+}
