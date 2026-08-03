@@ -1,0 +1,590 @@
+.Page {
+  position: relative;
+  padding: 0 0 100px;
+  overflow: hidden;
+}
+
+.GlowA,
+.GlowB {
+  pointer-events: none;
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  z-index: 0;
+}
+.GlowA {
+  width: 420px;
+  height: 420px;
+  top: -80px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.35), transparent 70%);
+}
+.GlowB {
+  width: 360px;
+  height: 360px;
+  top: 120px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.22), transparent 70%);
+}
+.DotGrid {
+  pointer-events: none;
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 640px;
+  background-image:
+    radial-gradient(rgba(15, 23, 42, 0.07) 1px, transparent 1px),
+    radial-gradient(rgba(16, 185, 129, 0.12) 1.2px, transparent 1.6px);
+  background-size: 22px 22px, 48px 48px;
+  background-position: 0 0, 12px 18px;
+  mask-image: linear-gradient(180deg, #000 35%, transparent 95%);
+  z-index: 0;
+  animation: gridDrift 40s linear infinite;
+}
+[data-theme='dark'] .DotGrid {
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    radial-gradient(rgba(54, 230, 195, 0.14) 1.2px, transparent 1.6px);
+}
+@keyframes gridDrift {
+  from { background-position: 0 0, 12px 18px; }
+  to { background-position: 22px 22px, 60px 66px; }
+}
+
+.Hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 48px 16px 40px;
+  min-height: 420px;
+}
+
+.FloatField {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.FloatCard {
+  position: absolute;
+  width: 148px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  opacity: 0.92;
+  animation: floatY 7s ease-in-out infinite;
+}
+.FloatCard img {
+  width: 100%;
+  height: 88px;
+  object-fit: cover;
+}
+.FloatCard div {
+  padding: 8px 10px 10px;
+}
+.FloatCard strong {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.25;
+}
+.FloatCard span {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+.FloatCard[data-i='0'] { top: 8%; left: 4%; animation-delay: 0s; }
+.FloatCard[data-i='1'] { top: 18%; right: 6%; animation-delay: -1.2s; }
+.FloatCard[data-i='2'] { bottom: 18%; left: 8%; animation-delay: -2.4s; }
+.FloatCard[data-i='3'] { bottom: 12%; right: 10%; animation-delay: -3.1s; }
+.FloatCard[data-i='4'] { top: 42%; left: 2%; animation-delay: -0.6s; }
+.FloatCard[data-i='5'] { top: 52%; right: 3%; animation-delay: -4s; }
+@keyframes floatY {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(0.6deg); }
+}
+@media (max-width: 900px) {
+  .FloatCard { display: none; }
+}
+
+.HeroCore {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  text-align: center;
+  padding: 24px 12px;
+}
+.Eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-border-accent);
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.HeroTitle {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 3.2rem);
+  letter-spacing: -0.05em;
+  line-height: 1.08;
+  color: var(--color-text);
+  animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.GradientText {
+  background: var(--color-primary-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: shimmerText 6s ease-in-out infinite;
+}
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes shimmerText {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.HeroSub {
+  margin: 0 auto 24px;
+  max-width: 480px;
+  color: var(--color-text-muted);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+.HeroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+.PrimaryCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-inverse);
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.28);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.PrimaryCta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(16, 185, 129, 0.36);
+}
+.GhostCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.GhostCta:hover {
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
+}
+.SearchShell {
+  margin-top: 8px;
+}
+
+.Section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto 40px;
+  padding: 0 16px;
+}
+.SectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.SectionHead h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+.SectionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.98rem;
+  text-decoration: none;
+}
+.SectionLink:hover { text-decoration: underline; }
+
+.EventRail {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.EventRailCard {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.EventRailCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-glow);
+}
+.EventRailMedia {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+}
+.EventRailMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.EventRailCard:hover .EventRailMedia img { transform: scale(1.05); }
+.EventRailPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-surface-soft), var(--color-border));
+}
+.EventRailCard h3 {
+  margin: 10px 12px 4px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+.EventRailCard p {
+  margin: 0 12px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+.EventRailCard span {
+  display: block;
+  margin: 4px 12px 12px;
+  font-size: 0.75rem;
+  color: var(--color-text-soft);
+}
+.EventRailSkeleton {
+  flex: 0 0 220px;
+  height: 200px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, var(--color-surface-soft), var(--color-border), var(--color-surface-soft));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.EmptyHint {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  padding: 12px 0;
+}
+
+.CategoryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+.CategoryTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 12px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.CategoryTile:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--tile-accent, var(--color-primary)) 45%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--tile-accent, var(--color-primary)) 18%, transparent);
+}
+.CategoryIcon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--tile-accent, var(--color-primary)) 16%, transparent);
+  color: var(--tile-accent, var(--color-primary));
+}
+.CategoryLabel {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.CityRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.CityChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 0.98rem;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.CityChip:hover {
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.WhyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+.WhyCard {
+  padding: 20px;
+  border-radius: 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+.WhyCard:hover {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+.WhyCard svg { color: var(--color-primary); margin-bottom: 10px; }
+.WhyCard h3 {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+.WhyCard p {
+  margin: 0;
+  font-size: 0.98rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.CloseBand {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 48px auto 0;
+  padding: 40px 24px;
+  text-align: center;
+  border-radius: 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+.CloseBand h2 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+}
+.CloseBand p {
+  margin: 0 0 20px;
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .FloatCard, .EventRailSkeleton, .DotGrid, .HeroTitle, .GradientText { animation: none; }
+  .PrimaryCta:hover, .CategoryTile:hover, .EventRailCard:hover, .WhyCard:hover, .CityChip:hover {
+    transform: none;
+  }
+}
+
+
+.DiscoveryPanel {
+  max-width: 1100px;
+  margin: 8px auto 40px;
+  padding: 0 20px;
+}
+.DiscoveryInner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+  padding: 28px 28px;
+  border-radius: 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+@media (max-width: 800px) {
+  .DiscoveryInner { grid-template-columns: 1fr; padding: 22px; }
+}
+.DiscoveryKicker {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-primary);
+}
+.DiscoveryTitle {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.DiscoveryCopy {
+  margin: 0;
+  font-size: 1.02rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: 42ch;
+}
+.DiscoveryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-content: center;
+}
+.DiscoveryLink {
+  display: inline-flex;
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.DiscoveryLink:hover {
+  border-color: var(--color-border-accent);
+  transform: translateY(-1px);
+}
+.DiscoveryLinkAccent {
+  display: inline-flex;
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.DiscoveryLinkAccent:hover { background: var(--color-primary-hover); }
+
+.Hero > *:not([aria-hidden]) { position: relative; z-index: 1; }
+
+
+/* —— Extra homepage motion —— */
+.HeroCore > * {
+  animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.HeroCore > *:nth-child(1) { animation-delay: 0.05s; }
+.HeroCore > *:nth-child(2) { animation-delay: 0.14s; }
+.HeroCore > *:nth-child(3) { animation-delay: 0.22s; }
+.HeroCore > *:nth-child(4) { animation-delay: 0.3s; }
+.HeroCore > *:nth-child(5) { animation-delay: 0.38s; }
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(22px); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+.FloatCard {
+  animation: floatY 7s ease-in-out infinite, cardIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.FloatCard[data-i='0'] { animation-delay: 0s, 0.2s; }
+.FloatCard[data-i='1'] { animation-delay: -1.2s, 0.35s; }
+.FloatCard[data-i='2'] { animation-delay: -2.4s, 0.5s; }
+.FloatCard[data-i='3'] { animation-delay: -3.1s, 0.65s; }
+.FloatCard[data-i='4'] { animation-delay: -0.6s, 0.8s; }
+.FloatCard[data-i='5'] { animation-delay: -4s, 0.95s; }
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.92); }
+  to { opacity: 0.92; transform: none; }
+}
+
+.PrimaryCta {
+  position: relative;
+  overflow: hidden;
+}
+.PrimaryCta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: ctaShine 3.5s ease-in-out infinite;
+}
+@keyframes ctaShine {
+  0%, 55% { transform: translateX(-120%); }
+  75%, 100% { transform: translateX(120%); }
+}
+
+.GlowA { animation: glowDrift 10s ease-in-out infinite alternate; }
+.GlowB { animation: glowDrift 12s ease-in-out infinite alternate-reverse; }
+@keyframes glowDrift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(30px, 20px) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .HeroCore > *, .FloatCard, .PrimaryCta::after, .GlowA, .GlowB {
+    animation: none !important;
+  }
+}
+
+
+/* Luma-style closing band sits above the particle field */
+.CloseBand {
+  position: relative;
+  overflow: hidden;
+}
