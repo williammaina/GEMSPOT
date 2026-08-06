@@ -146,3 +146,28 @@ export async function fetchApiHealthHandler() {
   const response = await apiClient.get('/');
   return response.data;
 }
+
+
+/* ===================== Crowd (multi-user) ===================== */
+
+export async function fetchCrowdHandler(placeId) {
+  const response = await apiClient.get(`/crowd/${encodeURIComponent(placeId)}`);
+  return response.data?.data || response.data;
+}
+
+export async function postCrowdHandler(payload) {
+  const response = await apiClient.post('/crowd', payload);
+  return response.data?.data || response.data;
+}
+
+/* ===================== User state sync ===================== */
+
+export async function fetchMeStateHandler() {
+  const response = await apiClient.get('/me/state');
+  return response.data?.data || response.data;
+}
+
+export async function putMeStateHandler(body) {
+  const response = await apiClient.put('/me/state', body);
+  return response.data?.data || response.data;
+}

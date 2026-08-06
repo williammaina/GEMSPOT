@@ -21,7 +21,7 @@ import { SafeImage } from '../shared/SafeImage.jsx';
 export function EventDetailPage() {
   const { id } = useParams();
   const { syncEvent, downloadIcs, openOutlookWeb } = useCalendar();
-  const { pushToast, toggleInterestedEvent, isInterestedEvent, toggleGoingEvent, isGoingEvent, getEventGoingCount, addToPlan, isInPlan, removeFromPlan } = useApp();
+  const { pushToast, toggleInterestedEvent, isInterestedEvent, toggleGoingEvent, isGoingEvent, getEventGoingCount, addToPlan, isInPlan, removeFromPlan, remindEvent, enableNotifications, whatsappRemindLink } = useApp();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -177,6 +177,26 @@ export function EventDetailPage() {
                 >
                   {iAmGoing ? "You're going ✓" : 'Going'}
                 </button>
+                <button
+                  type="button"
+                  className={styles.SecondaryBtn}
+                  onClick={async () => {
+                    await enableNotifications?.();
+                    remindEvent?.(event, 24);
+                    pushToast?.('Reminder set for 24h before (while app can run)', 'success');
+                  }}
+                >
+                  Remind me
+                </button>
+                <a
+                  className={styles.SecondaryBtn}
+                  href={whatsappRemindLink?.(`Reminder: ${event.title} at ${event.location || 'TBA'} — via GemSpot`) || '#'}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textAlign: 'center', textDecoration: 'none' }}
+                >
+                  WhatsApp note
+                </a>
                 {isInterestedEvent?.(event.id) && (
                   <button
                     type="button"

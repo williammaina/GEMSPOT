@@ -24,8 +24,7 @@ import { ProfilePageStyles as styles } from '@styles';
 
 export function ProfilePage() {
   const navigate = useNavigate();
-  const {
-    user,
+  const { user,
     setUser,
     logout,
     favorites = [],
@@ -34,8 +33,7 @@ export function ProfilePage() {
     planStops = [],
     theme,
     toggleTheme,
-    pushToast,
-  } = useApp();
+    pushToast, enableNotifications, getSyncMeta, getNotifyPref } = useApp();
 
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -140,6 +138,15 @@ export function ProfilePage() {
           <div className={styles.HeroText}>
             <div className={styles.NameRow}>
               <h1 className={styles.Title}>{displayName}</h1>
+      <div style={{ margin: '16px 0', padding: 16, borderRadius: 16, border: '1px solid var(--color-border)', background: 'var(--card-bg)' }}>
+        <strong style={{ display: 'block', marginBottom: 8 }}>Alerts & sync</strong>
+        <p style={{ margin: '0 0 12px', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
+          Browser reminders for plans/events. Cloud sync when the API is reachable.
+        </p>
+        <button type="button" onClick={() => enableNotifications?.()} style={{ padding: '10px 16px', borderRadius: 12, border: 'none', background: 'var(--color-primary)', color: '#fff', fontWeight: 800, cursor: 'pointer' }}>
+          Enable notifications
+        </button>
+      </div>
               {isAdmin && (
                 <span className={styles.AdminBadge}>
                   <Shield size={12} /> Admin

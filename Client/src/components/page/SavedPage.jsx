@@ -41,8 +41,7 @@ export function SavedPage() {
   const [params, setParams] = useSearchParams();
   const tab = normalizeTab(params.get('tab'));
 
-  const {
-    favorites = [],
+  const { favorites = [],
     planStops = [],
     recentPlaces = [],
     interestedEvents = [],
@@ -52,8 +51,7 @@ export function SavedPage() {
     clearPlan,
     reorderPlan,
     toggleInterestedEvent,
-    pushToast,
-  } = useApp();
+    pushToast, remindPlanInOneHour, enableNotifications, whatsappRemindLink } = useApp();
 
   const { places, loading } = usePlaces({ category: 'all' });
   const todaysPick = places?.[0] || null;
@@ -523,6 +521,7 @@ function RecentPanel({ recentPlaces }) {
 
 
 function PlanNextSteps({ planStops = [] }) {
+  const { remindPlanInOneHour, enableNotifications, pushToast, whatsappRemindLink } = useApp();
   const [done, setDone] = useState({});
   const toggle = (id) => setDone((d) => ({ ...d, [id]: !d[id] }));
 
@@ -581,6 +580,38 @@ function PlanNextSteps({ planStops = [] }) {
       title: 'Go stop by stop',
       body: 'Check off each stop as you finish — keep the night moving.',
       action: null,
+    },
+    {
+      id: 'remind',
+      icon: CalendarDays,
+      title: 'Remind me',
+      body: 'Browser notification in 1 hour, or send yourself a WhatsApp note.',
+      action: (
+        <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <button
+            type="button"
+            className={styles.NextBtn}
+            onClick={async () => {
+              await enableNotifications?.();
+              remindPlanInOneHour?.(planStops);
+              pushToast?.('Reminder set for 1 hour', 'success');
+              toggle('remind');
+            }}
+          >
+            Notify in 1h
+          </button>
+          <a
+            className={styles.NextBtn}
+            href={whatsappRemindLink?.(
+              ['My GemSpot plan:', ...planStops.map((p, i) => `${i + 1}. ${p.title}`)].join('\n')
+            )}
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp
+          </a>
+        </span>
+      ),
     },
   ];
 

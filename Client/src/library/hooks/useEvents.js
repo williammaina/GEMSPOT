@@ -59,10 +59,18 @@ export function normalizeEvent(raw) {
     hostName = raw.host_name || '';
   }
 
+  const latitude = Number(raw.latitude ?? raw.lat);
+  const longitude = Number(raw.longitude ?? raw.lng ?? raw.lon);
+  const hasCoords = Number.isFinite(latitude) && Number.isFinite(longitude);
+
   return {
     ...raw,
     id: id != null ? String(id) : undefined,
     event_id: id,
+    latitude: hasCoords ? latitude : null,
+    longitude: hasCoords ? longitude : null,
+    lat: hasCoords ? latitude : null,
+    lng: hasCoords ? longitude : null,
     title: raw.title || raw.name || 'Untitled event',
     date: raw.date || raw.display_date || '',
     day,

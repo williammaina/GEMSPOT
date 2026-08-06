@@ -51,7 +51,7 @@ const SORTS = [
 export function ExplorePage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { addRecentSearch, userLocation } = useApp();
+  const { addRecentSearch, recentSearches, userLocation, locationStatus, requestLocation } = useApp();
 
   const urlFilters = useMemo(() => {
     const params = new URLSearchParams(location.search);
@@ -293,6 +293,31 @@ export function ExplorePage() {
             </span>
           </div>
         )}
+        {Array.isArray(recentSearches) && recentSearches.length > 0 && (
+          <div className={styles.RecentRow} aria-label="Recent searches">
+            <span className={styles.FilterLabel}>Recent</span>
+            <div className={styles.PillRow}>
+              {recentSearches.slice(0, 6).map((s) => {
+                const label = typeof s === 'string' ? s : s?.query || s?.label || '';
+                if (!label) return null;
+                return (
+                  <button
+                    key={label}
+                    type="button"
+                    className={styles.Pill}
+                    onClick={() => {
+                      setLocalQuery(label);
+                      updateParams({ query: label });
+                    }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         <div className={styles.FilterBlock}>
           <div className={styles.FilterLabel}>Budget</div>
           <div className={styles.PillRow} role="group" aria-label="Budget filters">
@@ -337,11 +362,53 @@ export function ExplorePage() {
           >
             <Bus size={13} aria-hidden="true" /> Matatu
           </button>
-          <span className={styles.ResultsMeta} aria-live="polite" aria-live="polite">
+          <button
+            type="button"
+            className={urlFilters.maxKm === '5' ? styles.PillActive : styles.Pill}
+            onClick={() => {
+              if (!userLocation) {
+                requestLocation?.();
+              }
+              updateParams({
+                maxKm: urlFilters.maxKm === '5' ? '' : '5',
+                sort: urlFilters.maxKm === '5' ? urlFilters.sort : 'distance',
+              });
+            }}
+            aria-pressed={urlFilters.maxKm === '5'}
+            title="Show places within 5 km of you"
+          >
+            <Navigation size={13} aria-hidden="true" /> Within 5 km
+          </button>
+          <button
+            type="button"
+            className={urlFilters.maxKm === '15' ? styles.PillActive : styles.Pill}
+            onClick={() => {
+              if (!userLocation) requestLocation?.();
+              updateParams({
+                maxKm: urlFilters.maxKm === '15' ? '' : '15',
+                sort: 'distance',
+              });
+            }}
+            aria-pressed={urlFilters.maxKm === '15'}
+          >
+            Within 15 km
+          </button>
+          <span className={styles.ResultsMeta} aria-live="polite">
             <MapPin size={13} aria-hidden="true" />
             {loading ? 'Loading…' : `${total} ${total === 1 ? 'spot' : 'spots'}`}
             {source === 'api' && !loading ? ' · live' : ''}
+            {userLocation && locationStatus === 'ready' ? ' · GPS on' : ''}
           </span>
+          {(locationStatus === 'denied' || locationStatus === 'error' || locationStatus === 'pending') && (
+            <button
+              type="button"
+              className={styles.Pill}
+              onClick={() => requestLocation?.()}
+              title="Use your GPS so cards show real distance"
+            >
+              <Navigation size={13} /> {locationStatus === 'pending' ? 'Locating…' : 'Enable location'}
+            </button>
+          )}
 
           <div className={styles.SortWrap}>
             <ArrowUpDown size={13} aria-hidden="true" />

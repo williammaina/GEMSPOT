@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { placesData } from '../json/placesData.js';
 import { fetchPlacesHandler, fetchPlaceByIdHandler } from '../handlers/apiHandler.js';
-import { calculateDistance } from '../helpers/calculateDistance.js';
+import { calculateDistance, getCoords } from '../helpers/calculateDistance.js';
+import { filterAndRankPlaces } from '../helpers/searchScore.js';
 import { isOpenNow } from '../helpers/openingHours.js';
 import { mergeWithAdminPlaces, ADMIN_CHANGED } from '../helpers/adminStore.js';
 
@@ -38,12 +39,20 @@ function normalizePlace(p) {
       ? p.tags.map((t) => (typeof t === 'string' ? t : t?.name)).filter(Boolean)
       : [];
 
+  const latitude = Number(p.latitude ?? p.lat);
+  const longitude = Number(p.longitude ?? p.lng ?? p.lon);
+  const hasCoords = Number.isFinite(latitude) && Number.isFinite(longitude);
+
   return {
     ...p,
     place_id: id,
     id: id,
     title: p.title || p.name,
     name: p.name || p.title,
+    latitude: hasCoords ? latitude : null,
+    longitude: hasCoords ? longitude : null,
+    lat: hasCoords ? latitude : null,
+    lng: hasCoords ? longitude : null,
     image,
     featured_image: p.featured_image || image,
     matatu,
@@ -118,15 +127,15 @@ function sortPlaces(list, sort, userLocation) {
     case 'distance':
       if (!userLocation) return next;
       return next.sort((a, b) => {
-        const da =
-          a.latitude != null && a.longitude != null
-            ? calculateDistance(userLocation.lat, userLocation.lng, Number(a.latitude), Number(a.longitude))
-            : 9999;
-        const db =
-          b.latitude != null && b.longitude != null
-            ? calculateDistance(userLocation.lat, userLocation.lng, Number(b.latitude), Number(b.longitude))
-            : 9999;
-        return da - db;
+        const ca = getCoords(a);
+        const cb = getCoords(b);
+        const da = ca
+          ? calculateDistance(userLocation.lat, userLocation.lng, ca.lat, ca.lng)
+          : Infinity;
+        const db = cb
+          ? calculateDistance(userLocation.lat, userLocation.lng, cb.lat, cb.lng)
+          : Infinity;
+        return (da ?? Infinity) - (db ?? Infinity);
       });
     case 'rating':
     default:
@@ -177,6 +186,7 @@ export function usePlaces(params = {}) {
   const matatuOnly = Boolean(params.matatuOnly || params.matatu);
   const eveningOnly = Boolean(params.eveningOnly || params.evening);
   const userLocation = params.userLocation || null;
+  const maxKm = params.maxKm != null && params.maxKm !== '' ? Number(params.maxKm) : null;
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -228,16 +238,9 @@ export function usePlaces(params = {}) {
       );
     }
 
-    const q = String(query || '')
-      .toLowerCase()
-      .trim();
+    const q = String(query || '').trim();
     if (q) {
-      list = list.filter((p) => {
-        const blob = [p.title, p.name, p.location, p.town, p.description, ...(p.vibes || []), ...(p.tags || [])]
-          .join(' ')
-          .toLowerCase();
-        return blob.includes(q);
-      });
+      list = filterAndRankPlaces(list, q);
     }
 
     if (budget && budget !== 'all') {
@@ -274,8 +277,21 @@ export function usePlaces(params = {}) {
       });
     }
 
-    return sortPlaces(list, sort, userLocation);
-  }, [rawPlaces, category, query, budget, sort, openNowOnly, matatuOnly, eveningOnly, userLocation]);
+    if (maxKm != null && Number.isFinite(maxKm) && maxKm > 0 && userLocation) {
+      list = list.filter((p) => {
+        const c = getCoords(p);
+        if (!c) return false;
+        const d = calculateDistance(userLocation.lat, userLocation.lng, c.lat, c.lng);
+        return d != null && d <= maxKm;
+      });
+    }
+
+    // Prefer nearest when GPS is on and sort is default-ish
+    const effectiveSort =
+      sort === 'rating' && userLocation && (params.preferNear || maxKm) ? 'distance' : sort;
+
+    return sortPlaces(list, effectiveSort || sort, userLocation);
+  }, [rawPlaces, category, query, budget, sort, openNowOnly, matatuOnly, eveningOnly, userLocation, maxKm, params.preferNear]);
 
   return {
     places,

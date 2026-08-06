@@ -1,6 +1,24 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { AppContext } from '../../library/contexts/AppContext.js';
 import { useFavorites } from '../../library/hooks/useFavorites.js';
+import { useGeolocation } from '../../library/hooks/useGeolocation.js';
+import {
+  pullUserState,
+  pushUserState,
+  attachOnlineFlush,
+  flushSyncQueue,
+  getSyncMeta,
+} from '../../library/helpers/syncService.js';
+import {
+  ensureNotificationPermission,
+  tickReminders,
+  scheduleReminder,
+  remindPlanInOneHour,
+  remindEvent,
+  getNotifyPref,
+  setNotifyPref,
+  whatsappRemindLink,
+} from '../../library/helpers/notifications.js';
 import {
   getStoredUser,
   getToken,
@@ -77,9 +95,15 @@ export function AppProvider({ children }) {
   );
   const [planStops, setPlanStops] = useState(() => loadUserBundle(getStoredUser() || {}).planStops);
   const [toasts, setToasts] = useState([]);
-  const [userLocation, setUserLocation] = useState(null);
   const toastTimers = useRef(new Map());
   const scopeRef = useRef(scopeId(user));
+
+  const {
+    location: userLocation,
+    status: locationStatus,
+    error: locationError,
+    request: requestLocation,
+  } = useGeolocation({ enabled: true });
 
   const favoritesApi = useFavorites(user);
 
@@ -122,20 +146,6 @@ export function AppProvider({ children }) {
   }, [planStops, user]);
 
   useEffect(() => {
-    if (typeof navigator === 'undefined' || !navigator.geolocation) return undefined;
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setUserLocation({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-        });
-      },
-      () => {},
-      { enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 }
-    );
-  }, []);
-
-  useEffect(() => {
     if (!getToken()) return undefined;
     let cancelled = false;
     fetchMe()
@@ -164,6 +174,61 @@ export function AppProvider({ children }) {
     }, 3200);
     toastTimers.current.set(id, t);
   }, []);
+
+
+  // Cloud sync: pull when signed in with real token
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!user?.isAuthenticated) return;
+      const remote = await pullUserState();
+      if (cancelled || !remote) return;
+      if (Array.isArray(remote.favorites) && remote.favorites.length) {
+        // favorites managed by useFavorites — dispatch storage event after write
+        try {
+          const key = scopedKey('gemspot-favorites', user);
+          // useFavorites may own this; write ids if empty local
+        } catch { /* */ }
+      }
+      if (Array.isArray(remote.planStops)) setPlanStops(remote.planStops);
+      if (Array.isArray(remote.interestedEvents)) setInterestedEvents(remote.interestedEvents);
+      if (Array.isArray(remote.goingEventIds)) setGoingEventIds(remote.goingEventIds);
+      if (remote.planStops?.length || remote.interestedEvents?.length || remote.goingEventIds?.length) {
+        pushToast?.('Synced from cloud', 'success');
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [user?.isAuthenticated, user?.email]);
+
+  // Push local lists when they change (debounced via short timeout)
+  useEffect(() => {
+    if (!user?.isAuthenticated) return undefined;
+    const t = setTimeout(() => {
+      pushUserState({
+        favorites: favoritesApi.favorites || [],
+        planStops,
+        interestedEvents,
+        goingEventIds,
+      });
+    }, 1200);
+    return () => clearTimeout(t);
+  }, [user?.isAuthenticated, favoritesApi.favorites, planStops, interestedEvents, goingEventIds]);
+
+  // Flush queue when back online
+  useEffect(() => attachOnlineFlush(() => {
+    flushSyncQueue().then((r) => {
+      if (r?.flushed) pushToast?.(`Synced ${r.flushed} queued change(s)`, 'success');
+    });
+  }), [pushToast]);
+
+  // Local notification ticker
+  useEffect(() => {
+    tickReminders();
+    const id = setInterval(() => tickReminders(), 30000);
+    return () => clearInterval(id);
+  }, []);
+
+
 
   const dismissToast = useCallback((id) => {
     setToasts((prev) => prev.filter((x) => x.id !== id));
@@ -460,6 +525,25 @@ export function AppProvider({ children }) {
       dismissToast,
       toasts,
       userLocation,
+      locationStatus,
+      locationError,
+      requestLocation,
+      enableNotifications: async () => {
+        const r = await ensureNotificationPermission();
+        if (r === 'granted') {
+          setNotifyPref({ enabled: true });
+          pushToast?.('Notifications on', 'success');
+        } else {
+          pushToast?.('Notifications blocked — enable in browser settings', 'info');
+        }
+        return r;
+      },
+      scheduleReminder,
+      remindPlanInOneHour,
+      remindEvent,
+      whatsappRemindLink,
+      getNotifyPref,
+      getSyncMeta,
     }),
     [
       user,
@@ -492,6 +576,9 @@ export function AppProvider({ children }) {
       dismissToast,
       toasts,
       userLocation,
+      locationStatus,
+      locationError,
+      requestLocation,
     ]
   );
 

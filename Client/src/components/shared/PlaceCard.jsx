@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Heart, MapPin, Star, Wallet, Bus, Navigation, Sparkles } from 'lucide-react';
 import { SafeImage } from './SafeImage.jsx';
 import { PlaceCardStyles as styles } from '@styles';
-import { formatKES, calculateDistance } from '@library';
+import { formatKES, distanceFromUser, formatDistanceLabel } from '@library';
 import { useApp } from '../../library/contexts/AppContext.js';
 import { getInsightTeaser } from './CategoryInsights.jsx';
 import { CrowdBadge } from './CrowdBadge.jsx';
@@ -30,24 +30,8 @@ export function PlaceCard({ place = {}, to }) {
 
   const activities = (Array.isArray(place.activities) ? place.activities : []).slice(0, 3);
 
-  let distanceLabel = null;
-  if (
-    userLocation &&
-    place.latitude != null &&
-    place.longitude != null &&
-    !Number.isNaN(Number(place.latitude)) &&
-    !Number.isNaN(Number(place.longitude))
-  ) {
-    const km = calculateDistance(
-      userLocation.lat,
-      userLocation.lng,
-      Number(place.latitude),
-      Number(place.longitude)
-    );
-    if (km != null && !Number.isNaN(km)) {
-      distanceLabel = km < 1 ? `${Math.round(km * 1000)} m away` : `${km} km away`;
-    }
-  }
+  const kmAway = distanceFromUser(userLocation, place);
+  const distanceLabel = formatDistanceLabel(kmAway);
 
   const handleFavorite = (e) => {
     e.preventDefault();

@@ -12,7 +12,14 @@ export { useEvents, getEventById, normalizeEvent } from '../library/hooks/useEve
 export { useApiData } from '../library/hooks/useApiData.js';
 
 export { formatKES } from '../library/helpers/formatCurrency.js';
-export { calculateDistance } from '../library/helpers/calculateDistance.js';
+export {
+  calculateDistance,
+  distanceMetres,
+  formatDistanceLabel,
+  getCoords,
+  distanceFromUser,
+} from '../library/helpers/calculateDistance.js';
+export { useGeolocation } from '../library/hooks/useGeolocation.js';
 export { cn } from '../library/helpers/cn.js';
 export { geocodeLocation, getMapboxToken } from '../library/helpers/geocode.js';
 
@@ -51,3 +58,7 @@ export { isOpenNow, openStatusLabel, parseOpeningHours } from '../library/helper
 export { useCrowdLevel, safetyLevelFromPlace, getCrowdSnapshot, reportCrowd } from '../library/hooks/useCrowdLevel.js';
 
 export { buildDirectionsUrl, openDirectionsTo } from '../library/helpers/mapsDirections.js';
+
+export { pullUserState, pushUserState, flushSyncQueue, getSyncMeta } from '../library/helpers/syncService.js';
+export { ensureNotificationPermission, scheduleReminder, remindPlanInOneHour, remindEvent, tickReminders } from '../library/helpers/notifications.js';
+export { scorePlace, filterAndRankPlaces } from '../library/helpers/searchScore.js';

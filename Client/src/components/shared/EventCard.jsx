@@ -1,3 +1,5 @@
+import { useApp } from '../../library/contexts/AppContext.js';
+import { distanceFromUser, formatDistanceLabel } from '../../library/helpers/calculateDistance.js';
 import { Link } from 'react-router-dom';
 import { Clock, MapPin, Ticket, CalendarPlus } from 'lucide-react';
 import clsx from 'clsx';
@@ -5,6 +7,9 @@ import { EventCardStyles as styles } from '@styles';
 import { useCalendar } from '@library';
 
 export function EventCard({ event, compact = false }) {
+  const { userLocation } = useApp();
+  const distanceLabel = formatDistanceLabel(distanceFromUser(userLocation, event));
+
   const { syncEvent } = useCalendar();
   const id = event?.id ?? event?.event_id;
 
@@ -42,7 +47,12 @@ export function EventCard({ event, compact = false }) {
                 <span>{event.time}</span>
               </div>
             )}
-            {event.location && (
+            {distanceLabel && (
+            <span className={styles.Distance || undefined} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontWeight: 700, fontSize: '0.78rem', color: 'var(--color-primary)' }}>
+              ↗ {distanceLabel}
+            </span>
+          )}
+          {event.location && (
               <div className={styles.InfoRow}>
                 <MapPin size={14} className={styles.MetaIcon} aria-hidden="true" />
                 <span>{event.location}</span>
