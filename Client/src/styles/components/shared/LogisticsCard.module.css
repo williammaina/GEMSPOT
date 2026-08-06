@@ -62,3 +62,84 @@
   color: var(--color-text);
   font-weight: 700;
 }
+
+.LiveBlock {
+  margin-top: 4px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.LiveHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-soft);
+}
+.LivePulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ef4444;
+  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+  animation: pulse 1.6s ease-out infinite;
+  margin-left: auto;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45); }
+  70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+.CrowdMeter {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+.CrowdFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.Crowd_cool { background: linear-gradient(90deg, #34d399, #10b981); }
+.Crowd_ok { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+.Crowd_warm { background: linear-gradient(90deg, #fb923c, #f97316); }
+.Crowd_hot { background: linear-gradient(90deg, #f87171, #ef4444); }
+.CrowdMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+.Label_cool { color: #059669; }
+.Label_ok { color: #d97706; }
+.Label_warm { color: #ea580c; }
+.Label_hot { color: #dc2626; }
+.CrowdActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.CrowdChip {
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.CrowdChip:hover {
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+}

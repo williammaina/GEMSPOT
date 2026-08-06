@@ -35,4 +35,3 @@ export { default as ProfilePageStyles } from '../styles/components/page/ProfileP
 export { default as AmbientDotsStyles } from '../styles/components/shared/AmbientDots.module.css';
 export { default as GlowWaveStyles } from '../styles/components/shared/GlowWave.module.css';
 
-export { default as KnowBeforeYouGoStyles } from '../styles/components/shared/KnowBeforeYouGo.module.css';

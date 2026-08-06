@@ -16,7 +16,6 @@ import {
   Navigation,
 } from 'lucide-react';
 import { PlaceCard } from '../shared/PlaceCard.jsx';
-import { ExploreInsightsRail } from '../shared/ExploreInsightsRail.jsx';
 import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
 import { MapboxCanvas } from '../view/MapboxCanvas.jsx';
 import { ExplorePageStyles as styles } from '@styles';
@@ -396,15 +395,9 @@ export function ExplorePage() {
       </aside>
 
       <div className={styles.RightStack}>
-        <section className={styles.MapPane} aria-label="Map">
+        <section className={styles.MapPaneTall} aria-label="Map">
           <MapboxCanvas places={places} focus={mapFocus} focusLabel={mapFocus?.label} />
         </section>
-        <ExploreInsightsRail
-          places={places}
-          categoryLabel={categoryLabel}
-          pick={focusPlace}
-          onSelectPick={setFocusedId}
-        />
       </div>
     </main>
   );

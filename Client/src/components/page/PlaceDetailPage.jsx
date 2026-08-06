@@ -11,7 +11,7 @@ import {
   ReviewSection,
 } from '@components';
 import { CategoryInsights } from '../shared/CategoryInsights.jsx';
-import { KnowBeforeYouGo } from '../shared/KnowBeforeYouGo.jsx';
+import { WeatherBanner } from '../shared/WeatherBanner.jsx';
 import { PlaceDetailPageStyles as styles } from '@styles';
 import {
   getPlaceById,
@@ -245,7 +245,15 @@ export function PlaceDetailPage() {
           {/* Single category panel (menu / activities / vibe) — sits just above the map */}
           <section className={styles.SectionBlock} aria-label="Category insights">
             <CategoryInsights place={place} />
-            <KnowBeforeYouGo place={place} />
+            {(String(place.category || '').toLowerCase() === 'nature' ||
+              String(place.category || '').toLowerCase() === 'action') && (
+              <WeatherBanner
+                location={place.location || place.town || 'Nairobi'}
+                lat={place.latitude ?? place.lat}
+                lng={place.longitude ?? place.lng}
+                title="Today's weather on site"
+              />
+            )}
           </section>
 
           <section className={styles.SectionBlock} aria-label="Location">
@@ -263,7 +271,22 @@ export function PlaceDetailPage() {
           </section>
 
           <section className={styles.SectionBlock} aria-label="Reviews">
-            <ReviewSection reviewsData={reviews} placeId={place.place_id ?? place.id} onReviewAdded={(r) => setReviews((prev) => [r, ...(prev || [])])} />
+            <ReviewSection
+              reviewsData={reviews}
+              placeId={place.place_id ?? place.id}
+              onReviewAdded={(r) => setReviews((prev) => [r, ...(prev || [])])}
+              onCrowdReport={(level) => {
+                try {
+                  const id = String(place.place_id ?? place.id);
+                  const key = 'gemspot-crowd-pulses';
+                  const all = JSON.parse(localStorage.getItem(key) || '{}');
+                  const map = { quiet: 20, moderate: 45, busy: 70, packed: 90 };
+                  const list = [...(all[id] || []), { score: map[level] ?? 45, at: Date.now(), key: level }].slice(-30);
+                  all[id] = list;
+                  localStorage.setItem(key, JSON.stringify(all));
+                } catch { /* */ }
+              }}
+            />
           </section>
 
           {related.length > 0 && (

@@ -47,3 +47,5 @@ export {
 export { apiClient, API_BASE_URL } from '../library/handlers/apiClient.js';
 
 export { isOpenNow, openStatusLabel, parseOpeningHours } from '../library/helpers/openingHours.js';
+
+export { useCrowdLevel, safetyLevelFromPlace } from '../library/hooks/useCrowdLevel.js';

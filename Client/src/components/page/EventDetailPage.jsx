@@ -1,3 +1,4 @@
+import { WeatherBanner } from '../shared/WeatherBanner.jsx';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
@@ -209,6 +210,12 @@ export function EventDetailPage() {
           </section>
 
           <section className={styles.Section}>
+            <WeatherBanner
+              location={[event.location, event.venue_name, 'Kenya'].filter(Boolean).join(', ')}
+              lat={event.lat ?? event.latitude}
+              lng={event.lng ?? event.longitude}
+              title="Weather for event day"
+            />
             <h2 className={styles.SectionTitle}>Location</h2>
             <p className={styles.LocationName}>{event.location || event.venue_name || 'TBA'}</p>
             {event.address && <p className={styles.Muted}>{event.address}</p>}

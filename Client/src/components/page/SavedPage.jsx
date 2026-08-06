@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
   ArrowRight,
@@ -13,6 +13,10 @@ import {
   Share2,
   Sparkles,
   Trash2,
+  Navigation,
+  MessageCircle,
+  Route,
+  CheckCircle2,
 } from 'lucide-react';
 import { PlaceCard } from '../shared/PlaceCard.jsx';
 import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
@@ -24,6 +28,7 @@ const TABS = [
   { id: 'plan', label: 'Plan', icon: ClipboardList },
   { id: 'saved', label: 'Saved', icon: Heart },
   { id: 'recent', label: 'Recent', icon: Sparkles },
+  { id: 'pick', label: "Today's pick", icon: Sparkles },
 ];
 
 /**
@@ -50,6 +55,7 @@ export function SavedPage() {
   } = useApp();
 
   const { places, loading } = usePlaces({ category: 'all' });
+  const todaysPick = places?.[0] || null;
 
   const savedPlaces = useMemo(
     () => places.filter((p) => favorites.includes(String(p.place_id ?? p.id))),
@@ -139,7 +145,15 @@ export function SavedPage() {
         {TABS.map((t) => {
           const Icon = t.icon;
           const count =
-            t.id === 'plan' ? planCount : t.id === 'saved' ? savedCount : recentCount;
+            t.id === 'plan'
+              ? planCount
+              : t.id === 'saved'
+                ? savedCount
+                : t.id === 'pick'
+                  ? todaysPick
+                    ? 1
+                    : 0
+                  : recentCount;
           const active = tab === t.id;
           return (
             <button
@@ -180,6 +194,15 @@ export function SavedPage() {
       )}
 
       {tab === 'recent' && <RecentPanel recentPlaces={recentPlaces} />}
+
+      {tab === 'pick' && (
+        <TodaysPickPanel
+          pick={todaysPick}
+          loading={loading}
+          addToPlan={addToPlan}
+          isInPlan={isInPlan}
+        />
+      )}
     </main>
   );
 }
@@ -188,6 +211,7 @@ function normalizeTab(raw) {
   const v = String(raw || 'saved').toLowerCase();
   if (v === 'plan' || v === 'planning') return 'plan';
   if (v === 'recent' || v === 'history') return 'recent';
+  if (v === 'pick' || v === 'today' || v === "today's pick") return 'pick';
   return 'saved';
 }
 
@@ -226,12 +250,14 @@ function PlanPanel({
     <div className={styles.Panel}>
       <div className={styles.PanelToolbar}>
         <p className={styles.PanelHint}>
-          Ordered stops for your night — reorder, open, or clear.
+          Ordered stops for your night — reorder, then run the next-steps checklist.
         </p>
         <button type="button" className={styles.ClearBtn} onClick={() => clearPlan?.()}>
           Clear plan
         </button>
       </div>
+
+      <PlanNextSteps planStops={planStops} />
 
       <section className={styles.Section}>
         <div className={styles.SectionHead}>
@@ -480,5 +506,147 @@ function RecentPanel({ recentPlaces }) {
         ))}
       </ul>
     </section>
+  );
+}
+
+
+function PlanNextSteps({ planStops = [] }) {
+  const [done, setDone] = useState({});
+  const toggle = (id) => setDone((d) => ({ ...d, [id]: !d[id] }));
+
+  const mapsUrl = (() => {
+    const parts = planStops
+      .map((p) => p.location || p.title)
+      .filter(Boolean)
+      .map(encodeURIComponent);
+    if (!parts.length) return 'https://www.google.com/maps';
+    if (parts.length === 1) return `https://www.google.com/maps/search/?api=1&query=${parts[0]}`;
+    return `https://www.google.com/maps/dir/${parts.join('/')}`;
+  })();
+
+  const waText = encodeURIComponent(
+    ['My GemSpot plan:', ...planStops.map((p, i) => `${i + 1}. ${p.title}${p.location ? ` — ${p.location}` : ''}`)].join('\n')
+  );
+
+  const steps = [
+    {
+      id: 'route',
+      icon: Route,
+      title: 'Build the route',
+      body: 'Open all stops in Google Maps as a multi-stop route.',
+      action: (
+        <a className={styles.NextBtn} href={mapsUrl} target="_blank" rel="noreferrer">
+          <Navigation size={14} /> Open route
+        </a>
+      ),
+    },
+    {
+      id: 'share',
+      icon: MessageCircle,
+      title: 'Share with your people',
+      body: 'Send the plan on WhatsApp so everyone has the same list.',
+      action: (
+        <a
+          className={styles.NextBtn}
+          href={`https://wa.me/?text=${waText}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <MessageCircle size={14} /> WhatsApp
+        </a>
+      ),
+    },
+    {
+      id: 'budget',
+      icon: CheckCircle2,
+      title: 'Agree budget & meet point',
+      body: 'Confirm damage for two, M-Pesa, and where you meet before stop 1.',
+      action: null,
+    },
+    {
+      id: 'go',
+      icon: Navigation,
+      title: 'Go stop by stop',
+      body: 'Check off each stop as you finish — keep the night moving.',
+      action: null,
+    },
+  ];
+
+  return (
+    <section className={styles.NextSection} aria-label="What next">
+      <div className={styles.SectionHead}>
+        <h2>What next</h2>
+        <span>After you plan</span>
+      </div>
+      <ul className={styles.NextList}>
+        {steps.map((s) => {
+          const Icon = s.icon;
+          return (
+            <li key={s.id} className={done[s.id] ? styles.NextItemDone : styles.NextItem}>
+              <button
+                type="button"
+                className={styles.NextCheck}
+                aria-pressed={Boolean(done[s.id])}
+                onClick={() => toggle(s.id)}
+              >
+                <Icon size={16} />
+              </button>
+              <div className={styles.NextBody}>
+                <strong>{s.title}</strong>
+                <p>{s.body}</p>
+                {s.action}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+function TodaysPickPanel({ pick, loading, addToPlan, isInPlan }) {
+  if (loading) {
+    return (
+      <div className={styles.Grid}>
+        <PlaceCardSkeleton />
+      </div>
+    );
+  }
+  if (!pick) {
+    return (
+      <div className={styles.Empty}>
+        <div className={styles.EmptyIcon}>
+          <Sparkles size={28} />
+        </div>
+        <h2 className={styles.EmptyTitle}>No pick yet</h2>
+        <p>Explore places and we will surface a strong recommendation here.</p>
+        <Link to="/explore" className={styles.Cta}>
+          Explore <ArrowRight size={16} />
+        </Link>
+      </div>
+    );
+  }
+  const id = String(pick.place_id ?? pick.id);
+  const inPlan = isInPlan?.(id);
+  return (
+    <div className={styles.Panel}>
+      <p className={styles.PanelHint}>
+        Handpicked for you from the current catalogue — save it to your plan in one tap.
+      </p>
+      <div className={styles.SavedCardWrap}>
+        <PlaceCard place={pick} />
+        <button
+          type="button"
+          className={inPlan ? styles.AddPlanBtnOn : styles.AddPlanBtn}
+          disabled={inPlan}
+          onClick={() => addToPlan?.(pick)}
+        >
+          {inPlan ? 'In plan' : (<><Plus size={14} /> Add to plan</>)}
+        </button>
+        <Link to={`/place/${id}`} className={styles.Cta} style={{ justifyContent: 'center' }}>
+          View details <ArrowRight size={16} />
+        </Link>
+      </div>
+    </div>
   );
 }

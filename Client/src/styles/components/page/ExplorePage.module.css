@@ -1087,3 +1087,12 @@
   }
   .MapPane { height: 220px; }
 }
+
+.MapPaneTall {
+  flex: 1;
+  min-height: min(520px, calc(100vh - 120px));
+  height: min(520px, calc(100vh - 120px));
+}
+@media (max-width: 960px) {
+  .MapPaneTall { height: 280px; min-height: 240px; }
+}
