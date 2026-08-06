@@ -387,3 +387,28 @@
   line-height: 1.65;
   color: var(--color-text-muted);
 }
+
+.GoingBtn,
+.GoingBtnOn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.GoingBtn {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+.GoingBtnOn {
+  border: 1px solid var(--color-border-accent);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+.GoingBtn:hover,
+.GoingBtnOn:hover {
+  filter: brightness(1.05);
+}

@@ -10,14 +10,14 @@ import {
   Moon,
   Users,
   Wallet,
-  SlidersHorizontal,
-  X,
+    X,
   Bus,
   Navigation,
 } from 'lucide-react';
 import { PlaceCard } from '../shared/PlaceCard.jsx';
 import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
 import { Pagination, paginate } from '../shared/Pagination.jsx';
+import { getCrowdSnapshot } from '../../library/hooks/useCrowdLevel.js';
 import { ExplorePageStyles as styles } from '@styles';
 import { usePlaces } from '@library';
 import { geocodeLocation } from '../../library/helpers/geocode.js';
@@ -40,6 +40,7 @@ const BUDGETS = [
 ];
 
 const SORTS = [
+  { id: 'crowd', label: 'Quiet first' },
   { id: 'rating', label: 'Top rated' },
   { id: 'price-asc', label: 'Price ↑' },
   { id: 'price-desc', label: 'Price ↓' },
@@ -172,9 +173,21 @@ export function ExplorePage() {
     };
   }, [urlFilters.query, places]);
 
+  const sortedPlaces = useMemo(() => {
+    const list = [...(places || [])];
+    if (urlFilters.sort === 'crowd') {
+      list.sort((a, b) => {
+        const ca = getCrowdSnapshot(a.place_id ?? a.id, a.category).score;
+        const cb = getCrowdSnapshot(b.place_id ?? b.id, b.category).score;
+        return ca - cb; // quiet first
+      });
+    }
+    return list;
+  }, [places, urlFilters.sort]);
+
   const pagePlaces = useMemo(
-    () => paginate(places || [], page, PAGE_SIZE),
-    [places, page]
+    () => paginate(sortedPlaces, page, PAGE_SIZE),
+    [sortedPlaces, page]
   );
 
   const focusPlace = useMemo(() => {
@@ -281,28 +294,6 @@ export function ExplorePage() {
           </div>
         )}
         <div className={styles.FilterBlock}>
-          <div className={styles.FilterLabel}>
-            <SlidersHorizontal size={14} aria-hidden="true" />
-            Category
-          </div>
-          <div className={styles.PillRow} role="group" aria-label="Category filters">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                className={
-                  urlFilters.category === cat.id ? styles.PillActive : styles.Pill
-                }
-                onClick={() => updateParams({ category: cat.id })}
-                aria-pressed={urlFilters.category === cat.id}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.FilterBlock}>
           <div className={styles.FilterLabel}>Budget</div>
           <div className={styles.PillRow} role="group" aria-label="Budget filters">
             {BUDGETS.map((b) => (
@@ -388,7 +379,21 @@ export function ExplorePage() {
               />
             ))}
 
-          {!loading && !isEmpty && (
+          {!loading && isEmpty && (
+            <section className={styles.EmptyState} aria-live="polite">
+              <h3 className={styles.EmptyStateTitle}>No spots match these filters</h3>
+              <p className={styles.EmptyStateText}>
+                Clear the search or reset budget filters.
+              </p>
+              <button type="button" className={styles.EmptyStateAction} onClick={clearAll}>
+                View everything
+              </button>
+            </section>
+          )}
+        </div>
+
+        {!loading && !isEmpty && (
+          <div className={styles.PaginationDock}>
             <Pagination
               page={page}
               pageSize={PAGE_SIZE}
@@ -399,20 +404,8 @@ export function ExplorePage() {
               }}
               label="spots"
             />
-          )}
-
-          {!loading && isEmpty && (
-            <section className={styles.EmptyState} aria-live="polite">
-              <h3 className={styles.EmptyStateTitle}>No spots match these filters</h3>
-              <p className={styles.EmptyStateText}>
-                Try a broader category, clear the search, or reset budget filters.
-              </p>
-              <button type="button" className={styles.EmptyStateAction} onClick={clearAll}>
-                View everything
-              </button>
-            </section>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </main>
   );

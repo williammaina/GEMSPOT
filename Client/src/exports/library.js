@@ -48,4 +48,6 @@ export { apiClient, API_BASE_URL } from '../library/handlers/apiClient.js';
 
 export { isOpenNow, openStatusLabel, parseOpeningHours } from '../library/helpers/openingHours.js';
 
-export { useCrowdLevel, safetyLevelFromPlace } from '../library/hooks/useCrowdLevel.js';
+export { useCrowdLevel, safetyLevelFromPlace, getCrowdSnapshot, reportCrowd } from '../library/hooks/useCrowdLevel.js';
+
+export { buildDirectionsUrl, openDirectionsTo } from '../library/helpers/mapsDirections.js';

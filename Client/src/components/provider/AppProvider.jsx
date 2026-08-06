@@ -43,6 +43,7 @@ function loadUserBundle(user) {
     recentSearches: readJSON(scopedKey('gemspot-recent-searches', user), []),
     recentPlaces: readJSON(scopedKey('gemspot-recent-places', user), []),
     interestedEvents: readJSON(scopedKey('gemspot-interested-events', user), []),
+    goingEventIds: readJSON(scopedKey('gemspot-going-events', user), []),
     planStops: readJSON(scopedKey('gemspot-plan-stops', user), []),
   };
 }
@@ -71,6 +72,9 @@ export function AppProvider({ children }) {
   const [interestedEvents, setInterestedEvents] = useState(
     () => loadUserBundle(getStoredUser() || {}).interestedEvents
   );
+  const [goingEventIds, setGoingEventIds] = useState(
+    () => loadUserBundle(getStoredUser() || {}).goingEventIds || []
+  );
   const [planStops, setPlanStops] = useState(() => loadUserBundle(getStoredUser() || {}).planStops);
   const [toasts, setToasts] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
@@ -88,6 +92,7 @@ export function AppProvider({ children }) {
     setRecentSearches(bundle.recentSearches);
     setRecentPlaces(bundle.recentPlaces);
     setInterestedEvents(bundle.interestedEvents);
+    setGoingEventIds(bundle.goingEventIds || []);
     setPlanStops(bundle.planStops);
     favoritesApi.reloadForUser?.(user);
   }, [user?.email, user?.user_id, user?.id, user?.isAuthenticated]);
@@ -108,6 +113,9 @@ export function AppProvider({ children }) {
   useEffect(() => {
     writeJSON(scopedKey('gemspot-interested-events', user), interestedEvents.slice(0, 20));
   }, [interestedEvents, user]);
+  useEffect(() => {
+    writeJSON(scopedKey('gemspot-going-events', user), (goingEventIds || []).slice(0, 40));
+  }, [goingEventIds, user]);
 
   useEffect(() => {
     writeJSON(scopedKey('gemspot-plan-stops', user), planStops.slice(0, 12));
@@ -226,6 +234,71 @@ export function AppProvider({ children }) {
     [interestedEvents]
   );
 
+  const isGoingEvent = useCallback(
+    (id) => (goingEventIds || []).some((x) => String(x) === String(id)),
+    [goingEventIds]
+  );
+
+  /**
+   * Live going count = seed base + local community increments (this browser)
+   * + 1 if current user marked going.
+   * Community deltas stored globally so multiple sessions on same device stack.
+   */
+  const getEventGoingCount = useCallback((event) => {
+    if (!event) return 0;
+    const id = String(event.id ?? event.event_id ?? '');
+    const base = Number(event.goingCount ?? event.going_count ?? event.attendees ?? 12) || 12;
+    let community = 0;
+    try {
+      const raw = localStorage.getItem('gemspot-going-community');
+      const map = raw ? JSON.parse(raw) : {};
+      community = Number(map[id] || 0) || 0;
+    } catch {
+      community = 0;
+    }
+    return Math.max(0, base + community);
+  }, []);
+
+  const toggleGoingEvent = useCallback(
+    (event) => {
+      if (!event) return;
+      const id = String(event.id ?? event.event_id ?? '');
+      if (!id) return;
+      setGoingEventIds((prev) => {
+        const on = prev.some((x) => String(x) === id);
+        try {
+          const raw = localStorage.getItem('gemspot-going-community');
+          const map = raw ? JSON.parse(raw) : {};
+          const cur = Number(map[id] || 0) || 0;
+          map[id] = on ? Math.max(0, cur - 1) : cur + 1;
+          localStorage.setItem('gemspot-going-community', JSON.stringify(map));
+        } catch {
+          /* */
+        }
+        if (on) {
+          pushToast?.('You are no longer marked as going', 'info');
+          return prev.filter((x) => String(x) !== id);
+        }
+        pushToast?.("You're going — count updated live", 'success');
+        // auto-save to interested when marking going
+        setInterestedEvents((list) => {
+          if (list.some((e) => String(e.id) === id)) return list;
+          const row = {
+            id,
+            title: event.title || event.name || 'Event',
+            image: event.image || event.image_url || '',
+            location: event.location || event.venue_name || '',
+            date: event.date || event.starts_at || '',
+            type: 'event',
+          };
+          return [row, ...list].slice(0, 20);
+        });
+        return [id, ...prev.filter((x) => String(x) !== id)].slice(0, 40);
+      });
+    },
+    [pushToast]
+  );
+
   const addToPlan = useCallback(
     (place) => {
       if (!place) return false;
@@ -304,6 +377,7 @@ export function AppProvider({ children }) {
     setRecentSearches(bundle.recentSearches);
     setRecentPlaces(bundle.recentPlaces);
     setInterestedEvents(bundle.interestedEvents);
+    setGoingEventIds(bundle.goingEventIds || []);
     setPlanStops(bundle.planStops);
     favoritesApi.reloadForUser?.(nextUser);
     return data;
@@ -370,6 +444,10 @@ export function AppProvider({ children }) {
       interestedEvents,
       toggleInterestedEvent,
       isInterestedEvent,
+      goingEventIds,
+      toggleGoingEvent,
+      isGoingEvent,
+      getEventGoingCount,
       clearPlan,
       reorderPlan,
       favorites: favoritesApi.favorites || [],
@@ -398,6 +476,10 @@ export function AppProvider({ children }) {
       interestedEvents,
       toggleInterestedEvent,
       isInterestedEvent,
+      goingEventIds,
+      toggleGoingEvent,
+      isGoingEvent,
+      getEventGoingCount,
       clearPlan,
       reorderPlan,
       favoritesApi.favorites,

@@ -351,3 +351,14 @@
 .CardLocked:focus-visible::after {
   opacity: 1;
 }
+
+.CrowdSlot {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 3;
+  pointer-events: none;
+}
+.CardLocked .CrowdSlot {
+  bottom: 36px;
+}

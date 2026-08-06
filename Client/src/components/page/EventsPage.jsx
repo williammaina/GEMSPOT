@@ -97,7 +97,7 @@ export function EventsPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { syncEvent } = useCalendar();
-  const { toggleInterestedEvent, isInterestedEvent, pushToast } = useApp();
+  const { toggleInterestedEvent, isInterestedEvent, pushToast, getEventGoingCount, toggleGoingEvent, isGoingEvent } = useApp();
   const [query, setQuery] = useState(() => searchParams.get('q') || '');
 
   useEffect(() => {

@@ -46,3 +46,5 @@ export { ExploreInsightsRail } from '../components/shared/ExploreInsightsRail.js
 
 export { GemSpotLogo } from '../components/shared/GemSpotLogo.jsx';
 export { AmbientDots } from '../components/shared/AmbientDots.jsx';
+
+export { CrowdBadge } from '../components/shared/CrowdBadge.jsx';

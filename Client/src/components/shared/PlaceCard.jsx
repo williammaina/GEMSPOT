@@ -5,6 +5,7 @@ import { PlaceCardStyles as styles } from '@styles';
 import { formatKES, calculateDistance } from '@library';
 import { useApp } from '../../library/contexts/AppContext.js';
 import { getInsightTeaser } from './CategoryInsights.jsx';
+import { CrowdBadge } from './CrowdBadge.jsx';
 
 export function PlaceCard({ place = {}, to }) {
   const { isFavorite, toggleFavorite, userLocation, user, pushToast } = useApp();
@@ -95,6 +96,9 @@ export function PlaceCard({ place = {}, to }) {
       <div className={styles.GlowRing} aria-hidden="true" />
       <div className={styles.ImageContainer}>
         <SafeImage src={place.image} alt={title} className={styles.Image} />
+        <div className={styles.CrowdSlot}>
+          <CrowdBadge placeId={placeId} category={category} />
+        </div>
         <button
           type="button"
           className={favorited ? styles.FavBtnActive : styles.FavBtn}

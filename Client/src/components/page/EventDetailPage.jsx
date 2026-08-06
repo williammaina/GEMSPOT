@@ -15,12 +15,13 @@ import {
 import { EventDetailPageStyles as styles } from '@styles';
 import { getEventById, useCalendar } from '@library';
 import { useApp } from '../../library/contexts/AppContext.js';
+import { openDirectionsTo, buildDirectionsUrl } from '../../library/helpers/mapsDirections.js';
 import { SafeImage } from '../shared/SafeImage.jsx';
 
 export function EventDetailPage() {
   const { id } = useParams();
   const { syncEvent, downloadIcs, openOutlookWeb } = useCalendar();
-  const { pushToast, toggleInterestedEvent, isInterestedEvent, addToPlan, isInPlan, removeFromPlan } = useApp();
+  const { pushToast, toggleInterestedEvent, isInterestedEvent, toggleGoingEvent, isGoingEvent, getEventGoingCount, addToPlan, isInPlan, removeFromPlan } = useApp();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -87,7 +88,8 @@ export function EventDetailPage() {
   }
 
   const when = [event.weekday, event.day, event.month, event.time].filter(Boolean).join(' · ');
-  const going = event.goingCount || event.attendees || 12;
+  const going = getEventGoingCount?.(event) ?? (event.goingCount || event.attendees || 12);
+  const iAmGoing = isGoingEvent?.(event.id);
   // Backend may return host as { name, org } — never render the object as a React child
   const hostRaw = event.host;
   const hostName =
@@ -167,6 +169,14 @@ export function EventDetailPage() {
                   <Users size={16} />{' '}
                   {isInterestedEvent?.(event.id) ? 'Saved' : "I'm interested"}
                 </button>
+                <button
+                  type="button"
+                  className={iAmGoing ? styles.PrimaryBtn : styles.SecondaryBtn}
+                  onClick={() => toggleGoingEvent?.(event)}
+                  aria-pressed={Boolean(iAmGoing)}
+                >
+                  {iAmGoing ? "You're going ✓" : 'Going'}
+                </button>
                 {isInterestedEvent?.(event.id) && (
                   <button
                     type="button"
@@ -231,11 +241,24 @@ export function EventDetailPage() {
             </div>
             <a
               className={styles.MapLink}
-              href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
+              href={buildDirectionsUrl({
+                lat: event.lat ?? event.latitude,
+                lng: event.lng ?? event.longitude,
+                query: decodeURIComponent(mapsQuery),
+              })}
               target="_blank"
               rel="noreferrer"
+              className={styles.MapsLink}
+              onClick={(e) => {
+                e.preventDefault();
+                openDirectionsTo({
+                  lat: event.lat ?? event.latitude,
+                  lng: event.lng ?? event.longitude,
+                  query: decodeURIComponent(mapsQuery),
+                });
+              }}
             >
-              Open in Maps <ExternalLink size={14} />
+              Route from my location <ExternalLink size={14} />
             </a>
           </section>
 
@@ -293,9 +316,17 @@ export function EventDetailPage() {
             <div className={styles.GoingRow}>
               <Users size={16} />
               <span>
-                <strong>{going}</strong> going
+                <strong key={going}>{going}</strong> going
+                {iAmGoing ? ' · including you' : ''}
               </span>
             </div>
+            <button
+              type="button"
+              className={iAmGoing ? styles.GoingBtnOn : styles.GoingBtn}
+              onClick={() => toggleGoingEvent?.(event)}
+            >
+              {iAmGoing ? "Cancel going" : "I'm going"}
+            </button>
             <div className={styles.AvatarStack} aria-hidden="true">
               {[0, 1, 2, 3].map((i) => (
                 <span key={i} className={styles.MiniAvatar} style={{ zIndex: 4 - i }} />

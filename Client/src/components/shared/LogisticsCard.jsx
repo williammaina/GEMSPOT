@@ -15,6 +15,7 @@ import clsx from 'clsx';
 import { LogisticsCardStyles as styles } from '@styles';
 import { formatKES } from '@library';
 import { useCrowdLevel, safetyLevelFromPlace } from '../../library/hooks/useCrowdLevel.js';
+import { useApp } from '../../library/contexts/AppContext.js';
 
 function renderMoney(value) {
   if (value === null || value === undefined || value === '') return 'N/A';
@@ -31,7 +32,8 @@ function renderAvailability(value, availableLabel, unavailableLabel, fallback = 
 export function LogisticsCard({ title, type, details = {} }) {
   const isNoSurprises = type === 'no-surprises';
   const placeId = details.place_id ?? details.id;
-  const crowd = useCrowdLevel(placeId, details.category);
+  const { user, pushToast } = useApp();
+  const crowd = useCrowdLevel(placeId, details.category, user?.id || user?.email);
   const safety = safetyLevelFromPlace(details);
   const bestTime =
     details.bestTime || details.best_time || details.peakHours || details.peak_hours || '';
@@ -148,7 +150,7 @@ export function LogisticsCard({ title, type, details = {} }) {
               </div>
               <div className={styles.CrowdMeta}>
                 <strong className={styles[`Label_${crowd.tone}`]}>{crowd.label}</strong>
-                <span>{crowd.score}% · {crowd.reportsLast3h} report{crowd.reportsLast3h === 1 ? '' : 's'} (3h)</span>
+                <span>{crowd.score}% · {crowd.reportsLast4h} report{crowd.reportsLast4h === 1 ? '' : 's'} (4h){crowd.hasCommunity ? ' · live' : ' · estimated'}</span>
               </div>
               <div className={styles.CrowdActions} role="group" aria-label="Report crowd level">
                 {['quiet', 'moderate', 'busy', 'packed'].map((k) => (
@@ -156,7 +158,10 @@ export function LogisticsCard({ title, type, details = {} }) {
                     key={k}
                     type="button"
                     className={styles.CrowdChip}
-                    onClick={() => crowd.report(k)}
+                    onClick={() => {
+                      crowd.report(k);
+                      pushToast?.(`Crowd updated · ${k}`, 'success');
+                    }}
                   >
                     {k}
                   </button>

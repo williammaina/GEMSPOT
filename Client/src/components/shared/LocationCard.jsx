@@ -1,5 +1,6 @@
-import { Bus, ExternalLink, MapPin } from 'lucide-react';
+import { MapPin, ExternalLink, Bus, Navigation } from 'lucide-react';
 import { LocationCardStyles as styles } from '@styles';
+import { openDirectionsTo, buildDirectionsUrl } from '../../library/helpers/mapsDirections.js';
 
 export function LocationCard({
   name,
@@ -16,7 +17,7 @@ export function LocationCard({
   const title = name || 'Location';
   const subtitle = [address || town, county].filter(Boolean).join(', ') || 'Kenya';
   const queryParts = [name, address, town, county, 'Kenya'].filter(Boolean);
-  const mapsQuery = encodeURIComponent(queryParts.join(', '));
+  const mapsQuery = queryParts.join(', ');
   const hasCoords =
     latitude != null &&
     longitude != null &&
@@ -24,10 +25,22 @@ export function LocationCard({
     !Number.isNaN(Number(longitude));
   const embedSrc = hasCoords
     ? `https://maps.google.com/maps?q=${Number(latitude)},${Number(longitude)}&z=15&output=embed`
-    : `https://maps.google.com/maps?q=${mapsQuery}&z=14&output=embed`;
-  const openUrl = hasCoords
-    ? `https://www.google.com/maps/search/?api=1&query=${Number(latitude)},${Number(longitude)}`
-    : `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+    : `https://maps.google.com/maps?q=${encodeURIComponent(mapsQuery)}&z=14&output=embed`;
+
+  const hrefFallback = buildDirectionsUrl({
+    lat: hasCoords ? Number(latitude) : null,
+    lng: hasCoords ? Number(longitude) : null,
+    query: mapsQuery,
+  });
+
+  const handleDirections = (e) => {
+    e.preventDefault();
+    openDirectionsTo({
+      lat: hasCoords ? Number(latitude) : null,
+      lng: hasCoords ? Number(longitude) : null,
+      query: mapsQuery,
+    });
+  };
 
   return (
     <section
@@ -71,8 +84,15 @@ export function LocationCard({
           </div>
         )}
 
-        <a className={styles.MapsCta} href={openUrl} target="_blank" rel="noreferrer">
-          Open in Google Maps
+        <a
+          className={styles.MapsCta}
+          href={hrefFallback}
+          target="_blank"
+          rel="noreferrer"
+          onClick={handleDirections}
+        >
+          <Navigation size={15} />
+          Route from my location
           <ExternalLink size={15} />
         </a>
       </div>

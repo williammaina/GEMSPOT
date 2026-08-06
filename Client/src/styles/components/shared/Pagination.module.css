@@ -4,9 +4,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 24px;
-  padding: 14px 0 8px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  padding: 16px 4px 12px;
   border-top: 1px solid var(--color-border);
+  box-sizing: border-box;
 }
 .Meta,
 .MetaOnly {
