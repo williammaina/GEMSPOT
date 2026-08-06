@@ -1,6 +1,7 @@
 export { Navbar } from '../components/layout/Navbar.jsx';
 
 export { CategoryPill } from '../components/shared/CategoryPill.jsx';
+export { Pagination, paginate } from '../components/shared/Pagination.jsx';
 export { PlaceCard } from '../components/shared/PlaceCard.jsx';
 export { EventCard } from '../components/shared/EventCard.jsx';
 export { LogisticsCard } from '../components/shared/LogisticsCard.jsx';

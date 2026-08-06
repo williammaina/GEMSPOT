@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { PlaceCard } from '../shared/PlaceCard.jsx';
 import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
-import { MapboxCanvas } from '../view/MapboxCanvas.jsx';
+import { Pagination, paginate } from '../shared/Pagination.jsx';
 import { ExplorePageStyles as styles } from '@styles';
 import { usePlaces } from '@library';
 import { geocodeLocation } from '../../library/helpers/geocode.js';
@@ -69,6 +69,8 @@ export function ExplorePage() {
   const [focusedId, setFocusedId] = useState(null);
   const [mapFocus, setMapFocus] = useState(null);
   const [areaLabel, setAreaLabel] = useState('');
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 9;
 
   const { places, total, isEmpty, loading, source } = usePlaces({
     category: urlFilters.category,
@@ -124,6 +126,7 @@ export function ExplorePage() {
 
   useEffect(() => {
     setFocusedId(null);
+    setPage(1);
   }, [urlFilters.category, urlFilters.query, urlFilters.budget, urlFilters.open, urlFilters.matatu, urlFilters.evening]);
 
   // Search → map focus + area chip (does not touch Today's pick)
@@ -169,6 +172,11 @@ export function ExplorePage() {
     };
   }, [urlFilters.query, places]);
 
+  const pagePlaces = useMemo(
+    () => paginate(places || [], page, PAGE_SIZE),
+    [places, page]
+  );
+
   const focusPlace = useMemo(() => {
     if (!places?.length) return null;
     if (focusedId) {
@@ -181,8 +189,8 @@ export function ExplorePage() {
   }, [places, focusedId]);
 
   return (
-    <main className={styles.LayoutSplit}>
-      <aside className={styles.ListSection} aria-label="Explore results">
+    <main className={styles.LayoutSingle}>
+      <div className={styles.ListSection} aria-label="Explore results">
         <header className={styles.ListHeader}>
           <div>
             <h1 className={styles.SectionTitle}>Explore {categoryLabel}</h1>
@@ -372,13 +380,26 @@ export function ExplorePage() {
             Array.from({ length: 6 }).map((_, i) => <PlaceCardSkeleton key={`sk-${i}`} />)}
 
           {!loading && !isEmpty &&
-            places.map((place) => (
+            pagePlaces.map((place) => (
               <PlaceCard
                 key={place.place_id ?? place.id}
                 place={place}
                 to={`/place/${place.place_id ?? place.id}`}
               />
             ))}
+
+          {!loading && !isEmpty && (
+            <Pagination
+              page={page}
+              pageSize={PAGE_SIZE}
+              total={places.length}
+              onChange={(p) => {
+                setPage(p);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              label="spots"
+            />
+          )}
 
           {!loading && isEmpty && (
             <section className={styles.EmptyState} aria-live="polite">
@@ -392,12 +413,6 @@ export function ExplorePage() {
             </section>
           )}
         </div>
-      </aside>
-
-      <div className={styles.RightStack}>
-        <section className={styles.MapPaneTall} aria-label="Map">
-          <MapboxCanvas places={places} focus={mapFocus} focusLabel={mapFocus?.label} />
-        </section>
       </div>
     </main>
   );

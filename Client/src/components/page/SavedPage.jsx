@@ -23,6 +23,7 @@ import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
 import { useApp } from '../../library/contexts/AppContext.js';
 import { usePlaces } from '@library';
 import { SavedPageStyles as styles } from '@styles';
+import { Pagination, paginate } from '../shared/Pagination.jsx';
 
 const TABS = [
   { id: 'plan', label: 'Plan', icon: ClipboardList },
@@ -338,6 +339,10 @@ function SavedPanel({
   toggleInterestedEvent,
   pushToast,
 }) {
+  const [placePage, setPlacePage] = useState(1);
+  const PLACE_PAGE = 6;
+  const pagePlaces = paginate(savedPlaces, placePage, PLACE_PAGE);
+
   if (loading) {
     return (
       <div className={styles.Grid}>
@@ -386,7 +391,7 @@ function SavedPanel({
             <span>{savedPlaces.length}</span>
           </div>
           <div className={styles.Grid}>
-            {savedPlaces.map((place) => {
+            {pagePlaces.map((place) => {
               const id = String(place.place_id ?? place.id);
               const inPlan = isInPlan?.(id);
               return (
@@ -410,6 +415,13 @@ function SavedPanel({
               );
             })}
           </div>
+          <Pagination
+            page={placePage}
+            pageSize={PLACE_PAGE}
+            total={savedPlaces.length}
+            onChange={setPlacePage}
+            label="saved places"
+          />
         </section>
       )}
 

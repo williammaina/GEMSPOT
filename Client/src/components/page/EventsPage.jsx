@@ -10,6 +10,7 @@ import {
   Ticket,
   Users,
 } from 'lucide-react';
+import { Pagination, paginate } from '../shared/Pagination.jsx';
 import { EventsPageStyles as styles } from '@styles';
 import { useCalendar, useEvents } from '@library';
 import { useApp } from '../../library/contexts/AppContext.js';
@@ -91,6 +92,8 @@ function groupByDate(events) {
 }
 
 export function EventsPage() {
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 8;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { syncEvent } = useCalendar();
@@ -134,7 +137,14 @@ export function EventsPage() {
     });
   }, [events, selectedDay]);
 
-  const groups = useMemo(() => groupByDate(filtered), [filtered]);
+  const groups = useMemo(() => {
+    const slice = paginate(filtered, page, PAGE_SIZE);
+    return groupByDate(slice);
+  }, [filtered, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [selectedDay, query]);
 
 
   return (
@@ -385,6 +395,17 @@ export function EventsPage() {
             </ul>
           </div>
         ))}
+
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={filtered.length}
+          onChange={(p) => {
+            setPage(p);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          label="events"
+        />
       </section>
 
       {/* Explore places CTA */}

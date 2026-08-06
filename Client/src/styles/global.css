@@ -32,14 +32,14 @@
   --navbar-bg: rgba(255, 255, 255, 0.88);
   --card-bg: #ffffff;
   --hero-gradient: linear-gradient(180deg, #ecfdf5 0%, #f4f6f8 42%, #f4f6f8 100%);
-  --text-xs: 0.875rem;
-  --text-sm: 1rem;
-  --text-base: 1.1875rem;
-  --text-md: 1.2rem;
-  --text-lg: 1.5rem;
-  --text-xl: 1.85rem;
-  --text-2xl: 2.35rem;
-  --text-3xl: 2.6rem;
+  --text-xs: 0.95rem;
+  --text-sm: 1.1rem;
+  --text-base: 1.3rem;
+  --text-md: 1.35rem;
+  --text-lg: 1.7rem;
+  --text-xl: 2.1rem;
+  --text-2xl: 2.6rem;
+  --text-3xl: 3rem;
 }
 
 [data-theme="dark"] {
@@ -92,7 +92,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  font-size: 18px;
+  font-size: 20px;
 }
 html[data-theme="dark"] { color-scheme: dark; }
 
@@ -136,4 +136,13 @@ button, [role="button"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+
+/* typography polish v16 */
+button, input, select, textarea {
+  font-size: max(1rem, 100%);
+}
+p, li, label, span {
+  line-height: 1.55;
 }

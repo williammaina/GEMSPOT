@@ -14,6 +14,7 @@ import {
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { ReviewSectionStyles as styles } from '@styles';
+import { Pagination, paginate } from '../shared/Pagination.jsx';
 import { useApp } from '../../library/contexts/AppContext.js';
 import {
   submitReviewHandler,
@@ -86,6 +87,8 @@ export function ReviewSection({ reviewsData = [], placeId, onReviewAdded, onCrow
   const [localReviews, setLocalReviews] = useState([]);
   const [remoteReviews, setRemoteReviews] = useState([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 5;
   const photoRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -129,7 +132,7 @@ export function ReviewSection({ reviewsData = [], placeId, onReviewAdded, onCrow
     return Array.from(map.values());
   }, [reviewsData, remoteReviews, localReviews]);
 
-  const visibleReviews = useMemo(() => {
+  const sortedReviews = useMemo(() => {
     const list = [...merged];
     if (filter === 'highest') list.sort((a, b) => b.rating - a.rating);
     else if (filter === 'tips') list.sort((a, b) => (b.tip ? 1 : 0) - (a.tip ? 1 : 0));
@@ -143,6 +146,13 @@ export function ReviewSection({ reviewsData = [], placeId, onReviewAdded, onCrow
     }
     return list;
   }, [merged, filter]);
+
+  const visibleReviews = useMemo(
+    () => paginate(sortedReviews, page, PAGE_SIZE),
+    [sortedReviews, page]
+  );
+
+  useEffect(() => { setPage(1); }, [filter, placeId]);
 
   const avg =
     merged.length > 0
@@ -502,6 +512,14 @@ export function ReviewSection({ reviewsData = [], placeId, onReviewAdded, onCrow
           </article>
         ))}
       </div>
+
+      <Pagination
+        page={page}
+        pageSize={PAGE_SIZE}
+        total={sortedReviews.length}
+        onChange={setPage}
+        label="reviews"
+      />
     </section>
   );
 }
