@@ -145,28 +145,15 @@ export function PlaceDetailPage() {
         <Link to="/explore" className={styles.BackLink}>
           <ArrowLeft size={16} /> Back to explore
         </Link>
-
-        <div className={styles.TopActions}>
-          <button
-            type="button"
-            className={styles.IconAction}
-            onClick={handleShare}
-            aria-label="Share this place"
-          >
-            <Share2 size={16} />
-            <span>Share</span>
-          </button>
-          <button
-            type="button"
-            className={favorited ? styles.IconActionActive : styles.IconAction}
-            onClick={() => toggleFavorite?.(placeId)}
-            aria-label={favorited ? 'Remove from favorites' : 'Save to favorites'}
-            aria-pressed={favorited}
-          >
-            <Heart size={16} fill={favorited ? 'currentColor' : 'none'} />
-            <span>{favorited ? 'Saved' : 'Save'}</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          className={styles.IconAction}
+          onClick={handleShare}
+          aria-label="Share this place"
+        >
+          <Share2 size={16} />
+          <span>Share</span>
+        </button>
       </div>
 
       <section className={styles.HeroImageContainer} aria-label={place.title}>
@@ -178,6 +165,29 @@ export function PlaceDetailPage() {
         />
         <div className={styles.HeroOverlay} />
       </section>
+
+      {/* Primary actions — directly under hero */}
+      <div className={styles.HeroActions} role="group" aria-label="Place actions">
+        <button
+          type="button"
+          className={favorited ? styles.HeroSaveOn : styles.HeroSave}
+          onClick={() => toggleFavorite?.(placeId)}
+          aria-pressed={favorited}
+        >
+          <Heart size={18} fill={favorited ? 'currentColor' : 'none'} />
+          {favorited ? 'Saved' : 'Save'}
+        </button>
+        <button
+          type="button"
+          className={styles.HeroPlan}
+          onClick={() => {
+            if (isInPlan?.(placeId)) removeFromPlan?.(placeId);
+            else addToPlan?.(place);
+          }}
+        >
+          {isInPlan?.(placeId) ? 'Remove from plan' : 'Add to plan'}
+        </button>
+      </div>
 
       <div className={styles.ContentSplit}>
         <section className={styles.MainColumn} aria-labelledby="place-title">
@@ -212,21 +222,6 @@ export function PlaceDetailPage() {
               {(place.vibes || []).slice(0, 5).map((vibe) => (
                 <CategoryPill key={vibe} label={vibe} isActive />
               ))}
-            </div>
-            <div className={styles.PlanRow}>
-              <button
-                type="button"
-                className={styles.PlanBtn}
-                onClick={() => {
-                  const id = String(place.place_id ?? place.id);
-                  if (isInPlan?.(id)) removeFromPlan?.(id);
-                  else addToPlan?.(place);
-                }}
-              >
-                {isInPlan?.(String(place.place_id ?? place.id))
-                  ? "In your plan"
-                  : "Add to your plan"}
-              </button>
             </div>
           </header>
 
@@ -319,29 +314,6 @@ export function PlaceDetailPage() {
           />
         </aside>
       </div>
-    
-      <div className={styles.StickyBar} role="region" aria-label="Place actions">
-        <button
-          type="button"
-          className={favorited ? styles.StickySecondaryOn : styles.StickySecondary}
-          onClick={() => toggleFavorite?.(placeId)}
-          aria-pressed={favorited}
-        >
-          <Heart size={16} fill={favorited ? 'currentColor' : 'none'} />
-          {favorited ? 'Saved' : 'Save'}
-        </button>
-        <button
-          type="button"
-          className={styles.StickyPrimary}
-          onClick={() => {
-            if (isInPlan?.(placeId)) removeFromPlan?.(placeId);
-            else addToPlan?.(place);
-          }}
-        >
-          {isInPlan?.(placeId) ? 'Remove from plan' : 'Add to plan'}
-        </button>
-      </div>
-
     </main>
   );
 }

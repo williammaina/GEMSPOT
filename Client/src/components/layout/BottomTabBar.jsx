@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { CalendarDays, Compass, Heart, Home } from 'lucide-react';
+import { useApp } from '../../library/contexts/AppContext.js';
 import { BottomTabBarStyles as styles } from '@styles';
 
 const tabs = [
@@ -11,10 +12,17 @@ const tabs = [
 
 export function BottomTabBar() {
   const { pathname } = useLocation();
+  const { user } = useApp();
+  const signedIn = Boolean(user?.isAuthenticated || user?.email);
+  const visibleTabs = tabs.filter((tab) => {
+    if (signedIn) return true;
+    // Guests: Home + Explore only
+    return tab.to === '/' || tab.to === '/explore';
+  });
 
   return (
     <nav className={styles.Bar} aria-label="Mobile primary">
-      {tabs.map((tab) => {
+      {visibleTabs.map((tab) => {
         const active = tab.match(pathname);
         const Icon = tab.icon;
         return (

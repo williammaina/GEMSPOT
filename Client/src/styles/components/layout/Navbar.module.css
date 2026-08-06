@@ -31,7 +31,7 @@
 .MobileLinkActive { background: var(--color-primary-soft); color: var(--color-primary); }
 .SkipLink { position: absolute; left: -9999px; }
 .SkipLink:focus { left: 12px; top: 12px; z-index: 100; padding: 8px 12px; background: var(--color-primary); color: #fff; border-radius: 8px; }
-.AppContent { max-width: 100%; margin: 0; padding: 0 20px; width: 100%; }
+.AppContent { max-width: 100%; margin: 0; padding: 0; width: 100%; }
 
 /* BrandIconShell redefined below */
 /* removed dup logo */

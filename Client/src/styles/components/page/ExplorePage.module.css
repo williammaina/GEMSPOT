@@ -13,7 +13,7 @@
 }
 
 .ListSection {
-  padding: 24px 16px 110px 8px;
+  padding: 20px 4px 110px 4px;
   overflow-y: auto;
   max-height: calc(100vh - 64px);
   border-right: 1px solid var(--color-border);
@@ -1099,12 +1099,30 @@
 
 .LayoutSingle {
   display: block;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 12px 0 48px;
+  max-width: 100%;
+  margin: 0;
+  padding: 12px 16px 48px;
   width: 100%;
+  box-sizing: border-box;
 }
 .LayoutSingle .ListSection {
   max-width: 100%;
   width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  border-right: none;
+}
+
+/* full-bleed grid */
+.PlaceStack {
+  width: 100%;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+@media (min-width: 1400px) {
+  .PlaceStack {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
 }

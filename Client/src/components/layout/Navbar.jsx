@@ -71,7 +71,12 @@ export function Navbar() {
   const favCount = Array.isArray(favorites) ? favorites.length : 0;
   const planCount = Array.isArray(planStops) ? planStops.length : 0;
   const isAdmin = Boolean(user?.is_admin || user?.isAdmin || user?.role === 'admin');
-  const signedIn = Boolean(user?.isAuthenticated);
+  const signedIn = Boolean(user?.isAuthenticated || user?.email);
+  // Guests: Home is brand only; Explore is public. Category + Events require login.
+  const visibleNav = navItems.filter((item) => {
+    if (signedIn) return true;
+    return item.path === '/explore' && !String(item.path).includes('category=') && item.name === 'Explore';
+  });
 
   useEffect(() => {
     setMenuOpen(false);
@@ -123,7 +128,7 @@ export function Navbar() {
         </Link>
 
         <div className={styles.NavLinks}>
-          {navItems.map((item) => {
+          {visibleNav.map((item) => {
             const active = item.match(location);
             const Icon = item.icon;
             return (
@@ -235,7 +240,7 @@ export function Navbar() {
 
       {menuOpen && (
         <div className={styles.MobileMenu} role="dialog" aria-label="Menu">
-          {navItems.map((item) => {
+          {visibleNav.map((item) => {
             const active = item.match(location);
             const Icon = item.icon;
             return (

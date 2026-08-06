@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart, MapPin, Star, Wallet, Bus, Navigation, Sparkles } from 'lucide-react';
 import { SafeImage } from './SafeImage.jsx';
 import { PlaceCardStyles as styles } from '@styles';
@@ -7,7 +7,10 @@ import { useApp } from '../../library/contexts/AppContext.js';
 import { getInsightTeaser } from './CategoryInsights.jsx';
 
 export function PlaceCard({ place = {}, to }) {
-  const { isFavorite, toggleFavorite, userLocation } = useApp();
+  const { isFavorite, toggleFavorite, userLocation, user, pushToast } = useApp();
+  const navigate = useNavigate();
+  const signedIn = Boolean(user?.isAuthenticated || user?.email);
+  const locked = !signedIn;
   const vibes = Array.isArray(place.vibes) ? place.vibes : [];
   const title = place.title || place.name || 'Untitled spot';
   const placeId = place.place_id ?? place.id ?? place.slug ?? '';
@@ -48,16 +51,47 @@ export function PlaceCard({ place = {}, to }) {
   const handleFavorite = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (locked) {
+      pushToast?.('Sign in to save places', 'info');
+      navigate('/login', { state: { from: href } });
+      return;
+    }
     if (placeId !== '' && placeId != null) toggleFavorite?.(String(placeId));
   };
 
+  const handleOpen = (e) => {
+    if (!locked) return;
+    e.preventDefault();
+    e.stopPropagation();
+    pushToast?.('Create an account to open place details', 'info');
+    navigate('/login', { state: { from: href } });
+  };
+
+  const Wrapper = locked ? 'div' : Link;
+  const wrapperProps = locked
+    ? {
+        className: `${styles.Card} ${styles.CardGlow || ''} ${styles.CardLocked || ''}`,
+        role: 'button',
+        tabIndex: 0,
+        onClick: handleOpen,
+        onKeyDown: (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleOpen(e);
+          }
+        },
+        'aria-label': `Sign in to view ${title}`,
+        'data-category': category || undefined,
+      }
+    : {
+        className: `${styles.Card} ${styles.CardGlow || ''}`,
+        to: href,
+        'aria-label': `Open details for ${title}`,
+        'data-category': category || undefined,
+      };
+
   return (
-    <Link
-      className={`${styles.Card} ${styles.CardGlow || ''}`}
-      to={href}
-      aria-label={`Open details for ${title}`}
-      data-category={category || undefined}
-    >
+    <Wrapper {...wrapperProps}>
       <div className={styles.GlowRing} aria-hidden="true" />
       <div className={styles.ImageContainer}>
         <SafeImage src={place.image} alt={title} className={styles.Image} />
@@ -165,6 +199,6 @@ export function PlaceCard({ place = {}, to }) {
           </div>
         ) : null}
       </div>
-    </Link>
+    </Wrapper>
   );
 }

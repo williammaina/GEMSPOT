@@ -30,17 +30,18 @@ export default function App() {
       <ErrorBoundary>
         <main id="main-content" className={styles.AppContent} tabIndex={-1}>
           <Routes>
+            {/* Public */}
             <Route path="/" element={<HomePage />} />
             <Route path="/explore" element={<ExplorePage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/event/:id" element={<EventDetailPage />} />
-            <Route path="/place/:id" element={<PlaceDetailPage />} />
-            <Route path="/plan" element={<PlanSharePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
             {/* Auth-required */}
             <Route element={<ProtectedRoute />}>
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/event/:id" element={<EventDetailPage />} />
+              <Route path="/place/:id" element={<PlaceDetailPage />} />
+              <Route path="/plan" element={<PlanSharePage />} />
               <Route path="/saved" element={<SavedPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/admin" element={<AdminDashboard />} />
