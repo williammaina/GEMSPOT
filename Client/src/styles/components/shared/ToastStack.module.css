@@ -49,20 +49,3 @@
 @media (prefers-reduced-motion: reduce) {
   .Toast { animation: none; }
 }
-
-.Undo {
-  margin-left: 4px;
-  padding: 4px 10px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.18);
-  color: inherit;
-  font-weight: 800;
-  font-size: 0.8rem;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.Undo:hover {
-  background: rgba(255, 255, 255, 0.28);
-}

@@ -15,24 +15,11 @@ export function ToastStack() {
   return (
     <div className={styles.Stack} aria-live="polite" aria-relevant="additions">
       {toasts.map((t) => {
-        const type = t.tone || t.type || 'info';
-        const Icon = ICONS[type] || Info;
+        const Icon = ICONS[t.type] || Info;
         return (
-          <div key={t.id} className={styles.Toast} data-type={type}>
+          <div key={t.id} className={styles.Toast} data-type={t.type || 'info'}>
             <Icon size={16} className={styles.Icon} aria-hidden="true" />
             <span className={styles.Message}>{t.message}</span>
-            {t.onUndo && (
-              <button
-                type="button"
-                className={styles.Undo}
-                onClick={() => {
-                  t.onUndo?.();
-                  dismissToast?.(t.id);
-                }}
-              >
-                {t.undoLabel || 'Undo'}
-              </button>
-            )}
             <button
               type="button"
               className={styles.Close}

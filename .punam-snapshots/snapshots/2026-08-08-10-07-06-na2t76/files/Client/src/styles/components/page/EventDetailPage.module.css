@@ -1,0 +1,406 @@
+.Page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 12px 16px 100px;
+}
+
+.TopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.Back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.Back:hover { color: var(--color-primary); }
+
+.IconGhost {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.HeroBlock {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  max-height: 360px;
+  background: var(--color-surface-soft);
+  margin-bottom: 24px;
+}
+.HeroImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.HeroGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 50%);
+  pointer-events: none;
+}
+.CatBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.75);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  backdrop-filter: blur(8px);
+}
+
+.Content {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 300px);
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .Content { grid-template-columns: 1fr; }
+}
+
+.When {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+.Title {
+  margin: 0 0 14px;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+.MetaList {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+.MetaList li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+.MetaList strong { color: var(--color-text); }
+
+/* Primary CTAs — clean, not crowded */
+.PrimaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.BtnGoing,
+.BtnGoingOn,
+.BtnSave,
+.BtnSaveOn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+}
+.BtnGoing {
+  flex: 1;
+  min-width: 140px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-md);
+}
+.BtnGoingOn {
+  flex: 1;
+  min-width: 140px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border-accent);
+}
+.BtnSave,
+.BtnSaveOn {
+  min-width: 110px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.BtnSaveOn {
+  border-color: var(--color-border-accent);
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+.BtnGoing:hover, .BtnGoingOn:hover, .BtnSave:hover { filter: brightness(1.04); }
+
+.MoreWrap { position: relative; }
+.BtnMore {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--card-bg);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.MoreMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 220px;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.MoreMenu button,
+.MoreMenu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 650;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+}
+.MoreMenu button:hover,
+.MoreMenu a:hover {
+  background: var(--color-surface-soft);
+}
+
+.Section { margin-bottom: 28px; }
+.SectionTitle {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+.Prose {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}
+.LocationName {
+  margin: 0 0 12px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.MapFrame {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  height: 220px;
+  margin-bottom: 12px;
+}
+.MapFrame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.RouteBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-weight: 750;
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+.RouteBtn:hover { border-color: var(--color-border-accent); color: var(--color-primary); }
+
+.Aside {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 72px;
+}
+.Card, .CardMuted {
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+}
+.CardMuted {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.CardLabel {
+  margin: 0 0 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+}
+.HostRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.Avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+.HostName {
+  margin: 0;
+  font-weight: 800;
+  color: var(--color-text);
+}
+.MutedSm {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+.GoingStat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+.GoingStat strong {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.GoingStat span {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+.LinkBtn {
+  display: inline-flex;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: 800;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.TextBtn, .TextBtnMuted {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 4px;
+  border: none;
+  background: none;
+  font: inherit;
+  font-weight: 650;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--color-text);
+  text-align: left;
+}
+.TextBtnMuted { color: var(--color-text-muted); }
+
+.EmptyState {
+  text-align: center;
+  padding: 48px 16px;
+}
+.PrimaryBtn {
+  display: inline-flex;
+  margin-top: 16px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: 800;
+  text-decoration: none;
+}
+.Muted { color: var(--color-text-muted); }
+
+.SkeletonHero {
+  height: 280px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, var(--color-surface-soft), var(--color-border), var(--color-surface-soft));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+  margin-bottom: 20px;
+}
+.SkeletonLine, .SkeletonLineShort {
+  height: 18px;
+  border-radius: 8px;
+  background: var(--color-surface-soft);
+  margin-bottom: 12px;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+.SkeletonLineShort { width: 40%; }
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .SkeletonHero, .SkeletonLine, .SkeletonLineShort { animation: none; }
+  .BtnGoing:hover, .BtnSave:hover { filter: none; }
+}

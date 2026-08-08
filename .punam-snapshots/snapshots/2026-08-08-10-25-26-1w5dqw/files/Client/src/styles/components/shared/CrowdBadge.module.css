@@ -1,0 +1,39 @@
+.Badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.Compact {
+  padding: 4px 8px;
+  font-size: 0.68rem;
+}
+.Score {
+  opacity: 0.85;
+  font-weight: 700;
+}
+.LiveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #34d399;
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5);
+  animation: pulse 1.5s ease-out infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.45); }
+  70% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+.cool { border-color: rgba(52, 211, 153, 0.45); }
+.ok { border-color: rgba(251, 191, 36, 0.45); }
+.warm { border-color: rgba(251, 146, 60, 0.5); }
+.hot { border-color: rgba(248, 113, 113, 0.55); }
