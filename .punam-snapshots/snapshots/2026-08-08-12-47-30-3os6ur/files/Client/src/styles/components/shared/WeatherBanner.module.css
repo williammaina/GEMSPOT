@@ -1,0 +1,59 @@
+.Banner, .BannerMuted {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background: linear-gradient(135deg, var(--color-info-soft), var(--card-bg));
+  margin: 16px 0;
+}
+.BannerMuted {
+  align-items: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--color-surface-soft);
+}
+.IconWrap {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  color: var(--color-info);
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+}
+.Body { min-width: 0; flex: 1; }
+.Title {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-soft);
+  margin-bottom: 2px;
+}
+.Line {
+  margin: 0 0 8px;
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+.Stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--color-text-muted);
+}
+.Stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.Spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
