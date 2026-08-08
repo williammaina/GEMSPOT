@@ -165,14 +165,25 @@ export function AppProvider({ children }) {
     };
   }, []);
 
-  const pushToast = useCallback((message, tone = 'info') => {
+  const pushToast = useCallback((message, tone = 'info', options = {}) => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    setToasts((prev) => [...prev, { id, message, tone }]);
+    const duration = options.undo ? 5600 : options.duration || 3200;
+    setToasts((prev) => [
+      ...prev,
+      {
+        id,
+        message,
+        tone,
+        undoLabel: options.undoLabel || (options.undo ? 'Undo' : null),
+        onUndo: options.undo || null,
+      },
+    ]);
     const t = setTimeout(() => {
       setToasts((prev) => prev.filter((x) => x.id !== id));
       toastTimers.current.delete(id);
-    }, 3200);
+    }, duration);
     toastTimers.current.set(id, t);
+    return id;
   }, []);
 
 
@@ -404,8 +415,20 @@ export function AppProvider({ children }) {
   const removeFromPlan = useCallback(
     (id) => {
       const key = String(id);
-      setPlanStops((prev) => prev.filter((p) => p.id !== key));
-      pushToast('Removed from your plan', 'info');
+      let removed = null;
+      setPlanStops((prev) => {
+        removed = prev.find((p) => p.id === key) || null;
+        return prev.filter((p) => p.id !== key);
+      });
+      pushToast('Removed from your plan', 'info', {
+        undo: () => {
+          if (!removed) return;
+          setPlanStops((prev) => {
+            if (prev.some((p) => p.id === removed.id)) return prev;
+            return [...prev, removed];
+          });
+        },
+      });
     },
     [pushToast]
   );
@@ -416,8 +439,13 @@ export function AppProvider({ children }) {
   );
 
   const clearPlan = useCallback(() => {
-    setPlanStops([]);
-    pushToast('Your plan cleared', 'info');
+    setPlanStops((prev) => {
+      const snapshot = prev;
+      pushToast('Plan cleared', 'info', {
+        undo: () => setPlanStops(snapshot),
+      });
+      return [];
+    });
   }, [pushToast]);
 
   const reorderPlan = useCallback((nextStops) => {

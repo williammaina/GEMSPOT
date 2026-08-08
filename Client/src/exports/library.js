@@ -62,3 +62,7 @@ export { buildDirectionsUrl, openDirectionsTo } from '../library/helpers/mapsDir
 export { pullUserState, pushUserState, flushSyncQueue, getSyncMeta } from '../library/helpers/syncService.js';
 export { ensureNotificationPermission, scheduleReminder, remindPlanInOneHour, remindEvent, tickReminders } from '../library/helpers/notifications.js';
 export { scorePlace, filterAndRankPlaces } from '../library/helpers/searchScore.js';
+
+export { trackEvent, getAnalyticsSummary } from '../library/helpers/analytics.js';
+export { saveOfflinePack, loadOfflinePack } from '../library/helpers/offlinePack.js';
+export { sharePlaceCard, buildShareText } from '../library/helpers/shareCard.js';

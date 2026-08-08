@@ -1,0 +1,417 @@
+
+.Page {
+  padding: 24px 0 100px;
+  max-width: 960px;
+  margin: 0 auto;
+  animation: pageIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.Header { margin-bottom: 20px; }
+.Eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.TitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.Title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+}
+.Sub { margin: 0; color: var(--color-text-muted); font-size: 0.92rem; max-width: 36rem; }
+
+.ShareBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-accent);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.ShareBtn:hover { filter: brightness(1.05); }
+
+.Tabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  margin-bottom: 22px;
+  border-radius: 14px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+.Tab,
+.TabActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-radius: 11px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.Tab:hover { color: var(--color-text); background: var(--card-bg); }
+.TabActive {
+  background: var(--card-bg);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
+}
+.TabCount {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: inline-grid;
+  place-items: center;
+}
+.TabActive .TabCount {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.Panel { margin-bottom: 24px; }
+.PanelToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.PanelHint {
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+.ClearBtn {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.ClearBtn:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+.Section { margin-bottom: 28px; }
+.SectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.SectionHead h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+.SectionHead span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-soft);
+}
+
+.PlanList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.PlanRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+.Step {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+.StepEvent {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+.PlanMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.Thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+}
+.ThumbPlaceholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface-soft);
+  color: var(--color-text-soft);
+  flex-shrink: 0;
+}
+.Meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.Meta strong {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.Meta small {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.PlanActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.IconGhost {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-soft);
+  cursor: pointer;
+}
+.IconGhost:hover:not(:disabled) {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+.IconGhost:disabled { opacity: 0.3; cursor: not-allowed; }
+.ViewBtn,
+.RemoveBtn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-decoration: none;
+}
+.ViewBtn:hover { border-color: var(--color-border-accent); color: var(--color-primary); }
+.RemoveBtn:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+.Grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.SavedCardWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.AddPlanBtn,
+.AddPlanBtnOn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid var(--color-border-accent);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+.AddPlanBtn:hover { filter: brightness(1.05); }
+.AddPlanBtnOn {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  cursor: default;
+}
+
+.Empty {
+  text-align: center;
+  padding: 48px 24px;
+  border-radius: 20px;
+  border: 1px dashed var(--color-border);
+  background: var(--color-surface-soft);
+}
+.EmptyIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+.EmptyTitle {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--color-text);
+}
+.Empty p {
+  margin: 0 auto 18px;
+  max-width: 28rem;
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.EmptyLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.Cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-primary);
+  font-weight: 800;
+  text-decoration: none;
+}
+.Cta:hover { text-decoration: underline; }
+.CtaGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  text-decoration: none;
+}
+.CtaGhost:hover { color: var(--color-text); }
+
+.SimpleList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.SimpleList li a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.SimpleList li a:hover {
+  border-color: var(--color-border-accent);
+  background: var(--color-primary-soft);
+}
+.SimpleList strong {
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+.SimpleList span {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 560px) {
+  .PlanRow {
+    flex-wrap: wrap;
+  }
+  .PlanActions {
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Page { animation: none; }
+}

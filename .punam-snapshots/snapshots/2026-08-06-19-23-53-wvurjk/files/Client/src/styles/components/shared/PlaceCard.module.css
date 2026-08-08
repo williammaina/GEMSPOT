@@ -1,0 +1,353 @@
+
+.Card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+  animation: cardRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardRise {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.GlowRing {
+  pointer-events: none;
+  position: absolute;
+  inset: -1px;
+  border-radius: 18px;
+  opacity: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.55),
+    rgba(245, 158, 11, 0.25),
+    rgba(54, 230, 195, 0.45)
+  );
+  z-index: 0;
+  transition: opacity 0.35s ease;
+  filter: blur(0px);
+}
+
+.Card:hover {
+  transform: translateY(-6px);
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.35),
+    0 12px 32px rgba(16, 185, 129, 0.18),
+    0 20px 48px rgba(15, 23, 42, 0.12);
+}
+
+.Card:hover .GlowRing {
+  opacity: 1;
+  animation: borderPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes borderPulse {
+  0%, 100% { opacity: 0.55; filter: blur(0px); }
+  50% { opacity: 1; filter: blur(1px); }
+}
+
+.Card[data-category='nightlife']:hover {
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.4),
+    0 12px 32px rgba(139, 92, 246, 0.2),
+    0 20px 48px rgba(15, 23, 42, 0.12);
+}
+.Card[data-category='eats']:hover {
+  box-shadow:
+    0 0 0 1px rgba(245, 158, 11, 0.4),
+    0 12px 32px rgba(245, 158, 11, 0.18),
+    0 20px 48px rgba(15, 23, 42, 0.12);
+}
+.Card[data-category='action']:hover {
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.4),
+    0 12px 32px rgba(59, 130, 246, 0.18),
+    0 20px 48px rgba(15, 23, 42, 0.12);
+}
+
+.ImageContainer {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+}
+.Image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.Card:hover .Image { transform: scale(1.06); }
+
+.FavBtn, .FavBtnActive {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  z-index: 2;
+}
+.FavBtn:hover { transform: scale(1.08); }
+.FavBtnActive {
+  background: rgba(239, 68, 68, 0.9);
+  border-color: transparent;
+  color: #fff;
+}
+
+.CategoryBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(15, 23, 42, 0.55);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.CategoryBadge[data-cat='nature'] { background: rgba(16,185,129,0.85); }
+.CategoryBadge[data-cat='eats'] { background: rgba(245,158,11,0.9); color: #111; }
+.CategoryBadge[data-cat='nightlife'] { background: rgba(139,92,246,0.9); }
+.CategoryBadge[data-cat='action'] { background: rgba(59,130,246,0.9); }
+
+.OpenBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: rgba(15, 23, 42, 0.7);
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+.OpenBadge[data-open='1'] {
+  background: rgba(16, 185, 129, 0.92);
+}
+
+.DistanceBadge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(255,255,255,0.92);
+  color: #0f172a;
+}
+
+.Content {
+  position: relative;
+  z-index: 1;
+  padding: 16px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--card-bg);
+}
+
+.TitleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.Title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+.Rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-warning);
+  font-size: 0.95rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.DetailGroup { display: flex; flex-direction: column; gap: 4px; }
+.DetailRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+.IconPrimary { color: var(--color-primary); flex-shrink: 0; }
+.IconMuted { color: var(--color-text-soft); flex-shrink: 0; }
+
+.InsightChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-border-accent);
+  color: var(--color-primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.VibeTags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.VibeLabel {
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-soft);
+}
+.Tag {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Card { animation: none; }
+  .Card:hover { transform: none; }
+  .Card:hover .GlowRing { animation: none; }
+  .Card:hover .Image { transform: none; }
+}
+
+.Card:nth-child(1) { animation-delay: 0.02s; }
+.Card:nth-child(2) { animation-delay: 0.06s; }
+.Card:nth-child(3) { animation-delay: 0.10s; }
+.Card:nth-child(4) { animation-delay: 0.14s; }
+.Card:nth-child(5) { animation-delay: 0.18s; }
+.Card:nth-child(6) { animation-delay: 0.22s; }
+.Card:nth-child(7) { animation-delay: 0.26s; }
+.Card:nth-child(8) { animation-delay: 0.30s; }
+
+
+.FoodRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.FoodLabel {
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-soft);
+}
+.FoodChip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--color-text);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ActivityRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.ActivityLabel {
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-soft);
+}
+.ActivityChip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--color-text);
+}
+
+.CardLocked {
+  cursor: pointer;
+  position: relative;
+}
+.CardLocked::after {
+  content: 'Sign in to view';
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 4;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.CardLocked:hover::after,
+.CardLocked:focus-visible::after {
+  opacity: 1;
+}

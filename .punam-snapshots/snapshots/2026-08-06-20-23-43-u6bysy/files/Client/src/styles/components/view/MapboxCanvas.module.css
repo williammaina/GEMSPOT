@@ -1,0 +1,61 @@
+.MapContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  box-shadow: var(--shadow-sm);
+}
+.CanvasViewport, .EmbedFrame {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  border: none;
+  display: block;
+}
+.LoadingOverlay {
+  position: absolute;
+  inset: auto 12px 12px auto;
+  z-index: 2;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.FocusBanner {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 24px);
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--color-border-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.FallbackPanel { padding: 20px; min-height: 240px; display: flex; flex-direction: column; gap: 8px; }
+.FallbackEyebrow {
+  font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--color-primary);
+}
+.FallbackTitle { margin: 0; font-family: var(--font-display); font-size: 1.05rem; }
+.FallbackText { margin: 0; color: var(--color-text-muted); font-size: 0.88rem; }
+.FallbackList { display: flex; flex-direction: column; gap: 6px; margin-top: auto; }
+.FallbackItem {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 10px;
+  background: var(--card-bg); border: 1px solid var(--color-border); font-size: 0.85rem; font-weight: 600;
+}
