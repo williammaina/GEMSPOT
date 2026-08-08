@@ -17,8 +17,6 @@ import {
 import { PlaceCard } from '../shared/PlaceCard.jsx';
 import { PlaceCardSkeleton } from '../shared/Skeleton.jsx';
 import { Pagination, paginate } from '../shared/Pagination.jsx';
-import { saveOfflinePack } from '../../library/helpers/offlinePack.js';
-import { trackEvent } from '../../library/helpers/analytics.js';
 import { getCrowdSnapshot } from '../../library/hooks/useCrowdLevel.js';
 import { ExplorePageStyles as styles } from '@styles';
 import { usePlaces } from '@library';
@@ -187,11 +185,7 @@ export function ExplorePage() {
     return list;
   }, [places, urlFilters.sort]);
 
-  useEffect(() => {
-    if (places?.length) saveOfflinePack({ places });
-  }, [places]);
-
-    const pagePlaces = useMemo(
+  const pagePlaces = useMemo(
     () => paginate(sortedPlaces, page, PAGE_SIZE),
     [sortedPlaces, page]
   );

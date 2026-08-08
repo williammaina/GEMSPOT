@@ -12,11 +12,6 @@ import {
 } from '@components';
 import { CategoryInsights } from '../shared/CategoryInsights.jsx';
 import { WeatherBanner } from '../shared/WeatherBanner.jsx';
-import { OwnerClaim } from '../shared/OwnerClaim.jsx';
-import { sharePlaceCard } from '../../library/helpers/shareCard.js';
-import { trackEvent } from '../../library/helpers/analytics.js';
-import { formatDistanceLabel, distanceFromUser } from '../../library/helpers/calculateDistance.js';
-import { getCrowdSnapshot } from '../../library/hooks/useCrowdLevel.js';
 import { reportCrowd } from '../../library/hooks/useCrowdLevel.js';
 import { PlaceDetailPageStyles as styles } from '@styles';
 import {
@@ -30,7 +25,7 @@ import { fetchReviewsHandler } from '../../library/handlers/apiHandler.js';
 
 export function PlaceDetailPage() {
   const { id } = useParams();
-  const { trackPlaceView, isFavorite, toggleFavorite, user, pushToast, addToPlan, isInPlan, removeFromPlan , userLocation } = useApp();
+  const { trackPlaceView, isFavorite, toggleFavorite, user, pushToast, addToPlan, isInPlan, removeFromPlan } = useApp();
 
   const [place, setPlace] = useState(null);
   const [related, setRelated] = useState([]);
@@ -84,15 +79,21 @@ export function PlaceDetailPage() {
   }, [id]);
 
   const handleShare = async () => {
-    if (!place) return;
-    trackEvent('place_share', { id: place.place_id || place.id });
-    const dist = formatDistanceLabel(distanceFromUser(userLocation, place));
-    const crowd = getCrowdSnapshot(place.place_id ?? place.id, place.category);
-    const result = await sharePlaceCard(place, {
-      distance: dist,
-      crowd: crowd?.label,
-    });
-    if (result === 'copied') pushToast?.('Share text copied', 'success');
+    const url = typeof window !== 'undefined' ? window.location.href : '';
+    const payload = {
+      title: place?.title || 'GemSpot KE',
+      text: place?.description || 'Check out this spot on GemSpot KE',
+      url,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(payload);
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+      }
+    } catch {
+      // cancelled
+    }
   };
 
   if (loading) {
@@ -266,7 +267,6 @@ export function PlaceDetailPage() {
           </section>
 
           <section className={styles.SectionBlock} aria-label="Reviews">
-            <OwnerClaim place={place} />
             <ReviewSection
               reviewsData={reviews}
               placeId={place.place_id ?? place.id}

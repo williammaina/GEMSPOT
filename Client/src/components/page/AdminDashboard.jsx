@@ -1,4 +1,3 @@
-import { getAnalyticsSummary, clearAnalytics } from '../../library/helpers/analytics.js';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -158,48 +157,6 @@ function loadLocalPlaces() {
     name: p.name || p.title,
     title: p.title || p.name,
   }));
-}
-
-
-function AnalyticsPanel() {
-  const summary = getAnalyticsSummary();
-  return (
-    <section style={{ marginBottom: 24, padding: 16, borderRadius: 16, border: '1px solid var(--color-border)', background: 'var(--card-bg)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-        <strong>Curator analytics</strong>
-        <button
-          type="button"
-          onClick={() => { clearAnalytics(); window.location.reload(); }}
-          style={{ fontSize: 12, fontWeight: 700, cursor: 'pointer', background: 'transparent', border: '1px solid var(--color-border)', borderRadius: 8, padding: '4px 8px', color: 'var(--color-text-muted)' }}
-        >
-          Clear
-        </button>
-      </div>
-      <p style={{ margin: '0 0 12px', color: 'var(--color-text-muted)', fontSize: 14 }}>
-        {summary.total} events tracked · {summary.last24h} in last 24h
-      </p>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <div>
-          <p style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', color: 'var(--color-text-soft)' }}>Top actions</p>
-          <ul style={{ margin: 0, paddingLeft: 18, fontSize: 14 }}>
-            {summary.topEvents.length === 0 && <li>No data yet</li>}
-            {summary.topEvents.map((e) => (
-              <li key={e.name}>{e.name}: <strong>{e.count}</strong></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', color: 'var(--color-text-soft)' }}>Top paths</p>
-          <ul style={{ margin: 0, paddingLeft: 18, fontSize: 14 }}>
-            {summary.topPaths.length === 0 && <li>No data yet</li>}
-            {summary.topPaths.map((e) => (
-              <li key={e.path}>{e.path}: <strong>{e.count}</strong></li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
-  );
 }
 
 export function AdminDashboard() {
@@ -562,7 +519,6 @@ export function AdminDashboard() {
 
   return (
     <main className={styles.Page}>
-      <AnalyticsPanel />
       <header className={styles.Header}>
         <div>
           <Link to="/" className={styles.Back}>
